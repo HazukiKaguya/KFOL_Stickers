@@ -37,18 +37,28 @@ for (let i = 1; i < 49; i++) {
 
 // AC娘表情
 const AcSmileList = [];
-for (let i = 1; i < 51; i++) {
-    AcSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/xds6/${i}.png`);
+for (let i = 1; i < 55; i++) {
+    AcSmileList.push(`https://mistake.tech/emote/acfun/1/${i}.png`);
 }
-for (let i = 1; i < 40; i++) {
-    AcSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/xds5/${(i) > 9 ? i : ('0' + i)}.gif`);
+for (let i = 1001; i < 1041; i++) {
+    AcSmileList.push(`https://mistake.tech/emote/acfun/2/${i}.png`);
+}
+for (let i = 2001; i < 2056; i++) {
+    AcSmileList.push(`https://mistake.tech/emote/acfun/3/${i}.png`);
+}
+for (let i = 1; i < 22; i++) {
+    AcSmileList.push(`https://mistake.tech/emote/acfun/4/${i}.gif`);
 }
 
-// 常用表情
+// 小日向雪花
 const CommonSmileList = [];
-for (let i = 2; i < 64; i++) {
-    CommonSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/xds4/0xx${i}.png`);
+for (let i = 1; i < 7; i++) {
+    CommonSmileList.push(`https://mistake.tech/emote/yukika/${i}.png`);
 }
+for (let i = 21; i < 24; i++) {
+    CommonSmileList.push(`https://mistake.tech/emote/yukika/${i}.png`);
+}
+
 
 // 阿卡林 from 摇曳百合
 const AkarinSmileList = [];
