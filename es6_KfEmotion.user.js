@@ -17,7 +17,7 @@
 // @modifier1   喵拉布丁
 // @modifier2   mistakey
 // @modifier1-source https://raw.githubusercontent.com/miaolapd/KF_Online_Assistant/master/scripts/es6/KfEmotion.user.js
-// @modifier2-source https://raw.githubusercontent.com/missttake/KFOL_emote/master/es6_KfEmotion.user.js
+// @modifier2-source https://raw.githubusercontent.com/missttake/KFOL_Emote/master/es6_KfEmotion.user.js
 // ==/UserScript==
 'use strict';
 // 版本号
