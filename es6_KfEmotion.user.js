@@ -53,10 +53,10 @@ for (let i = 1; i < 22; i++) {
 // 小日向雪花
 const CommonSmileList = [];
 for (let i = 1; i < 7; i++) {
-    CommonSmileList.push(`https://mistake.tech/emote/yukika/${i}.png`);
+    CommonSmileList.push(`https://mistake.tech/emote/yukika/${i}.jpg`);
 }
 for (let i = 21; i < 24; i++) {
-    CommonSmileList.push(`https://mistake.tech/emote/yukika/${i}.png`);
+    CommonSmileList.push(`https://mistake.tech/emote/yukika/${i}.jpg`);
 }
 
 
@@ -137,7 +137,7 @@ const MenuList = {
         ]
     },
     Acfun: {datatype: 'image', title: 'ACFUN', addr: AcSmileList},
-    Common: {datatype: 'image', title: '常用', addr: CommonSmileList},
+    Common: {datatype: 'image', title: '小日向雪花', addr: CommonSmileList},
     Akari: {datatype: 'image', title: 'Akari', addr: AkarinSmileList},
     BiliBili: {datatype: 'image', title: 'BiliBili', addr: BiliBiliSmileList},
     LoveLive: {datatype: 'image', title: 'LoveLive', addr: LoveliveSmallSmileList},
