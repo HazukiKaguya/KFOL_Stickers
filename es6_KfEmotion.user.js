@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        绯月表情增强插件
+// @name        绯月表情增强插件*改
 // @namespace   https://greasyfork.org/users/5415
 // @version     5.1.3.1.1
 // @author      eddie32
@@ -51,58 +51,52 @@ for (let i = 1; i < 22; i++) {
 }
 
 // 小日向雪花
-const CommonSmileList = [];
+const YukikaSmileList = [];
 for (let i = 1; i < 7; i++) {
-    CommonSmileList.push(`https://mistake.tech/emote/yukika/${i}.jpg`);
+    YukikaSmileList.push(`https://mistake.tech/emote/yukika/${i}.jpg`);
 }
 for (let i = 21; i < 24; i++) {
-    CommonSmileList.push(`https://mistake.tech/emote/yukika/${i}.jpg`);
+    YukikaSmileList.push(`https://mistake.tech/emote/yukika/${i}.jpg`);
 }
 
 
 // 阿卡林 from 摇曳百合
 const AkarinSmileList = [];
 for (let i = 1; i < 21; i++) {
-    AkarinSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/xds2/akari${i}.gif`);
+    AkarinSmileList.push(`https://mistake.tech/emote/akarin/2/akarin (${i}).gif`);
 }
 for (let i = 1; i < 72; i++) {
-    AkarinSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/xds3/akari${i}.png`);
+    AkarinSmileList.push(`https://mistake.tech/emote/akarin/1/akarin (${i}).png`);
 }
 
-// B站和tora酱表情
-const BiliBiliSmileList = [];
-for (let i = 1; i < 17; i++) {
-    BiliBiliSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/xds/2233 (${i}).gif`);
-}
-for (let i = 1; i < 14; i++) {
-    BiliBiliSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/xds/${i}.png`);
-}
-for (let i = 0; i < 14; i++) {
-    BiliBiliSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/xds/bilibiliTV (${i}).png`);
-}
-for (let i = 1; i < 14; i++) {
-    BiliBiliSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/xds2/0${(i) > 9 ? i : ('0' + i)}.jpg`);
+// 林大B
+const lindaBSmileList = [];
+for (let i = 1; i < 52; i++) {
+    lindaBSmileList.push(`https://mistake.tech/emote/lindaB/lindaB (${i}).jpg`);
 }
 
 // lovelive表情（小）
 const LoveliveSmallSmileList = [];
-for (let i = 1; i < 41; i++) {
-    LoveliveSmallSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/lovelive/Lovelive2nd${i}.png`);
+for (let i = 1; i < 4; i++) {
+    LoveliveSmallSmileList.push(`https://mistake.tech/emote/lovelive/1/${i}.gif`);
 }
 for (let i = 1; i < 41; i++) {
-    LoveliveSmallSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/lovelive/Lovelive${i}.png`);
+    LoveliveSmallSmileList.push(`https://mistake.tech/emote/lovelive/2/ll (${i}).png`);
+}
+for (let i = 1; i < 72; i++) {
+    LoveliveSmallSmileList.push(`https://mistake.tech/emote/lovelive/3/ll (${i}).jpg`);
 }
 
 // 少女歌剧
 const ShaoNvGeJuSmileList = [];
 for (let i = 1; i < 41; i++) {
-    ShaoNvGeJuSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/sticker (${i}).png`);
+    ShaoNvGeJuSmileList.push(`https://mistake.tech/emote/revstar/revstar (${i}).png`);
 }
 
-// バンドリ
+// BanG Dream
 const BandoriSmileList = [];
-for (let i = 1; i < 41; i++) {
-    BandoriSmileList.push(`http://o6smnd6uw.bkt.clouddn.com/BGD/sticker (${i}).png`);
+for (let i = 1; i < 53; i++) {
+    BandoriSmileList.push(`https://mistake.tech/emote/bangdream/bangdream (${i}).png`);
 }
 
 /**
@@ -137,12 +131,12 @@ const MenuList = {
         ]
     },
     Acfun: {datatype: 'image', title: 'ACFUN', addr: AcSmileList},
-    Common: {datatype: 'image', title: '小日向雪花', addr: CommonSmileList},
-    Akari: {datatype: 'image', title: 'Akari', addr: AkarinSmileList},
-    BiliBili: {datatype: 'image', title: 'BiliBili', addr: BiliBiliSmileList},
+    Yukika: {datatype: 'image', title: '小日向雪花', addr: YukikaSmileList},
+    Akari: {datatype: 'image', title: '阿卡林', addr: AkarinSmileList},
+    lindaB: {datatype: 'image', title: '林大B', addr: lindaBSmileList},
     LoveLive: {datatype: 'image', title: 'LoveLive', addr: LoveliveSmallSmileList},
     ShaoNvGeJu: {datatype: 'image', title: '少女歌剧', addr: ShaoNvGeJuSmileList},
-    Bandori: {datatype: 'image', title: 'バンドリ', addr: BandoriSmileList},
+    Bandori: {datatype: 'image', title: '邦邦', addr: BandoriSmileList},
 };
 
 /**
