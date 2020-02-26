@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://greasyfork.org/users/5415
-// @version     5.1.3.3
+// @version     5.1.3.4
 // @author      eddie32
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://mistake.tech/emote/favicon.ico
@@ -20,9 +20,11 @@
 // @modifier2-source https://raw.githubusercontent.com/missttake/KFOL_Emote/master/es6_KfEmotion.user.js
 // ==/UserScript==
 'use strict';
-//表情更新了eddie32最新版的伪中国语和流行（直接使用了eddie32大佬的图片网址）
+//5.1.3.4 表情更新了百度贴吧，新浪微博，东方
+//5.1.3.3 表情更新了eddie32最新版的伪中国语和流行（直接使用了eddie32大佬的图片网址）
+//5.1.3.2 替换了失效表情，常用替换为自截小日向雪花表情包，bilibili替换为林大B
 // 版本号
-const version = '5.1.3.3';
+const version = '5.1.3.4';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 
@@ -34,6 +36,15 @@ if (isKfMobile) kfImgPath = Info.imgPath;
 for (let i = 1; i < 49; i++) {
     KfSmileList.push(`/${kfImgPath}/post/smile/em/em${(i) > 9 ? i : ('0' + i)}.gif`);
     KfSmileCodeList.push(`[s:${i + 9}]`);
+}
+
+// 小日向雪花
+const YukikaSmileList = [];
+for (let i = 1; i < 7; i++) {
+    YukikaSmileList.push(`https://mistake.tech/emote/yukika/${i}.jpg`);
+}
+for (let i = 21; i < 24; i++) {
+    YukikaSmileList.push(`https://mistake.tech/emote/yukika/${i}.jpg`);
 }
 
 // AC娘表情
@@ -51,13 +62,31 @@ for (let i = 1; i < 22; i++) {
     AcSmileList.push(`https://mistake.tech/emote/acfun/4/${i}.gif`);
 }
 
-// 小日向雪花
-const YukikaSmileList = [];
-for (let i = 1; i < 7; i++) {
-    YukikaSmileList.push(`https://mistake.tech/emote/yukika/${i}.jpg`);
+// 百度贴吧
+const BaiduSmileList = [];
+for(let i = 1; i < 10; i++) {
+    BaiduSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/face/i_f0${i}.png`);
 }
-for (let i = 21; i < 24; i++) {
-    YukikaSmileList.push(`https://mistake.tech/emote/yukika/${i}.jpg`);
+for(let i = 10; i < 56; i++) {
+    BaiduSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/face/i_f${i}.png`);
+}
+for(let i = 1; i < 10; i++) {
+    BaiduSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/ali/ali_00${i}.gif`);
+}
+for(let i = 10; i < 71; i++) {
+    BaiduSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/ali/ali_0${i}.gif`);
+}
+
+// 微博
+const WeiboSmileList = [];
+for (let i = 0; i < 101; i++) {
+    WeiboSmileList.push(`https://mistake.tech/emote/weibo/${i}.png`);
+}
+
+// 东方
+const TouhouSmileList = [];
+for (let i = 1; i < 46; i++) {
+    TouhouSmileList.push(`https://mistake.tech/emote/touhou/reimu/${i}.jpg`);
 }
 
 
@@ -89,9 +118,9 @@ for (let i = 1; i < 72; i++) {
 }
 
 // 少女歌剧
-const ShaoNvGeJuSmileList = [];
+const RevstarSmileList = [];
 for (let i = 1; i < 41; i++) {
-    ShaoNvGeJuSmileList.push(`https://mistake.tech/emote/revstar/revstar (${i}).png`);
+    RevstarSmileList.push(`https://mistake.tech/emote/revstar/revstar (${i}).png`);
 }
 
 // BanG Dream
@@ -144,15 +173,18 @@ const MenuList = {
             '|•ω•`)'
         ]
     },
-    Acfun: {datatype: 'image', title: 'ACFUN', addr: AcSmileList},
-    Yukika: {datatype: 'image', title: '小日向雪花', addr: YukikaSmileList},
-    Akari: {datatype: 'image', title: '阿卡林', addr: AkarinSmileList},
-    lindaB: {datatype: 'image', title: '林大B', addr: lindaBSmileList},
+	Yukika:   {datatype: 'image', title: 'Yukuka', addr: YukikaSmileList},
+    Acfun:    {datatype: 'image', title: 'ACFUN', addr: AcSmileList},
+    Akari:    {datatype: 'image', title: 'Akari', addr: AkarinSmileList},
+    lindaB:   {datatype: 'image', title: '林大B', addr: lindaBSmileList},
     LoveLive: {datatype: 'image', title: 'LoveLive', addr: LoveliveSmallSmileList},
-    ShaoNvGeJu: {datatype: 'image', title: '少女歌剧', addr: ShaoNvGeJuSmileList},
-    Bandori: {datatype: 'image', title: '邦邦', addr: BandoriSmileList},
-	FakeCHS: {datatype: 'image', title: '伪中国语', addr: FakeCHSSmileList},
-	Popular: {datatype: 'image', title: '流行', addr: PopularSmileList},
+    Revstar:  {datatype: 'image', title: '少女歌剧', addr: RevstarSmileList},
+    Bandori:  {datatype: 'image', title: '邦邦', addr: BandoriSmileList},
+	Touhou:   {datatype: 'image', title: '东方', addr: TouhouSmileList},
+    Baidu:    {datatype: 'image', title: '贴吧', addr: BaiduSmileList},
+	Weibo:    {datatype: 'image', title: '微博', addr: WeiboSmileList},
+	FakeCHS:  {datatype: 'image', title: '伪中国语', addr: FakeCHSSmileList},
+	Popular:  {datatype: 'image', title: '流行', addr: PopularSmileList},
 };
 
 /**
