@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://greasyfork.org/users/5415
-// @version     5.1.3.2
+// @version     5.1.3.3
 // @author      eddie32
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://mistake.tech/emote/favicon.ico
@@ -10,17 +10,19 @@
 // @include     http*://*9moe.com/*
 // @include     http*://*kfgal.com/*
 // @include     https://*miaola.info/*
-// @copyright   2014-2017, eddie32
+// @copyright   2014-2019, eddie32
 // @grant       none
 // @license     MIT
 // @run-at      document-end
-// @modifier   喵拉布丁
-// @modifier-source https://raw.githubusercontent.com/miaolapd/KF_Online_Assistant/master/scripts/es6/KfEmotion.user.js
-// @modifier-source https://raw.githubusercontent.com/missttake/KFOL_Emote/master/es6_KfEmotion.user.js
+// @modifier1   喵拉布丁
+// @modifier2   mistakey
+// @modifier1-source https://raw.githubusercontent.com/miaolapd/KF_Online_Assistant/master/scripts/es6/KfEmotion.user.js
+// @modifier2-source https://raw.githubusercontent.com/missttake/KFOL_Emote/master/es6_KfEmotion.user.js
 // ==/UserScript==
 'use strict';
+//表情更新了eddie32最新版的伪中国语和流行（直接使用了eddie32大佬的图片网址）
 // 版本号
-const version = '5.1.3.2';
+const version = '5.1.3.3';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 
@@ -94,9 +96,22 @@ for (let i = 1; i < 41; i++) {
 
 // BanG Dream
 const BandoriSmileList = [];
-for (let i = 1; i < 53; i++) {
+for (let i = 1; i < 41; i++) {
     BandoriSmileList.push(`https://mistake.tech/emote/bangdream/bangdream (${i}).png`);
 }
+
+// 伪中国语（eddie32）
+const FakeCHSSmileList = [];
+for (let i = 1; i < 83; i++) {
+    FakeCHSSmileList.push(`https://ecs32.top/emotions/selected/2-20190811/sticker (${i}).png`);
+}
+
+// 流行（eddie32）
+const PopularSmileList = [];
+for (let i = 1; i < 48; i++) {
+    PopularSmileList.push(`https://ecs32.top/emotions/selected/1-20190811/sticker (${i}).png`);
+}
+
 
 /**
  * 表情菜单
@@ -136,6 +151,8 @@ const MenuList = {
     LoveLive: {datatype: 'image', title: 'LoveLive', addr: LoveliveSmallSmileList},
     ShaoNvGeJu: {datatype: 'image', title: '少女歌剧', addr: ShaoNvGeJuSmileList},
     Bandori: {datatype: 'image', title: '邦邦', addr: BandoriSmileList},
+	FakeCHS: {datatype: 'image', title: '伪中国语', addr: FakeCHSSmileList},
+	Popular: {datatype: 'image', title: '流行', addr: PopularSmileList},
 };
 
 /**
