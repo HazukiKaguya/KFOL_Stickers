@@ -173,18 +173,18 @@ const MenuList = {
             '|•ω•`)'
         ]
     },
-	Yukika:   {datatype: 'image', title: 'Yukuka', addr: YukikaSmileList},
+    Yukika:   {datatype: 'image', title: '小日向雪花', addr: YukikaSmileList},
     Acfun:    {datatype: 'image', title: 'ACFUN', addr: AcSmileList},
     Akari:    {datatype: 'image', title: 'Akari', addr: AkarinSmileList},
     lindaB:   {datatype: 'image', title: '林大B', addr: lindaBSmileList},
     LoveLive: {datatype: 'image', title: 'LoveLive', addr: LoveliveSmallSmileList},
     Revstar:  {datatype: 'image', title: '少女歌剧', addr: RevstarSmileList},
     Bandori:  {datatype: 'image', title: '邦邦', addr: BandoriSmileList},
-	Touhou:   {datatype: 'image', title: '东方', addr: TouhouSmileList},
+    Touhou:   {datatype: 'image', title: '东方', addr: TouhouSmileList},
     Baidu:    {datatype: 'image', title: '贴吧', addr: BaiduSmileList},
-	Weibo:    {datatype: 'image', title: '微博', addr: WeiboSmileList},
-	FakeCHS:  {datatype: 'image', title: '伪中国语', addr: FakeCHSSmileList},
-	Popular:  {datatype: 'image', title: '流行', addr: PopularSmileList},
+    Weibo:    {datatype: 'image', title: '微博', addr: WeiboSmileList},
+    FakeCHS:  {datatype: 'image', title: '伪中国语', addr: FakeCHSSmileList},
+    Popular:  {datatype: 'image', title: '流行', addr: PopularSmileList},
 };
 
 /**
