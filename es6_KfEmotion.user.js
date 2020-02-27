@@ -24,7 +24,7 @@
 //5.1.3.3 表情更新了eddie32最新版的伪中国语和流行（直接使用了eddie32大佬的图片网址）
 //5.1.3.2 替换了失效表情，常用替换为自截小日向雪花表情包，bilibili替换为林大B
 // 版本号
-const version = '5.1.3.4';
+const version = '5.1.3.5';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 
