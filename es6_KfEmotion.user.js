@@ -17,7 +17,7 @@
 // @modifier1   喵拉布丁
 // @modifier2   mistakey
 // @modifier1-source https://raw.githubusercontent.com/miaolapd/KF_Online_Assistant/master/scripts/es6/KfEmotion.user.js
-// @modifier2-source https://raw.githubusercontent.com/missttake/KFOL_Emote/master/es6_KfEmotion.user.js
+// @@updateURL https://raw.githubusercontent.com/missttake/KFOL_Emote/master/es6_KfEmotion.user.js
 // ==/UserScript==
 'use strict';
 //5.1.3.4 表情更新了百度贴吧，新浪微博，东方
