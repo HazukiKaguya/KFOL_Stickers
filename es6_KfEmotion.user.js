@@ -14,9 +14,9 @@
 // @grant       none
 // @license     MIT
 // @run-at      document-end
-// @modifier1   喵拉布丁
+// @modifier   喵拉布丁
+// @modifier-source https://raw.githubusercontent.com/miaolapd/KF_Online_Assistant/master/scripts/es6/KfEmotion.user.js
 // @modifier2   mistakey
-// @modifier1-source https://raw.githubusercontent.com/miaolapd/KF_Online_Assistant/master/scripts/es6/KfEmotion.user.js
 // @updateURL https://raw.githubusercontent.com/missttake/KFOL_Emote/master/es6_KfEmotion.user.js
 // ==/UserScript==
 'use strict';
