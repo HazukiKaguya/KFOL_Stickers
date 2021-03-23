@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
-// @namespace   https://greasyfork.org/users/5415
-// @version     5.1.3.6
-// @author      eddie32
+// @namespace   https://github.com/HazukiKaguya/KFOL_Emote
+// @version     0.0.4
+// @author      HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://mistake.tech/emote/favicon.ico
 // @homepage    https://github.com/liu599/KF-Emotion-UserScript
@@ -12,21 +12,20 @@
 // @include     https://*kfmax.com/*
 // @include     http*://*kfgal.com/*
 // @include     https://*miaola.info/*
-// @copyright   2014-2019, eddie32
+// @copyright   2020-2021, Hazukikaguya
 // @grant       none
 // @license     MIT
 // @run-at      document-end
-// @modifier   喵拉布丁
-// @modifier-source https://raw.githubusercontent.com/miaolapd/KF_Online_Assistant/master/scripts/es6/KfEmotion.user.js
-// @modifier2   mistakey
-// @updateURL https://raw.githubusercontent.com/missttake/KFOL_Emote/master/es6_KfEmotion.user.js
+// @updateURL https://github.com/HazukiKaguya/KFOL_Emote/blob/master/es6_KfEmotion.user.js
 // ==/UserScript==
 'use strict';
-//5.1.3.4 表情更新了百度贴吧，新浪微博，东方
-//5.1.3.3 表情更新了eddie32最新版的伪中国语和流行（直接使用了eddie32大佬的图片网址）
-//5.1.3.2 替换了失效表情，常用替换为自截小日向雪花表情包，bilibili替换为林大B
+//eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3.x版本 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415
+//0.0.4 添加了kfmax站
+//0.0.3 表情更新了百度贴吧，新浪微博等
+//0.0.2 表情更新了eddie32最新版的伪中国语和流行（直接使用了eddie32大佬的图片网址）
+//0.0.1 替换了失效表情，常用替换为自截小日向雪花表情包，bilibili替换为林大B
 // 版本号
-const version = '5.1.3.6';
+const version = '0.0.4';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 
