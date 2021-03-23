@@ -9,6 +9,7 @@
 // @include     http*://*2dkf.com/*
 // @include     http*://*9moe.com/*
 // @include     https://*kforz.com/*
+// @include     https://*kfmax.com/*
 // @include     http*://*kfgal.com/*
 // @include     https://*miaola.info/*
 // @copyright   2014-2019, eddie32
