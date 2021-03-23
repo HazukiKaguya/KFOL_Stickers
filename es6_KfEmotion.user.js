@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
-// @namespace   https://github.com/HazukiKaguya/KFOL_Emote
-// @version     0.0.4
+// @namespace   https://github.com/HazukiKaguya/KFOL_Emotetest
+// @version     0.0.5
 // @author      HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://mistake.tech/emote/favicon.ico
@@ -25,7 +25,7 @@
 //0.0.2 表情更新了eddie32最新版的伪中国语和流行（直接使用了eddie32大佬的图片网址）
 //0.0.1 替换了失效表情，常用替换为自截小日向雪花表情包，bilibili替换为林大B
 // 版本号
-const version = '0.0.4';
+const version = '0.0.5';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 
