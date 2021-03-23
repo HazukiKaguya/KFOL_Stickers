@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.0.4
+// @version     0.0.5
 // @author      HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
-// @icon        https://mistake.tech/emote/favicon.ico
+// @icon        https://sticker.inari.site/favicon.ico
 // @homepage    https://mistakey.top/KFStickers
 // @include     http*://*2dkf.com/*
 // @include     http*://*9moe.com/*
@@ -18,16 +18,16 @@
 // @run-at      document-end
 // @updateURL   https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/es6_KfStickers.user.js
 // ==/UserScript==
-'use strict';
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3.x版本 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415
-//0.0.4 添加了kfmax站，优化了脚本相关信息
-//0.0.3 表情更新了百度贴吧，新浪微博等
-//0.0.2 表情更新了eddie32最新版的伪中国语和流行（直接使用了eddie32大佬的图片网址）
-//0.0.1 替换了失效表情，常用替换为自截小日向雪花表情包，bilibili替换为林大B
+//0.0.5 更改表情贴纸域名，增加表情贴纸旧域名替换为新域名的功能
+//历史更新：0.0.4 url添加kfmax，优化注释；0.0.3 贴纸更新贴吧，微博等；0.0.2 贴纸更新eddie32佬的伪中国语和流行（直接使用eddie32源）；0.0.1 替换失效贴纸，常用替换为小日向雪花，bilibili替换为林大B
+'use strict';
 // 版本号
-const version = '0.0.4';
+const version = '0.0.5';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
+// 表情贴纸旧域名替换为新域名
+    document.body.innerHTML = document.body.innerHTML.replace(/mistake.tech\/emote/g, 'sticker.inari.site');
 
 // 灰企鹅
 const KfSmileList = [];
@@ -42,22 +42,22 @@ for (let i = 1; i < 49; i++) {
 // 小日向雪花
 const YukikaSmileList = [];
 for (let i = 1; i < 7; i++) {
-    YukikaSmileList.push(`https://mistake.tech/emote/yukika/${i}.jpg`);
+    YukikaSmileList.push(`https://sticker.inari.site/yukika/${i}.jpg`);
 }
 for (let i = 21; i < 24; i++) {
-    YukikaSmileList.push(`https://mistake.tech/emote/yukika/${i}.jpg`);
+    YukikaSmileList.push(`https://sticker.inari.site/yukika/${i}.jpg`);
 }
 
 // AC娘表情
 const AcSmileList = [];
 for (let i = 1; i < 55; i++) {
-    AcSmileList.push(`https://mistake.tech/emote/acfun/1/${i}.png`);
+    AcSmileList.push(`https://sticker.inari.site/acfun/1/${i}.png`);
 }
 for (let i = 1001; i < 1041; i++) {
-    AcSmileList.push(`https://mistake.tech/emote/acfun/2/${i}.png`);
+    AcSmileList.push(`https://sticker.inari.site/acfun/2/${i}.png`);
 }
 for (let i = 2001; i < 2056; i++) {
-    AcSmileList.push(`https://mistake.tech/emote/acfun/3/${i}.png`);
+    AcSmileList.push(`https://sticker.inari.site/acfun/3/${i}.png`);
 }
 
 // 百度贴吧
@@ -78,50 +78,50 @@ for(let i = 10; i < 71; i++) {
 // 微博
 const WeiboSmileList = [];
 for (let i = 0; i < 101; i++) {
-    WeiboSmileList.push(`https://mistake.tech/emote/weibo/${i}.png`);
+    WeiboSmileList.push(`https://sticker.inari.site/weibo/${i}.png`);
 }
 
 // 东方
 const TouhouSmileList = [];
 for (let i = 1; i < 46; i++) {
-    TouhouSmileList.push(`https://mistake.tech/emote/touhou/reimu/${i}.jpg`);
+    TouhouSmileList.push(`https://sticker.inari.site/touhou/reimu/${i}.jpg`);
 }
 
 
 // 阿卡林 from 摇曳百合
 const AkarinSmileList = [];
 for (let i = 1; i < 21; i++) {
-    AkarinSmileList.push(`https://mistake.tech/emote/akarin/2/akarin (${i}).gif`);
+    AkarinSmileList.push(`https://sticker.inari.site/akarin/2/akarin (${i}).gif`);
 }
 for (let i = 1; i < 72; i++) {
-    AkarinSmileList.push(`https://mistake.tech/emote/akarin/1/akarin (${i}).png`);
+    AkarinSmileList.push(`https://sticker.inari.site/akarin/1/akarin (${i}).png`);
 }
 
 // 林大B
 const lindaBSmileList = [];
 for (let i = 1; i < 52; i++) {
-    lindaBSmileList.push(`https://mistake.tech/emote/lindaB/lindaB (${i}).jpg`);
+    lindaBSmileList.push(`https://sticker.inari.site/lindaB/lindaB (${i}).jpg`);
 }
 
 // lovelive表情
 const LoveliveSmallSmileList = [];
 for (let i = 1; i < 42; i++) {
-    LoveliveSmallSmileList.push(`https://mistake.tech/emote/lovelive/2/ll (${i}).png`);
+    LoveliveSmallSmileList.push(`https://sticker.inari.site/lovelive/2/ll (${i}).png`);
 }
 for (let i = 0; i < 38; i++) {
-    LoveliveSmallSmileList.push(`https://mistake.tech/emote/lovelive/4/ll (${i}).jpg`);
+    LoveliveSmallSmileList.push(`https://sticker.inari.site/lovelive/4/ll (${i}).jpg`);
 }
 
 // 少女歌剧
 const RevstarSmileList = [];
 for (let i = 1; i < 41; i++) {
-    RevstarSmileList.push(`https://mistake.tech/emote/revstar/revstar (${i}).png`);
+    RevstarSmileList.push(`https://sticker.inari.site/revstar/revstar (${i}).png`);
 }
 
 // BanG Dream
 const BandoriSmileList = [];
 for (let i = 1; i < 41; i++) {
-    BandoriSmileList.push(`https://mistake.tech/emote/bangdream/bangdream (${i}).png`);
+    BandoriSmileList.push(`https://sticker.inari.site/bangdream/bangdream (${i}).png`);
 }
 
 // 伪中国语（eddie32）
