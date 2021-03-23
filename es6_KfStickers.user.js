@@ -19,7 +19,7 @@
 // @updateURL   https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/es6_KfStickers.user.js
 // ==/UserScript==
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3.x版本 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415
-//0.0.5 更改表情贴纸域名；增加表情贴纸旧域名替换为新域名的功能（暂时不可用）
+//0.0.5 更改表情贴纸域名，增加表情贴纸旧域名替换为新域名的功能
 //历史更新：0.0.4 url添加kfmax，优化注释；0.0.3 贴纸更新贴吧，微博等；0.0.2 贴纸更新eddie32佬的伪中国语和流行（直接使用eddie32源）；0.0.1 替换失效贴纸，常用替换为小日向雪花，bilibili替换为林大B
 'use strict';
 // 版本号
@@ -27,7 +27,11 @@ const version = '0.0.5';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // 表情贴纸旧域名替换为新域名
-//    document.body.innerHTML = document.body.innerHTML.replace(/mistake.tech\/emote/g, 'sticker.inari.site');
+var x = document.getElementsByClassName("readtext");
+var i;
+for (i = 0; i < x.length; i++) {
+   x[i].innerHTML=x[i].innerHTML.replace(/mistake.tech\/emote/g, "sticker.inari.site");
+}
 
 // 灰企鹅
 const KfSmileList = [];
