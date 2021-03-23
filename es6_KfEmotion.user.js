@@ -16,7 +16,7 @@
 // @grant       none
 // @license     MIT
 // @run-at      document-end
-// @updateURL   https://github.com/HazukiKaguya/KFOL_Emote/blob/master/es6_KfEmotion.user.js
+// @updateURL   https://github.com/HazukiKaguya/KFOL_Emote/raw/master/es6_KfEmotion.user.js
 // ==/UserScript==
 'use strict';
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3.x版本 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415
