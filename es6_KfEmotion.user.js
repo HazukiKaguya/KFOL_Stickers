@@ -5,7 +5,7 @@
 // @author      HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://mistake.tech/emote/favicon.ico
-// @homepage    https://github.com/liu599/KF-Emotion-UserScript
+// @homepage    https://github.com/HazukiKaguya/KFOL_Emote
 // @include     http*://*2dkf.com/*
 // @include     http*://*9moe.com/*
 // @include     https://*kforz.com/*
@@ -20,7 +20,7 @@
 // ==/UserScript==
 'use strict';
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3.x版本 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415
-//0.0.4 添加了kfmax站
+//0.0.4 添加了kfmax站，优化了脚本相关信息
 //0.0.3 表情更新了百度贴吧，新浪微博等
 //0.0.2 表情更新了eddie32最新版的伪中国语和流行（直接使用了eddie32大佬的图片网址）
 //0.0.1 替换了失效表情，常用替换为自截小日向雪花表情包，bilibili替换为林大B
