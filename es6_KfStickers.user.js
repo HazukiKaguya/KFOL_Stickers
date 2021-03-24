@@ -19,7 +19,7 @@
 // @updateURL   https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/es6_KfStickers.user.js
 // ==/UserScript==
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415
-//0.0.6 表情贴纸旧域名替换为新域名的功能现在仅对<img>进行操作，避免因为修改innerHTML造成事件绑定失效
+//0.0.6 BugFix. 表情贴纸旧域名替换为新域名的功能现在仅对<img>进行操作，避免因为修改innerHTML造成事件绑定失效,导致导致无法买贴等问题。
 //0.0.5 更改表情贴纸域名，增加表情贴纸旧域名替换为新域名的功能
 //历史更新：0.0.4 url添加kfmax，优化注释；0.0.3 贴纸更新贴吧，微博等；0.0.2 贴纸更新eddie32佬的伪中国语和流行（直接使用eddie32源）；0.0.1 替换失效贴纸，常用替换为小日向雪花，bilibili替换为林大B
 'use strict';
