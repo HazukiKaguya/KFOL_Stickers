@@ -18,7 +18,7 @@
 // @run-at      document-end
 // @updateURL   https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/es6_KfStickers.user.js
 // ==/UserScript==
-//eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3.x版本 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415
+//eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415
 //0.0.5 更改表情贴纸域名，增加表情贴纸旧域名替换为新域名的功能
 //历史更新：0.0.4 url添加kfmax，优化注释；0.0.3 贴纸更新贴吧，微博等；0.0.2 贴纸更新eddie32佬的伪中国语和流行（直接使用eddie32源）；0.0.1 替换失效贴纸，常用替换为小日向雪花，bilibili替换为林大B
 'use strict';
@@ -31,6 +31,7 @@ var x = document.getElementsByClassName("readtext");
 var i;
 for (i = 0; i < x.length; i++) {
    x[i].innerHTML=x[i].innerHTML.replace(/mistake.tech\/emote/g, "sticker.inari.site");
+   x[i].innerHTML=x[i].innerHTML.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");//实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
 }
 
 // 灰企鹅
@@ -172,18 +173,18 @@ const MenuList = {
             '|•ω•`)'
         ]
     },
-	Yukika:   {datatype: 'image', title: '小日向雪花', addr: YukikaSmileList},
+    Yukika:   {datatype: 'image', title: '小日向雪花', addr: YukikaSmileList},
     Acfun:    {datatype: 'image', title: 'ACFUN', addr: AcSmileList},
     Akari:    {datatype: 'image', title: 'Akari', addr: AkarinSmileList},
     lindaB:   {datatype: 'image', title: '林大B', addr: lindaBSmileList},
     LoveLive: {datatype: 'image', title: 'LoveLive', addr: LoveliveSmallSmileList},
     Revstar:  {datatype: 'image', title: '少女歌剧', addr: RevstarSmileList},
     Bandori:  {datatype: 'image', title: '邦邦', addr: BandoriSmileList},
-	Touhou:   {datatype: 'image', title: '东方', addr: TouhouSmileList},
+    Touhou:   {datatype: 'image', title: '东方', addr: TouhouSmileList},
     Baidu:    {datatype: 'image', title: '贴吧', addr: BaiduSmileList},
-	Weibo:    {datatype: 'image', title: '微博', addr: WeiboSmileList},
-	FakeCHS:  {datatype: 'image', title: '伪中国语', addr: FakeCHSSmileList},
-	Popular:  {datatype: 'image', title: '流行', addr: PopularSmileList},
+    Weibo:    {datatype: 'image', title: '微博', addr: WeiboSmileList},
+    FakeCHS:  {datatype: 'image', title: '伪中国语', addr: FakeCHSSmileList},
+    Popular:  {datatype: 'image', title: '流行', addr: PopularSmileList},
 };
 
 /**
@@ -267,7 +268,7 @@ const createContainer = function (textArea) {
     let $container = $(`
 <div class="kfe-container">
   <div class="kfe-menu">
-    <span title="made by eddie32 version ${version}; modified by 喵拉布丁" style="cursor: pointer;"><b>囧⑨</b></span>
+    <span title="本分支由mistakey维护，目前为eddie32佬插件的喵拉布丁分支的分支" style="cursor: pointer;"><b>:)</b></span>
     ${getSubMenuHtml()}
     <span class="kfe-close-panel">[-]</span>
   </div>
