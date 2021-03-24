@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改*Dev
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/KFSticker.user.js
-// @version     0.0.1
+// @version     0.0.2
 // @author      HazukiKaguya
 // @description KF论坛专用的回复表情, 插图扩展插件, 在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -19,16 +19,26 @@
 // @run-at      document-end
 // @updateURL   https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/KfSticker.user.js
 // ==/UserScript==
-// 原作者eddie32, 本分支由HazukiKaguya基于其最新版本魔改
+// 原作者eddie32, 本分支由HazukiKaguya基于最新5.2.1版本魔改
+//0.0.2 修复imgpath，使其kf原生企鹅表情支持喵拉手机站
+//0.0.1 稳定版功能“表情贴纸旧域名替换为新域名”移植
 // 版本号
-const version = '0.0.1';
+const version = '0.0.2';
+// 网站是否为KfMobile
+const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
+let kfImgPath = "/post/smile/em/em";
+if (isKfMobile) kfImgPath = "/1616582862/post/smile/em/em";
 // 表情贴纸旧域名替换为新域名
 var x = document.getElementsByTagName("img");
 var i;
 for (i = 0; i < x.length; i++) {
     x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
-    x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");//实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
+    //实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
+    x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");
+    x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");
 }
+
+
 
 !function(modules) {
     var installedModules = {};
@@ -124,7 +134,7 @@ for (i = 0; i < x.length; i++) {
             itemAddress: app.loadEmotions({
                 startPos: 1,
                 arrLength: 49,
-                strPrefix: (void 0 !== window.imgpath ? window.imgpath : "") + "/post/smile/em/em",
+                strPrefix: (void 0 !== window.imgpath ? window.imgpath : "")+kfImgPath,
                 strSuffix: ".gif",
                 leadingZero: !0
             }),
