@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.0.6
+// @version     0.0.7
 // @author      HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -32,7 +32,7 @@
 */
 'use strict';
 // 版本号
-const version = '0.0.6';
+const version = '0.0.7';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // 表情贴纸旧域名替换为新域名
