@@ -132,7 +132,7 @@ for (let i = 1; i < 41; i++) {
 
 // 伪中国语（eddie32）
 const FakeCHSSmileList = [];
-for (let i = 1; i < 83; i++) {
+for (let i = 49; i < 83; i++) {
     FakeCHSSmileList.push(`https://ecs32.top/emotions/selected/2-20190811/sticker (${i}).png`);
 }
 
@@ -153,10 +153,10 @@ const MenuList = {
         title: '快捷',
         addr: [
             '[sell=100][/sell]', '[quote][/quote]', '[hide=100][/hide]', '[code][/code]', '[strike][/strike]', '[fly][/fly]',
-            '[color=#00FF00][/color]', '[b][/b]', '[u][/u]', '[i][/i]', '[hr]', '[backcolor=][/backcolor]', '[url=][/url]', '[img][/img]'
+            '[color=#00FF00][/color]', '[b][/b]', '[u][/u]', '[i][/i]', '[hr]', '[backcolor=][/backcolor]', '[url=][/url]', '[img][/img]','[table][/table]','[tr][/tr]','[td][/td]','[align=left][/align]','[align=center][/align]','[align=right][/align]','[audio][/audio]','[video][/video]','[/align]这里是签名档内容，可以随意修改，支持bbcode，实验性功能，喵拉手机版不显示，编辑帖子后如果有修改说明会导致喵拉手机版重复显示两次内容。'
         ],
         ref: [
-            '出售贴sell=售价', '引用', '隐藏hide=神秘等级', '插入代码', '删除线', '跑马灯', '文字颜色', '粗体', '下划线', '斜体', '水平线', '背景色', '插入链接', '插入图片'
+            '出售贴sell=售价', '引用', '隐藏hide=神秘等级', '插入代码', '删除线', '跑马灯', '文字颜色', '粗体', '下划线', '斜体', '水平线', '背景色', '插入链接', '插入图片','插入表格','插入表格行','插入表格列','左对齐','居中','右对齐','插入音频','插入视频','签名档[实验性功能]'
         ]
     },
     Emoji: {
