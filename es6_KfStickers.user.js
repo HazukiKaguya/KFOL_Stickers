@@ -139,16 +139,22 @@ for (let i = 1; i < 41; i++) {
     BandoriSmileList.push(`https://sticker.inari.site/bangdream/bangdream (${i}).png`);
 }
 
-// 伪中国语（eddie32）
-const FakeCHSSmileList = [];
-for (let i = 49; i < 83; i++) {
-    FakeCHSSmileList.push(`https://ecs32.top/emotions/selected/2-20190811/sticker (${i}).png`);
+// 公主链接
+const ReDiveSmileList = [];
+for (let i = 1; i < 49; i++) {
+    ReDiveSmileList.push(`https://sticker.inari.site/redive/sticker (${i}).png`);
 }
 
-// 流行（eddie32）
+// 伪中国语
+const FakeCHSSmileList = [];
+for (let i = 49; i < 83; i++) {
+    FakeCHSSmileList.push(`https://sticker.inari.site/fakehan/sticker (${i}).png`);
+}
+
+// 流行
 const PopularSmileList = [];
 for (let i = 1; i < 48; i++) {
-    PopularSmileList.push(`https://ecs32.top/emotions/selected/1-20190811/sticker (${i}).png`);
+    PopularSmileList.push(`https://sticker.inari.site/pop/sticker (${i}).png`);
 }
 
 
@@ -192,7 +198,8 @@ const MenuList = {
     lindaB:   {datatype: 'image', title: '林大B', addr: lindaBSmileList},
     LoveLive: {datatype: 'image', title: 'LoveLive', addr: LoveliveSmallSmileList},
     Revstar:  {datatype: 'image', title: '少女歌剧', addr: RevstarSmileList},
-    Bandori:  {datatype: 'image', title: '邦邦', addr: BandoriSmileList},
+    Bandori:  {datatype: 'image', title: 'BangDream', addr: BandoriSmileList},
+    ReDive:   {datatype: 'image', title: '公主链接', addr: ReDiveSmileList},
     Touhou:   {datatype: 'image', title: '东方', addr: TouhouSmileList},
     Baidu:    {datatype: 'image', title: '贴吧', addr: BaiduSmileList},
     Weibo:    {datatype: 'image', title: '微博', addr: WeiboSmileList},
