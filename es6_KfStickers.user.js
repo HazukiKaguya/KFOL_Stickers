@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.0.6
+// @version     0.0.7
 // @author      HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -19,12 +19,20 @@
 // @updateURL   https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/es6_KfStickers.user.js
 // ==/UserScript==
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415
-//0.0.6 BugFix. 表情贴纸旧域名替换为新域名的功能现在仅对<img>进行操作，避免因为修改innerHTML造成事件绑定失效,导致导致无法买贴等问题。
-//0.0.5 更改表情贴纸域名，增加表情贴纸旧域名替换为新域名的功能
-//历史更新：0.0.4 url添加kfmax，优化注释；0.0.3 贴纸更新贴吧，微博等；0.0.2 贴纸更新eddie32佬的伪中国语和流行（直接使用eddie32源）；0.0.1 替换失效贴纸，常用替换为小日向雪花，bilibili替换为林大B
+/*
+本次更新日志：
+0.0.7 修复伪中国语表情包的部分问题，增加了一些快捷BBcode
+历史更新日志：
+0.0.6 BugFix. 表情贴纸旧域名替换为新域名的功能现在仅对<img>进行操作，避免因为修改innerHTML造成事件绑定失效,导致导致无法买贴等问题。
+0.0.5 更改表情贴纸域名，增加表情贴纸旧域名替换为新域名的功能 
+0.0.4 url添加kfmax，优化注释；
+0.0.3 贴纸更新贴吧，微博等；
+0.0.2 贴纸更新eddie32佬的伪中国语和流行（直接使用eddie32源）；
+0.0.1 替换失效贴纸，常用替换为小日向雪花，bilibili替换为林大B
+*/
 'use strict';
 // 版本号
-const version = '0.0.6';
+const version = '0.0.7';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // 表情贴纸旧域名替换为新域名
