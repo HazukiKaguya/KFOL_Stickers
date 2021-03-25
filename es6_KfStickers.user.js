@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.0.7
+// @version     0.0.6
 // @author      HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -32,7 +32,7 @@
 */
 'use strict';
 // 版本号
-const version = '0.0.7';
+const version = '0.0.6';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // 表情贴纸旧域名替换为新域名
@@ -40,7 +40,8 @@ var x = document.getElementsByTagName("img");
 var i;
 for (i = 0; i < x.length; i++) {
    x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
-   x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");//实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
+   //实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
+   x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");
 }
 
 // 灰企鹅
