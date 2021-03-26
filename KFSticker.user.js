@@ -24,17 +24,15 @@
 //0.0.1 稳定版功能“表情贴纸旧域名替换为新域名”移植
 // 版本号
 const version = '0.0.2';
-// 网站是否为KfMobile
+// 网站是否为KfMobile,修复喵拉手机版kf自带表情显示
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
-let kfImgPath = "/post/smile/em/em";
-if (isKfMobile) kfImgPath = "/1616582862/post/smile/em/em";
+let FixImgPath="/post/smile/em/em"
+if (isKfMobile) FixImgPath = "/"+Info.imgPath+"/post/smile/em/em";
 // 表情贴纸旧域名替换为新域名
-var x = document.getElementsByTagName("img");
-var i;
-for (i = 0; i < x.length; i++) {
+let x = document.getElementsByTagName("img");
+for (let i = 0; i < x.length; i++) {
     x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
     //实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
-    x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");
     x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");
 }
 
