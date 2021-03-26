@@ -19,7 +19,7 @@
 // @run-at      document-end
 // @updateURL   https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/KfSticker.user.js
 // ==/UserScript==
-// 原作者eddie32, 本分支由HazukiKaguya基于最新5.2.1版本魔改
+// 原作者eddie32, 本分支由HazukiKaguya基于最新5.2.1版本魔改 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新
 0.0.3 完全修复其在喵拉移动版的kf原生表情显示（更换为相对路径），update some code to es6
@@ -41,8 +41,6 @@ for (let i = 0; i < x.length; i++) {
     x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");
 }
 
-
-
 !function(modules) {
     var installedModules = {};
     function __webpack_require__(moduleId) {
@@ -52,8 +50,8 @@ for (let i = 0; i < x.length; i++) {
             l: !1,
             exports: {}
         };
-        return modules[moduleId].call(module.exports, module, module.exports, __webpack_require__), 
-            module.l = !0, module.exports;
+        return modules[moduleId].call(module.exports, module, module.exports, __webpack_require__),
+        module.l = !0, module.exports;
     }
     __webpack_require__.m = modules, __webpack_require__.c = installedModules, __webpack_require__.d = function(exports, name, getter) {
         __webpack_require__.o(exports, name) || Object.defineProperty(exports, name, {
@@ -91,8 +89,8 @@ for (let i = 0; i < x.length; i++) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), exports.readEmotions = exports.addEmotions = exports.loadEmotions = exports.join = void 0, 
-        exports.join = function(obj) {
+    }), exports.readEmotions = exports.addEmotions = exports.loadEmotions = exports.join = void 0,
+    exports.join = function(obj) {
         var output = "";
         return Object.keys(obj).forEach(function(keyname) {
             output += obj[keyname] + " ";
@@ -122,8 +120,8 @@ for (let i = 0; i < x.length; i++) {
     }, exports.readEmotions = function(prefix) {
         for (var ret = [], i = 0; i < window.localStorage.length; i += 1) {
             var con, key = window.localStorage.key(i);
-            key.includes(prefix) && ((con = document.createElement("img")).src = window.localStorage[key], 
-                                     con.dataset.link = "", con.className = "Ems", ret.push(con));
+            key.includes(prefix) && ((con = document.createElement("img")).src = window.localStorage[key],
+            con.dataset.link = "", con.className = "Ems", ret.push(con));
         }
         return ret;
     };
@@ -137,7 +135,7 @@ for (let i = 0; i < x.length; i++) {
             itemAddress: app.loadEmotions({
                 startPos: 1,
                 arrLength: 49,
-                strPrefix: (void 0 !== window.imgpath ? window.imgpath : "")+kfImgPath,
+                strPrefix: (void 0 !== window.imgpath ? window.imgpath : "") + FixImgPath,
                 strSuffix: ".gif",
                 leadingZero: !0
             }),
@@ -151,11 +149,11 @@ for (let i = 0; i < x.length; i++) {
         } ],
         groupTitle: "KF自带",
         groupType: Emotion.GroupType.ImageLink
-    },
-{
-        groupEmotions: [ {
-            itemAddress: [ "[sell=100][/sell]", "[quote][/quote]", "[hide=100][/hide]", "[code][/code]", "[strike][/strike]", "[fly][/fly]", "[color=#00FF00][/color]", "[b][/b]", "[u][/u]", "[i][/i]", "[hr]", "[backcolor=][/backcolor]", "[img][/img]" ],
-            itemDescription: [ "出售贴sell=售价", "引用", "隐藏hide=神秘等级", "插入代码", "删除线", "跑马灯", "文字颜色", "粗体", "下划线", "斜体", "水平线", "背景色", "插入图片" ]
+    }, {
+
+         groupEmotions: [ {
+            itemAddress: [ "[sell=100][/sell]", "[quote][/quote]", "[hide=100][/hide]", "[code][/code]", "[strike][/strike]", "[fly][/fly]", "[color=#00FF00][/color]", "[b][/b]", "[u][/u]", "[i][/i]", "[hr]", "[backcolor=][/backcolor]", "[img][/img]","[table][/table]","[tr][/tr]","[td][/td]","[align=left][/align]","[align=center][/align]","[align=right][/align]","[audio][/audio]","[video][/video]","[email][/email]","[list][/list]","[/align]这里是签名档内容，可以随意修改，支持bbcode，实验性功能，喵拉手机版不显示，编辑帖子后如果有修改说明会导致喵拉手机版重复显示两次内容。" ],
+            itemDescription: [ "出售贴sell=售价", "引用", "隐藏hide=神秘等级", "插入代码", "删除线", "跑马灯", "文字颜色", "粗体", "下划线", "斜体", "水平线", "背景色", "插入图片" ,"插入表格","插入表格行","插入表格列","左对齐","居中","右对齐","插入音频","插入视频","Email","插入列表","签名档[实验性功能]"]
         } ],
         groupTitle: "快捷",
         groupType: Emotion.GroupType.Plain
@@ -167,10 +165,7 @@ for (let i = 0; i < x.length; i++) {
         } ],
         groupTitle: "颜文字",
         groupType: Emotion.GroupType.Plain
-    },
-
-
-{
+    }, {
         groupEmotions: [ {
             itemAddress: app.loadEmotions({
                 startPos: 1,
@@ -187,6 +182,19 @@ for (let i = 0; i < x.length; i++) {
         groupEmotions: [ {
             itemAddress: app.loadEmotions({
                 startPos: 1,
+                arrLength: 49,
+                strPrefix: "https://ecs32.top/emotions/selected/2-20190811/sticker (",
+                strSuffix: ").png",
+                leadingZero: !1
+            }),
+            itemDescription: []
+        } ],
+        groupTitle: "公主连接",
+        groupType: Emotion.GroupType.ImageLink
+    }, {
+        groupEmotions: [ {
+            itemAddress: app.loadEmotions({
+                startPos: 49,
                 arrLength: 82,
                 strPrefix: "https://ecs32.top/emotions/selected/2-20190811/sticker (",
                 strSuffix: ").png",
@@ -203,10 +211,10 @@ for (let i = 0; i < x.length; i++) {
     } ], app = {
         mainView: '#eddie320000 {font: 12px/28px "Hiragino Sans GB","Microsoft YaHei","Arial","sans-serif"; margin-bottom: 5px; }',
         stageView: "#eddie32stage {height: 100px; padding: 3px 3px; overflow-x: auto; margin-top:4px;margin-bottom:4px; border:1px solid none; position:relative; z-index:200; display: none; } #eddie32stage span { cursor: pointer }",
-        menuView: '#eddie32menu {display:inline-block;cursor:pointer; text-align:center; padding: 0; font: 12px/30px "Hiragino Sans GB","Microsoft YaHei","Arial","sans-serif";background-color: none;border-color: none;color:deeppink; } #eddie32menu ul { list-style-type: none; margin: 0; padding: 0; } #eddie32menu ul li { display: inline-block; text-align: middle } #eddie32menu ul li a { display: block; color: none; min-width: 55px; } #eddie32menu ul li a:hover, #eddie32menu ul li a.active {background-color: none;border-color: none; color: deeppink;}',
-        txtBtn: "a.txtBtnEmotion { display: inline-block; text-decoration: none; cursor: pointer; padding: 0 8px; font: 12px/24px 'Hiragino Sans GB','Microsoft YaHei','Arial','sans-serif';} a.txtBtnEmotion:hover { background: none; color: none; }",
+        menuView: '#eddie32menu {display:inline-block;cursor:pointer; text-align:center; padding: 0; font: 12px/30px "Hiragino Sans GB","Microsoft YaHei","Arial","sans-serif";background-color: none;border-color: none;color: #fff; } #eddie32menu ul { list-style-type: none; margin: 0; padding: 0; } #eddie32menu ul li { display: inline-block; text-align: middle } #eddie32menu ul li a { display: block; color: #5511dd; min-width: 55px; } #eddie32menu ul li a:hover, #eddie32menu ul li a.active {background-color: none;border-color: #ff7680; color: deeppink;}',
+        txtBtn: "a.txtBtnEmotion { display: inline-block; text-decoration: none; cursor: pointer; padding: 0 8px; font: 12px/24px 'Hiragino Sans GB','Microsoft YaHei','Arial','sans-serif';} a.txtBtnEmotion:hover { background: black; color: #fff; }",
         imageLink: ".Ems { cursor: pointer; width: 50px; height: 50px; display: inline-block; z-index: 400;  }",
-        popUp: "#eddie32ppp {position: fixed; bottom: 10px; right: 10px; z-index: 999; width: 400px; display: block; height: 300px; background: none; border: 1px solid #000; display: none}"
+        popUp: "#eddie32ppp {position: fixed; bottom: 10px; right: 10px; z-index: 999; width: 400px; display: block; height: 300px; background: #f3f3f3; border: 1px solid #000; display: none}"
     }, app = new Emotion.EmotionPlugin("eddie32", reserveData, app, targetTextarea);
     targetTextarea.parentNode.insertBefore(app.appInstance, targetTextarea);
 }, function(module, exports, EmotionPlugin) {
@@ -217,7 +225,7 @@ for (let i = 0; i < x.length; i++) {
     var GroupType, utils = EmotionPlugin(0);
     !function(GroupType) {
         GroupType[GroupType.ImageLink = 0] = "ImageLink", GroupType[GroupType.Plain = 1] = "Plain",
-            GroupType[GroupType.Image = 2] = "Image", GroupType[GroupType.User = 3] = "User";
+        GroupType[GroupType.Image = 2] = "Image", GroupType[GroupType.User = 3] = "User";
     }(GroupType = exports.GroupType || (exports.GroupType = {}));
     EmotionPlugin = function() {};
     exports.EmotionMenuItem = EmotionPlugin;
@@ -227,12 +235,12 @@ for (let i = 0; i < x.length; i++) {
     exports.CssStyles = EmotionPlugin;
     EmotionPlugin = function() {
         function EmotionPlugin(name, data, css, targetTextarea) {
-            this.targetInstance = targetTextarea, this.divPrefix = name, this.appInstance = document.createElement("div"), 
-                this.Popup = document.createElement("div"), this.Popup.id = this.divPrefix + "ppp",
-                this.Popup.innerHTML = '<div style="display: block; width: 100%; padding: 10px;"><h3>每个表情一行</h3><textarea id="eddie32pqp" style="overflow-x: auto; width: 90%;"></textarea><div><button id="' + this.divPrefix + 'ppp1">确认</button><button id="' + this.divPrefix + 'ppp2">取消</button></div>',
-                this.appInstance.id = this.divPrefix + "0000", this.appInstance.appendChild(this.Popup),
-                this.EmotionMenu = data, this.EmotionStyles = css, this.loadMenus(), this.loadMenuData(data),
-                this.loadStage(), this.loadStyles(css), this.stageInstance.style.width = window.getComputedStyle(this.targetInstance, null).getPropertyValue("width");
+            this.targetInstance = targetTextarea, this.divPrefix = name, this.appInstance = document.createElement("div"),
+            this.Popup = document.createElement("div"), this.Popup.id = this.divPrefix + "ppp",
+            this.Popup.innerHTML = '<div style="display: block; width: 100%; padding: 10px;"><h3>每个表情一行</h3><textarea id="eddie32pqp" style="overflow-x: auto; width: 90%;"></textarea><div><button id="' + this.divPrefix + 'ppp1">确认</button><button id="' + this.divPrefix + 'ppp2">取消</button></div>',
+            this.appInstance.id = this.divPrefix + "0000", this.appInstance.appendChild(this.Popup),
+            this.EmotionMenu = data, this.EmotionStyles = css, this.loadMenus(), this.loadMenuData(data),
+            this.loadStage(), this.loadStyles(css), this.stageInstance.style.width = window.getComputedStyle(this.targetInstance, null).getPropertyValue("width");
         }
         return EmotionPlugin.prototype.loadStyles = function(css) {
             var styleInstance = document.createElement("style");
@@ -247,57 +255,57 @@ for (let i = 0; i < x.length; i++) {
             }), this.appInstance.appendChild(stage), this.stageInstance = stage;
         }, EmotionPlugin.prototype.stageEmitter = function(e) {
             var target = e.target, scrollPos = this.targetInstance.scrollTop, back = this.targetInstance.value, caretPos = this.targetInstance.selectionStart, front = back.substring(0, caretPos), back = back.substring(this.targetInstance.selectionEnd, back.length);
-            e.target instanceof HTMLSpanElement && (e.target.id === this.divPrefix + "add" && this.addUserDefinedEmotions(e), 
-                                                    e.target.id === this.divPrefix + "delete" && this.deleteUserDefinedEmotions()),
-                e.target instanceof HTMLAnchorElement && (this.targetInstance.value = front + decodeURI(target.dataset.sign) + back,
-                                                          caretPos += decodeURI(target.dataset.sign).length), e.target instanceof HTMLImageElement && ("" !== e.target.dataset.link ? (this.targetInstance.value = front + ("" + e.target.dataset.link) + back,
-            caretPos += 6) : (this.targetInstance.value = front + ("[img]" + e.target.src) + "[/img]" + back, 
-                              caretPos = caretPos + e.target.src.length + 11)), this.targetInstance.selectionStart = caretPos,
-                this.targetInstance.selectionEnd = caretPos, this.targetInstance.focus(), this.targetInstance.scrollTop = scrollPos;
+            e.target instanceof HTMLSpanElement && (e.target.id === this.divPrefix + "add" && this.addUserDefinedEmotions(e),
+            e.target.id === this.divPrefix + "delete" && this.deleteUserDefinedEmotions()),
+            e.target instanceof HTMLAnchorElement && (this.targetInstance.value = front + decodeURI(target.dataset.sign) + back,
+            caretPos += decodeURI(target.dataset.sign).length), e.target instanceof HTMLImageElement && ("" !== e.target.dataset.link ? (this.targetInstance.value = front + ("" + e.target.dataset.link) + back,
+            caretPos += 6) : (this.targetInstance.value = front + ("[img]" + e.target.src) + "[/img]" + back,
+            caretPos = caretPos + e.target.src.length + 11)), this.targetInstance.selectionStart = caretPos,
+            this.targetInstance.selectionEnd = caretPos, this.targetInstance.focus(), this.targetInstance.scrollTop = scrollPos;
         }, EmotionPlugin.prototype.loadMenuData = function(item) {
             var _this = this, ulContainer = document.createElement("ul");
             item.forEach(function(mi) {
                 var listItem = document.createElement("li"), clickItem = document.createElement("a");
-                listItem.className = _this.divPrefix + "00001", clickItem.title = mi.groupTitle, 
-                    clickItem.dataset.loadtype = "" + mi.groupType, clickItem.addEventListener("click", function(e) {
+                listItem.className = _this.divPrefix + "00001", clickItem.title = mi.groupTitle,
+                clickItem.dataset.loadtype = "" + mi.groupType, clickItem.addEventListener("click", function(e) {
                     return _this.expandMenu(e, mi, listItem.className);
-                }), clickItem.innerHTML = '<span class="t">' + mi.groupTitle + "</span>", listItem.appendChild(clickItem), 
-                    ulContainer.appendChild(listItem);
+                }), clickItem.innerHTML = '<span class="t">' + mi.groupTitle + "</span>", listItem.appendChild(clickItem),
+                ulContainer.appendChild(listItem);
             }), this.menuInstance.appendChild(ulContainer);
         }, EmotionPlugin.prototype.expandMenu = function(e, menuItem, className) {
             var _this = this;
             switch (this.clearStage(), this.toggleStage(e, className), menuItem.groupType) {
-                case GroupType.Plain:
-                    menuItem.groupEmotions.forEach(function(emotion) {
-                        emotion.itemAddress.forEach(function(addr, idx) {
-                            var plainTxtItem = document.createElement("a");
-                            plainTxtItem.className = "txtBtnEmotion", plainTxtItem.setAttribute("data-sign", "" + encodeURI(addr)),
-                                plainTxtItem.innerHTML = 0 < emotion.itemDescription.length ? emotion.itemDescription[idx] : addr,
-                                _this.stageInstance.appendChild(plainTxtItem);
-                        });
+              case GroupType.Plain:
+                menuItem.groupEmotions.forEach(function(emotion) {
+                    emotion.itemAddress.forEach(function(addr, idx) {
+                        var plainTxtItem = document.createElement("a");
+                        plainTxtItem.className = "txtBtnEmotion", plainTxtItem.setAttribute("data-sign", "" + encodeURI(addr)),
+                        plainTxtItem.innerHTML = 0 < emotion.itemDescription.length ? emotion.itemDescription[idx] : addr,
+                        _this.stageInstance.appendChild(plainTxtItem);
                     });
-                    break;
+                });
+                break;
 
-                case GroupType.ImageLink:
-                    menuItem.groupEmotions.forEach(function(emotion) {
-                        emotion.itemAddress.forEach(function(addr, idx) {
-                            var imageItem = document.createElement("img");
-                            imageItem.src = addr, imageItem.dataset.link = 0 < emotion.itemDescription.length ? emotion.itemDescription[idx] : "",
-                                imageItem.className = "Ems", _this.stageInstance.appendChild(imageItem);
-                        });
+              case GroupType.ImageLink:
+                menuItem.groupEmotions.forEach(function(emotion) {
+                    emotion.itemAddress.forEach(function(addr, idx) {
+                        var imageItem = document.createElement("img");
+                        imageItem.src = addr, imageItem.dataset.link = 0 < emotion.itemDescription.length ? emotion.itemDescription[idx] : "",
+                        imageItem.className = "Ems", _this.stageInstance.appendChild(imageItem);
                     });
-                    break;
+                });
+                break;
 
-                case GroupType.User:
-                    var clearBtn = document.createElement("span");
-                    clearBtn.innerHTML = " [增加表情] ", clearBtn.id = this.divPrefix + "add", clearBtn.addEventListener("click", function(et) {
-                        return _this.toggleInputWindow(et);
-                    }), this.stageInstance.appendChild(clearBtn);
-                    clearBtn = document.createElement("span");
-                    clearBtn.innerHTML = " [(功能未开发)] ", clearBtn.id = this.divPrefix + "btn", this.stageInstance.appendChild(clearBtn);
-                    clearBtn = document.createElement("span");
-                    clearBtn.innerHTML = " [清空表情] ", clearBtn.id = this.divPrefix + "clear", clearBtn.addEventListener("click", this.clearUserDefinedEmotions.bind(this)),
-                        this.stageInstance.appendChild(clearBtn), this.loadUserDefinedEmotions();
+              case GroupType.User:
+                var clearBtn = document.createElement("span");
+                clearBtn.innerHTML = " [增加表情] ", clearBtn.id = this.divPrefix + "add", clearBtn.addEventListener("click", function(et) {
+                    return _this.toggleInputWindow(et);
+                }), this.stageInstance.appendChild(clearBtn);
+                clearBtn = document.createElement("span");
+                clearBtn.innerHTML = " [(功能未开发)] ", clearBtn.id = this.divPrefix + "btn", this.stageInstance.appendChild(clearBtn);
+                clearBtn = document.createElement("span");
+                clearBtn.innerHTML = " [清空表情] ", clearBtn.id = this.divPrefix + "clear", clearBtn.addEventListener("click", this.clearUserDefinedEmotions.bind(this)),
+                this.stageInstance.appendChild(clearBtn), this.loadUserDefinedEmotions();
             }
         }, EmotionPlugin.prototype.clearStage = function() {
             this.stageInstance.innerHTML = "";
@@ -319,16 +327,16 @@ for (let i = 0; i < x.length; i++) {
             }), cancelBtn.parentNode.replaceChild(cCclone, cancelBtn), this.closeWindow();
         }, EmotionPlugin.prototype.closeWindow = function() {
             var wm = document.getElementById(this.divPrefix + "ppp");
-            wm.style.display && "none" !== wm.style.display ? wm.style.display = "none" : (wm.style.display = "block", 
-                                                                                           this.loadUserDefinedEmotions());
+            wm.style.display && "none" !== wm.style.display ? wm.style.display = "none" : (wm.style.display = "block",
+            this.loadUserDefinedEmotions());
         }, EmotionPlugin.prototype.addUserDefinedEmotions = function(tra) {
             tra.preventDefault(), tra.stopPropagation();
             tra = document.getElementById(this.divPrefix + "pqp");
             utils.addEmotions(tra.value.split("\n")), tra.value = "", this.closeWindow();
         }, EmotionPlugin.prototype.deleteUserDefinedEmotions = function() {}, EmotionPlugin.prototype.loadUserDefinedEmotions = function() {
             var contents = utils.readEmotions("" + this.divPrefix), outerContainer = document.querySelector("#" + this.divPrefix + "outer");
-            outerContainer ? document.querySelector("#" + this.divPrefix + "outer").innerHTML = "" : (outerContainer = document.createElement("div")).id = this.divPrefix + "outer", 
-                contents.forEach(function(elem) {
+            outerContainer ? document.querySelector("#" + this.divPrefix + "outer").innerHTML = "" : (outerContainer = document.createElement("div")).id = this.divPrefix + "outer",
+            contents.forEach(function(elem) {
                 outerContainer.appendChild(elem);
             }), this.stageInstance.appendChild(outerContainer);
         }, EmotionPlugin.prototype.clearUserDefinedEmotions = function() {
