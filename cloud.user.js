@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改*Dev云端版
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/cloud.user.js
-// @version     9.9.9
+// @version     9.0.1
 // @author      HazukiKaguya
 // @description KF论坛专用的回复表情, 插图扩展插件, 在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
