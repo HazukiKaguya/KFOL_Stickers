@@ -23,7 +23,7 @@
 // 原作者eddie32, 本分支由HazukiKaguya基于最新5.2.1版本魔改 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新
-9.9.9 云端调用js 依然可以在github安装手动更新的完整代码版。
+9.0.1 云端调用js，本版本所有github上的更新将只有作用的url的更新 依然可以在github安装手动更新的完整代码版。
 历史更新
 0.0.3 完全修复其在喵拉移动版的kf原生表情显示（更换为相对路径），update some code to es6
 0.0.2 修复imgpath，使其kf原生企鹅表情支持喵拉手机站
