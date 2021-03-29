@@ -302,7 +302,7 @@ const createContainer = function (textArea) {
     <span class="kfe-close-panel" title="本分支由mistakey维护，目前为eddie32佬插件的喵拉布丁分支的分支" style="cursor: pointer;"><b>:)</b></span>
     <input type="button" class="kfe-user-add" value="添加" onclick="userimgadd()">
     <script>//重写的自定义贴纸功能
-function userimgadd(){let userimgaddr=prompt("请输入要添加的贴纸的url","https://sticker.inari.site/inari.png");
+function userimgadd(){let userimgaddr=prompt("添加贴纸，以http或https开头，图片格式结尾。添加多个请用半角符号,隔开","https://sticker.inari.site/inari.png");
 let userimgaddrmt=userimgaddr.split(",");
 for(let mt=0;mt<userimgaddrmt.length;mt++){
 if(/(http:|https:).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {
