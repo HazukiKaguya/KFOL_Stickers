@@ -300,28 +300,20 @@ const createContainer = function (textArea) {
 <div class="kfe-container">
   <div class="kfe-menu">
     <span class="kfe-close-panel" title="本分支由mistakey维护，目前为eddie32佬插件的喵拉布丁分支的分支" style="cursor: pointer;"><b>:)</b></span>
-    <input type="button" class="kfe-user-add" value="添加" onclick="userimgadd()">
     <script>//重写的自定义贴纸功能
-function userimgadd(){let userimgaddr=prompt("添加贴纸，以http或https开头，图片格式结尾。添加多个请用半角符号,隔开","https://sticker.inari.site/inari.png");
-let userimgaddrmt=userimgaddr.split(",");
-for(let mt=0;mt<userimgaddrmt.length;mt++){
+function userimgadd(){let userimgaddr=prompt("请输入要添加的贴纸的url","https://sticker.inari.site/inari.png");
+let userimgaddrmt=userimgaddr.split(",");for(let mt=0;mt<userimgaddrmt.length;mt++){
 if(/(http:|https:).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {
-const userimgaddrs="["+'"'+userimgaddrmt[mt]+'"'+"]";
-let userimgst=localStorage.userimgst;
+const userimgaddrs="["+'"'+userimgaddrmt[mt]+'"'+"]";let userimgst=localStorage.userimgst;
 userimgst==undefined?userimgst="[]":userimgtest=localStorage.userimgst;
-let UserSmileList=JSON.parse(userimgst);
-UserSmileList.push(userimgaddrmt[mt]);
-userimgst= JSON.stringify(UserSmileList);
-localStorage.setItem("userimgst", userimgst);
-}else{}
-}
-
-}
-
-
+let UserSmileList=JSON.parse(userimgst);UserSmileList.push(userimgaddrmt[mt]);
+userimgst= JSON.stringify(UserSmileList);localStorage.setItem("userimgst", userimgst);}else{}}}
+function userimgclr(){if(confirm('确定清空自定义表情贴纸吗')==true){localStorage.removeItem('userimgst');}else{}}
 </script>
     <input type="text" class="kfe-userimg-add" hidden>
     ${getSubMenuHtml()}
+    <input type="button" class="kfe-user-add" value="添加" onclick="userimgadd()">
+    <input type="button" class="kfe-user-clr" value="清空" onclick="userimgclr()">
     <span class="kfe-close-panel">[-]</span>
   </div>
 </div>
