@@ -165,7 +165,7 @@ for (let i = 1; i < 48; i++) {
 
 // 自定义
 let userimgst=localStorage.userimgst;
-userimgst==undefined?userimgst=`["https://sticker.inari.site/inari.png"]`:userimgst=localStorage.userimgst;
+userimgst==undefined?userimgst=`[]`:userimgst=localStorage.userimgst;
 const UserSmileList = JSON.parse(userimgst);
 
 /**
