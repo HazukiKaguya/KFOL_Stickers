@@ -164,9 +164,9 @@ for (let i = 1; i < 48; i++) {
 }
 
 // 自定义
-let userimgtests=localStorage.userimgtests;
-userimgtests==undefined?userimgtests=`["https://sticker.inari.site/inari.png"]`:userimgtests=localStorage.userimgtests;
-const UserSmileList = JSON.parse(userimgtests);
+let userimgst=localStorage.userimgst;
+userimgst==undefined?userimgst=`["https://sticker.inari.site/inari.png"]`:userimgst=localStorage.userimgst;
+const UserSmileList = JSON.parse(userimgst);
 
 /**
  * 表情菜单
@@ -309,13 +309,13 @@ for(let mt=0;mt<userimgaddrmt.length;mt++){
 if(/(http:|https:).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {
 const userimgaddrs="["+'"'+userimgaddrmt[mt]+'"'+"]";
 alert(userimgaddrs);
-let userimgtests=localStorage.userimgtests;
-userimgtests==undefined?userimgtests="[]":userimgtest=localStorage.userimgtests;
-let UserSmileList=JSON.parse(userimgtests);
+let userimgst=localStorage.userimgst;
+userimgst==undefined?userimgst="[]":userimgtest=localStorage.userimgst;
+let UserSmileList=JSON.parse(userimgst);
 UserSmileList.push(userimgaddrmt[mt]);
-userimgtests= JSON.stringify(UserSmileList);
-alert(userimgtests);
-localStorage.setItem("userimgtests", userimgtests);
+userimgst= JSON.stringify(UserSmileList);
+alert(userimgst);
+localStorage.setItem("userimgst", userimgst);
 }else{}
 }
 
