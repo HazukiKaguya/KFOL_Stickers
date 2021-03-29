@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.1.0
+// @version     0.1.1
 // @author      HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -21,8 +21,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.1.0 重写自定义贴纸功能，使用es6语法const与let，完全去除var方法的使用。
+0.1.1 加入了清理自定义贴纸功能，改变了添加删除按钮的布局。
 历史更新记录：
+0.1.0 重写自定义贴纸功能，使用es6语法const与let，完全去除var方法的使用。
 0.0.8 部分代码更新优化为ES6语法(var->let)，增加实验性添加自定义贴纸功能（非es6），这是一个临时的添加自定义方案（经过精简的eddie32佬的5.2.1代码）。
 0.0.7 修复伪中国语表情包的部分问题，更换图源，增加了一些快捷BBcode
 0.0.6 BugFix. 表情贴纸旧域名替换为新域名的功能现在仅对<img>进行操作，避免因为修改innerHTML造成事件绑定失效,导致导致无法买贴等问题。
@@ -34,7 +35,7 @@
 */
 'use strict';
 // 版本号
-const version = '0.1.0';
+const version = '0.1.1';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // 表情贴纸旧域名替换为新域名
