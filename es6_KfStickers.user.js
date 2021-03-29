@@ -304,17 +304,14 @@ const createContainer = function (textArea) {
     <script>//重写的自定义贴纸功能
 function userimgadd(){let userimgaddr=prompt("请输入要添加的贴纸的url","https://sticker.inari.site/inari.png");
 let userimgaddrmt=userimgaddr.split(",");
-alert(userimgaddrmt.length);
 for(let mt=0;mt<userimgaddrmt.length;mt++){
 if(/(http:|https:).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {
 const userimgaddrs="["+'"'+userimgaddrmt[mt]+'"'+"]";
-alert(userimgaddrs);
 let userimgst=localStorage.userimgst;
 userimgst==undefined?userimgst="[]":userimgtest=localStorage.userimgst;
 let UserSmileList=JSON.parse(userimgst);
 UserSmileList.push(userimgaddrmt[mt]);
 userimgst= JSON.stringify(UserSmileList);
-alert(userimgst);
 localStorage.setItem("userimgst", userimgst);
 }else{}
 }
