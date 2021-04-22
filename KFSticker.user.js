@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改*Dev
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/KFSticker.user.js
-// @version     0.0.3
+// @version     0.0.4
 // @author      HazukiKaguya
 // @description KF论坛专用的回复表情, 插图扩展插件, 在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -22,13 +22,14 @@
 // 原作者eddie32, 本分支由HazukiKaguya基于最新5.2.1版本魔改 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新
-0.0.3 完全修复其在喵拉移动版的kf原生表情显示（更换为相对路径），update some code to es6
+0.0.4 增加一些图片url的替换规则，如感觉加载时间增加可删去【//实验性功能】后的自定义规则
 历史更新
+0.0.3 完全修复其在喵拉移动版的kf原生表情显示（更换为相对路径），update some code to es6
 0.0.2 修复imgpath，使其kf原生企鹅表情支持喵拉手机站
 0.0.1 稳定版功能“表情贴纸旧域名替换为新域名”移植
 */
 // 版本号
-const version = '0.0.3';
+const version = '0.0.4';
 // 网站是否为KfMobile,修复喵拉手机版kf自带表情显示
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 let FixImgPath="/post/smile/em/em"
@@ -39,6 +40,10 @@ for (let i = 0; i < x.length; i++) {
     x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
     //实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
     x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");
+    x[i].src=x[i].src.replace(/https:\/\/nekohand.moe\/spsmile\/01Sora\/0xx/g, "https://sticker.inari.site/akarin/akarin");
+    x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds\/2233/g, "https://sticker.inari.site/bili/2233");
+    x[i].src=x[i].src.replace(/http:\/\/smilell2.eclosionstudio.com\/Small\/Lovelive2nd/g, "https://sticker.inari.site/bili/2233");
+    x[i].src=x[i].src.replace(/bbs.kforz.com/g, "kf.miaola.info");
 }
 
 !function(modules) {
@@ -304,50 +309,4 @@ for (let i = 0; i < x.length; i++) {
                 clearBtn = document.createElement("span");
                 clearBtn.innerHTML = " [(功能未开发)] ", clearBtn.id = this.divPrefix + "btn", this.stageInstance.appendChild(clearBtn);
                 clearBtn = document.createElement("span");
-                clearBtn.innerHTML = " [清空表情] ", clearBtn.id = this.divPrefix + "clear", clearBtn.addEventListener("click", this.clearUserDefinedEmotions.bind(this)),
-                this.stageInstance.appendChild(clearBtn), this.loadUserDefinedEmotions();
-            }
-        }, EmotionPlugin.prototype.clearStage = function() {
-            this.stageInstance.innerHTML = "";
-        }, EmotionPlugin.prototype.toggleStage = function(target, listElems) {
-            listElems = document.querySelectorAll("." + listElems), target = target.target;
-            (target = target instanceof HTMLSpanElement ? target.parentElement : target).className && target.className.includes("active") ? target.className = "" : (listElems.forEach(function(elem) {
-                elem.querySelector("a").className = "";
-            }), target.className = "active"), !target.className.includes("active") && this.stageInstance.style.display && "none" !== this.stageInstance.style.display ? this.stageInstance.style.display = "none" : this.stageInstance.style.display = "block";
-        }, EmotionPlugin.prototype.toggleInputWindow = function(cancelBtn) {
-            var _this = this;
-            cancelBtn.stopPropagation(), cancelBtn.preventDefault();
-            var cCclone = document.getElementById(this.divPrefix + "ppp1"), cancelBtn = cCclone.cloneNode(!0);
-            cancelBtn.addEventListener("click", function(e1) {
-                return _this.addUserDefinedEmotions(e1);
-            }), cCclone.parentNode.replaceChild(cancelBtn, cCclone);
-            cancelBtn = document.getElementById(this.divPrefix + "ppp2"), cCclone = cancelBtn.cloneNode(!0);
-            cCclone.addEventListener("click", function(e2) {
-                return _this.toggleInputWindow(e2);
-            }), cancelBtn.parentNode.replaceChild(cCclone, cancelBtn), this.closeWindow();
-        }, EmotionPlugin.prototype.closeWindow = function() {
-            var wm = document.getElementById(this.divPrefix + "ppp");
-            wm.style.display && "none" !== wm.style.display ? wm.style.display = "none" : (wm.style.display = "block",
-            this.loadUserDefinedEmotions());
-        }, EmotionPlugin.prototype.addUserDefinedEmotions = function(tra) {
-            tra.preventDefault(), tra.stopPropagation();
-            tra = document.getElementById(this.divPrefix + "pqp");
-            utils.addEmotions(tra.value.split("\n")), tra.value = "", this.closeWindow();
-        }, EmotionPlugin.prototype.deleteUserDefinedEmotions = function() {}, EmotionPlugin.prototype.loadUserDefinedEmotions = function() {
-            var contents = utils.readEmotions("" + this.divPrefix), outerContainer = document.querySelector("#" + this.divPrefix + "outer");
-            outerContainer ? document.querySelector("#" + this.divPrefix + "outer").innerHTML = "" : (outerContainer = document.createElement("div")).id = this.divPrefix + "outer",
-            contents.forEach(function(elem) {
-                outerContainer.appendChild(elem);
-            }), this.stageInstance.appendChild(outerContainer);
-        }, EmotionPlugin.prototype.clearUserDefinedEmotions = function() {
-            if (window.confirm("Clear ALL Emotion Caches?")) {
-                for (var i = 0; i < window.localStorage.length; i += 1) {
-                    var key = window.localStorage.key(i);
-                    key.includes("" + this.divPrefix) && window.localStorage.removeItem(key);
-                }
-                this.loadUserDefinedEmotions();
-            }
-        }, EmotionPlugin;
-    }();
-    exports.EmotionPlugin = EmotionPlugin;
-} ]);
+                clearBtn.innerHTML = " [清空表情] ", clearBtn.id = this.divPrefix + "clear", clearBtn.
