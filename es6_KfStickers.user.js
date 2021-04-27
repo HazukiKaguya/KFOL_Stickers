@@ -339,7 +339,7 @@ const createContainer = function (textArea) {
         showZoomInImage($(this));
     }).on('mouseleave', '.kfe-smile', function () {
         $('.kfe-zoom-in').remove();
-        }).on('click', '.kfe-user-add', function (e) {
+    }).on('click', '.kfe-user-add', function (e) {
         e.preventDefault();
         let userimgaddr = prompt("请输入要添加的贴纸的URL（添加后刷新页面生效）:", "https://sticker.inari.site/inari.png");
         if (!userimgaddr) return;
