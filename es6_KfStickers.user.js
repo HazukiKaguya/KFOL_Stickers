@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.1.2
-// @author      HazukiKaguya
+// @version     0.2.0
+// @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
 // @homepage    https://mistakey.top/KFStickers
@@ -12,7 +12,7 @@
 // @include     https://*kfmax.com/*
 // @include     http*://*kfgal.com/*
 // @include     https://*miaola.info/*
-// @copyright   2020-2021, Hazukikaguya
+// @copyright   2014-2019, eddie32 ; 2020-2021, Hazukikaguya
 // @grant       none
 // @license     MIT
 // @run-at      document-end
@@ -21,11 +21,12 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.1.2 专门为admin的某贴做了个替换规则（滑稽）
+0.2.0 更新使用了喵拉布丁的部分优化代码
 历史更新记录：
+0.1.2 专门为admin的某贴做了个替换规则（滑稽）
 0.1.1 加入了清理自定义贴纸功能，改变了添加删除按钮的布局。
-0.1.0 重写自定义贴纸功能，使用es6语法const与let，完全去除var方法的使用。
-0.0.8 部分代码更新优化为ES6语法(var->let)，增加实验性添加自定义贴纸功能（非es6），这是一个临时的添加自定义方案（经过精简的eddie32佬的5.2.1代码）。
+0.1.0 重写自定义贴纸功能，使用es6语法。
+0.0.8 部分代码更新优化为ES6语法，增加实验性添加自定义贴纸功能（非es6），这是一个临时的添加自定义方案（经过精简的eddie32佬的5.2.1代码）。
 0.0.7 修复伪中国语表情包的部分问题，更换图源，增加了一些快捷BBcode
 0.0.6 BugFix. 表情贴纸旧域名替换为新域名的功能现在仅对<img>进行操作，避免因为修改innerHTML造成事件绑定失效,导致导致无法买贴等问题。
 0.0.5 更改表情贴纸域名，增加表情贴纸旧域名替换为新域名的功能 
@@ -36,7 +37,7 @@
 */
 'use strict';
 // 版本号
-const version = '0.1.2';
+const version = '0.2.0';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // 表情贴纸旧域名替换为新域名
@@ -302,20 +303,10 @@ const createContainer = function (textArea) {
 <div class="kfe-container">
   <div class="kfe-menu">
     <span class="kfe-close-panel" title="本分支由mistakey维护，目前为eddie32佬插件的喵拉布丁分支的分支" style="cursor: pointer;"><b>:)</b></span>
-    <script>//重写的自定义贴纸功能
-function userimgadd(){let userimgaddr=prompt("请输入要添加的贴纸的url","https://sticker.inari.site/inari.png");
-let userimgaddrmt=userimgaddr.split(",");for(let mt=0;mt<userimgaddrmt.length;mt++){
-if(/(http:|https:).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {
-const userimgaddrs="["+'"'+userimgaddrmt[mt]+'"'+"]";let userimgst=localStorage.userimgst;
-userimgst==undefined?userimgst="[]":userimgtest=localStorage.userimgst;
-let UserSmileList=JSON.parse(userimgst);UserSmileList.push(userimgaddrmt[mt]);
-userimgst= JSON.stringify(UserSmileList);localStorage.setItem("userimgst", userimgst);}else{}}}
-function userimgclr(){if(confirm('确定清空自定义表情贴纸吗')==true){localStorage.removeItem('userimgst');}else{}}
-</script>
     <input type="text" class="kfe-userimg-add" hidden>
     ${getSubMenuHtml()}
-    <input type="button" class="kfe-user-add" value="添加" onclick="userimgadd()">
-    <input type="button" class="kfe-user-clr" value="清空" onclick="userimgclr()">
+    <input type="button" class="kfe-user-add" value="添加">
+    <input type="button" class="kfe-user-clr" value="清空">
     <span class="kfe-close-panel">[-]</span>
   </div>
 </div>
@@ -344,6 +335,27 @@ function userimgclr(){if(confirm('确定清空自定义表情贴纸吗')==true){
         showZoomInImage($(this));
     }).on('mouseleave', '.kfe-smile', function () {
         $('.kfe-zoom-in').remove();
+        }).on('click', '.kfe-user-add', function (e) {
+        e.preventDefault();
+        let userimgaddr = prompt("请输入要添加的贴纸的URL（添加后刷新页面生效）:", "https://sticker.inari.site/inari.png");
+        if (!userimgaddr) return;
+        let userimgaddrmt = userimgaddr.split(',');
+        for (let mt = 0; mt < userimgaddrmt.length; mt++) {
+            if (/(http:|https:).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {
+               const userimgaddrs="["+'"'+userimgaddrmt[mt]+'"'+"]";
+               let userimgst=localStorage.userimgst;
+               userimgst==undefined?userimgst="[]":userimgtest=localStorage.userimgst;
+               let UserSmileList=JSON.parse(userimgst);
+               UserSmileList.push(userimgaddrmt[mt]);
+               userimgst= JSON.stringify(UserSmileList);
+               localStorage.setItem("userimgst", userimgst);
+            }
+        }
+    }).on('click', '.kfe-user-clr', function (e) {
+        e.preventDefault();
+        if (confirm('确定清空自定义表情贴纸吗？')) {
+            localStorage.removeItem('userimgst');
+        }
     }).find('.kfe-close-panel').click(function () {
         $container.find('.kfe-smile-panel').hide();
     });
