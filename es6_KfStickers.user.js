@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.2.0
+// @version     0.2.1
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -25,8 +25,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.2.0 更新使用了喵拉布丁的部分优化代码
+0.2.1 add 5 stickers
 历史更新记录：
+0.2.0 更新使用了喵拉布丁的部分优化代码
 0.1.2 专门为admin的某贴做了个替换规则（滑稽）
 0.1.1 加入了清理自定义贴纸功能，改变了添加删除按钮的布局。
 0.1.0 重写自定义贴纸功能，使用es6语法。
@@ -41,7 +42,7 @@
 */
 'use strict';
 // 版本号
-const version = '0.2.0';
+const version = '0.2.1';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // 表情贴纸旧域名替换为新域名
@@ -166,6 +167,9 @@ for (let i = 49; i < 83; i++) {
 
 // 流行
 const PopularSmileList = [];
+for (let i = 48; i < 53; i++) {
+    PopularSmileList.push(`https://sticker.inari.site/pop/sticker (${i}).png`);
+}
 for (let i = 1; i < 48; i++) {
     PopularSmileList.push(`https://sticker.inari.site/pop/sticker (${i}).png`);
 }
