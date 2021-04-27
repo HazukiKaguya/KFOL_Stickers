@@ -307,7 +307,6 @@ const createContainer = function (textArea) {
 <div class="kfe-container">
   <div class="kfe-menu">
     <span class="kfe-close-panel" title="本分支由mistakey维护，目前为eddie32佬插件的喵拉布丁分支的分支" style="cursor: pointer;"><b>:)</b></span>
-    <input type="text" class="kfe-userimg-add" hidden>
     ${getSubMenuHtml()}
     <input type="button" class="kfe-user-add" value="添加">
     <input type="button" class="kfe-user-clr" value="清空">
