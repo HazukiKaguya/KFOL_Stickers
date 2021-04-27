@@ -25,7 +25,7 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.2.1 add 5 stickers
+0.2.1 add some stickers
 历史更新记录：
 0.2.0 更新使用了喵拉布丁的部分优化代码
 0.1.2 专门为admin的某贴做了个替换规则（滑稽）
@@ -167,7 +167,7 @@ for (let i = 49; i < 83; i++) {
 
 // 流行
 const PopularSmileList = [];
-for (let i = 48; i < 53; i++) {
+for (let i = 48; i < 54; i++) {
     PopularSmileList.push(`https://sticker.inari.site/pop/sticker (${i}).png`);
 }
 for (let i = 1; i < 48; i++) {
