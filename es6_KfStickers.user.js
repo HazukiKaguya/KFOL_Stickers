@@ -6,11 +6,15 @@
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
 // @homepage    https://mistakey.top/KFStickers
-// @include     http*://*2dkf.com/*
 // @include     http*://*9moe.com/*
 // @include     https://*kforz.com/*
 // @include     https://*kfmax.com/*
 // @include     http*://*kfgal.com/*
+// @include     https://*kfmax.com/*
+// @include     https://*bakabbs.com/*
+// @include     https://*365gal.com/*
+// @include     https://*365galgame.com/*
+// @include     https://kfol.moe.edu.rs/*
 // @include     https://*miaola.info/*
 // @copyright   2014-2019, eddie32 ; 2020-2021, Hazukikaguya
 // @grant       none
