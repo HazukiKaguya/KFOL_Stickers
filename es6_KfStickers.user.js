@@ -25,7 +25,7 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.2.2 添加导出自定义贴纸功能，方便多设备同步（请自行避免重复贴纸地址，重复贴纸检测还没写）
+0.2.2 change ui;fix bugs;添加导出自定义贴纸功能，方便多设备同步（请自行避免重复贴纸地址，重复贴纸检测还没写）
 历史更新记录：
 0.2.1 add some stickers
 0.2.0 更新使用了喵拉布丁的部分优化代码
@@ -313,10 +313,10 @@ const createContainer = function (textArea) {
   <div class="kfe-menu">
     <span class="kfe-close-panel" title="版本${version}; 本分支由mistakey维护，是eddie32插件喵拉布丁分支的分支" style="cursor: pointer;"><b>:)</b></span>
     ${getSubMenuHtml()}
+    <span class="kfe-close-panel">[-]</span>
     <input type="button" class="kfe-user-add" value="添加">
     <input type="button" class="kfe-user-out" value="导出">
     <input type="button" class="kfe-user-clr" value="清空">
-    <span class="kfe-close-panel">[-]</span>
   </div>
 </div>
 `).insertBefore($(textArea));
