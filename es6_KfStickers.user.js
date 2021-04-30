@@ -363,7 +363,8 @@ const createContainer = function (textArea) {
         }
     }).on('click', '.kfe-user-out', function (e) {
         e.preventDefault();
-            alert('自定义表情贴纸已导出，请复制：\n'+UserSmileList);
+        if (UserSmileList !="https://sticker.inari.site/null.jpg"){alert('自定义表情贴纸已导出，请复制：\n'+UserSmileList);}
+        else {alert("自定义表情贴纸为空！");}
     }).find('.kfe-close-panel').click(function () {
         $container.find('.kfe-smile-panel').hide();
     });
