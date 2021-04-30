@@ -346,20 +346,16 @@ const createContainer = function (textArea) {
         $('.kfe-zoom-in').remove();
     }).on('click', '.kfe-user-add', function (e) {
         e.preventDefault();
-        let userimgaddr = prompt("请输入要添加的贴纸的URL，（添加后刷新页面生效）"+'\n'+"一次性添加多个请用英文字符【,】隔开图片url:", "https://sticker.inari.site/inari.png");
-        if (!userimgaddr) return;
-        let userimgaddrmt = userimgaddr.split(',');
+        let userimgaddr = prompt("请输入要添加的贴纸的URL，添加多个请用半角,隔开贴纸URL（添加后刷新页面生效）", "https://sticker.inari.site/inari.png");
+        if (!userimgaddr) return;let userimgaddrmt = userimgaddr.split(',');let addList = [];
         for (let mt = 0; mt < userimgaddrmt.length; mt++) {
-            if (/(http:|https:).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {
-               const userimgaddrs="["+'"'+userimgaddrmt[mt]+'"'+"]";
-               let userimgst=localStorage.userimgst;
-               userimgst==undefined?userimgst="[]":userimgtest=localStorage.userimgst;
-               let UserSmileList=JSON.parse(userimgst);
-               UserSmileList.push(userimgaddrmt[mt]);
-               userimgst= JSON.stringify(UserSmileList);
-               localStorage.setItem("userimgst", userimgst);
-            }
-        }
+            if (/(http:|https:).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {addList.push(userimgaddrmt[mt]);}}
+        if (addList.length > 0) {let userSmileList = [];
+            if (localStorage.userimgst) {
+                try {userSmileList = JSON.parse(localStorage.userimgst);}
+                catch (ex) {console.log(ex);userSmileList = [];}}
+            userSmileList = [...userSmileList, ...addList];
+            localStorage.setItem('userimgst', JSON.stringify(userSmileList));}
     }).on('click', '.kfe-user-clr', function (e) {
         e.preventDefault();
         if (confirm('确定清空自定义表情贴纸吗？')) {
