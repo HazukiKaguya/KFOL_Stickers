@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.2.2
+// @version     0.2.3
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -25,8 +25,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.2.2 change ui;fix bugs;添加导出自定义贴纸功能，方便多设备同步（请自行避免重复贴纸地址，重复贴纸检测还没写）
+0.2.3 精简表情分组，增加S1麻将脸表情分组
 历史更新记录：
+0.2.2 change ui;fix bugs;添加导出自定义贴纸功能，方便多设备同步（请自行避免重复贴纸地址，重复贴纸检测还没写）
 0.2.1 add some stickers
 0.2.0 更新使用了喵拉布丁的部分优化代码
 0.1.2 专门为admin的某贴做了个替换规则（滑稽）
@@ -43,7 +44,7 @@
 */
 'use strict';
 // 版本号
-const version = '0.2.2';
+const version = '0.2.3';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // 表情贴纸旧域名替换为新域名
@@ -90,33 +91,26 @@ for (let i = 2001; i < 2056; i++) {
     AcSmileList.push(`https://sticker.inari.site/acfun/3/${i}.png`);
 }
 
-// 百度贴吧
-const BaiduSmileList = [];
+// S1麻将脸
+const S1SmileList = [];
+for (let i = 1; i < 33; i++) {
+    S1SmileList.push(`https://sticker.inari.site/s1/${i}.gif`);
+}
+for (let i = 1; i < 229; i++) {
+    S1SmileList.push(`https://sticker.inari.site/s1/${i}.png`);
+}
+
+// 微博&贴吧
+const WeiboTbSmileList = [];
+for (let i = 0; i < 101; i++) {
+    WeiboTbSmileList.push(`https://sticker.inari.site/weibo/${i}.png`);
+}
 for(let i = 1; i < 10; i++) {
-    BaiduSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/face/i_f0${i}.png`);
+    WeiboTbSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/face/i_f0${i}.png`);
 }
 for(let i = 10; i < 56; i++) {
-    BaiduSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/face/i_f${i}.png`);
+    WeiboTbSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/face/i_f${i}.png`);
 }
-for(let i = 1; i < 10; i++) {
-    BaiduSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/ali/ali_00${i}.gif`);
-}
-for(let i = 10; i < 71; i++) {
-    BaiduSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/ali/ali_0${i}.gif`);
-}
-
-// 微博
-const WeiboSmileList = [];
-for (let i = 0; i < 101; i++) {
-    WeiboSmileList.push(`https://sticker.inari.site/weibo/${i}.png`);
-}
-
-// 东方
-const TouhouSmileList = [];
-for (let i = 1; i < 46; i++) {
-    TouhouSmileList.push(`https://sticker.inari.site/touhou/reimu/${i}.jpg`);
-}
-
 
 // 阿卡林 from 摇曳百合
 const AkarinSmileList = [];
@@ -142,22 +136,19 @@ for (let i = 0; i < 38; i++) {
     LoveliveSmallSmileList.push(`https://sticker.inari.site/lovelive/4/ll (${i}).jpg`);
 }
 
-// 少女歌剧
-const RevstarSmileList = [];
-for (let i = 1; i < 41; i++) {
-    RevstarSmileList.push(`https://sticker.inari.site/revstar/revstar (${i}).png`);
-}
-
 // BanG Dream
 const BandoriSmileList = [];
 for (let i = 1; i < 41; i++) {
     BandoriSmileList.push(`https://sticker.inari.site/bangdream/bangdream (${i}).png`);
 }
 
-// 公主链接
-const ReDiveSmileList = [];
+// 少女歌剧&公主链接
+const RevPCRmileList = [];
+for (let i = 1; i < 41; i++) {
+    RevPCRmileList.push(`https://sticker.inari.site/revstar/revstar (${i}).png`);
+}
 for (let i = 1; i < 49; i++) {
-    ReDiveSmileList.push(`https://sticker.inari.site/redive/sticker (${i}).png`);
+    RevPCRmileList.push(`https://sticker.inari.site/redive/sticker (${i}).png`);
 }
 
 // 伪中国语
@@ -168,6 +159,9 @@ for (let i = 49; i < 83; i++) {
 
 // 流行
 const PopularSmileList = [];
+for (let i = 1; i < 46; i++) {
+    PopularSmileList.push(`https://sticker.inari.site/touhou/reimu/${i}.jpg`);
+}
 for (let i = 48; i < 54; i++) {
     PopularSmileList.push(`https://sticker.inari.site/pop/sticker (${i}).png`);
 }
@@ -216,15 +210,13 @@ const MenuList = {
     },
     Yukika:   {datatype: 'image', title: '小日向雪花', addr: YukikaSmileList},
     Acfun:    {datatype: 'image', title: 'ACFUN', addr: AcSmileList},
+    S1Maj:    {datatype: 'image', title: 'S1麻将脸', addr: S1SmileList},
+    WeiboTb:  {datatype: 'image', title: '微博&贴吧', addr: WeiboTbSmileList},
     Akari:    {datatype: 'image', title: 'Akari', addr: AkarinSmileList},
     lindaB:   {datatype: 'image', title: '林大B', addr: lindaBSmileList},
+    RevPCR:   {datatype: 'image', title: '少歌&PCR', addr: RevPCRmileList},
     LoveLive: {datatype: 'image', title: 'LoveLive', addr: LoveliveSmallSmileList},
-    Revstar:  {datatype: 'image', title: '少女歌剧', addr: RevstarSmileList},
     Bandori:  {datatype: 'image', title: 'BangDream', addr: BandoriSmileList},
-    ReDive:   {datatype: 'image', title: '公主链接', addr: ReDiveSmileList},
-    Touhou:   {datatype: 'image', title: '东方', addr: TouhouSmileList},
-    Baidu:    {datatype: 'image', title: '贴吧', addr: BaiduSmileList},
-    Weibo:    {datatype: 'image', title: '微博', addr: WeiboSmileList},
     FakeCHS:  {datatype: 'image', title: '伪中国语', addr: FakeCHSSmileList},
     Popular:  {datatype: 'image', title: '流行', addr: PopularSmileList},
     Userimg:  {datatype: 'image', title: '自定义', addr: UserSmileList},
