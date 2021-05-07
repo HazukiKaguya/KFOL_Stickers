@@ -216,7 +216,7 @@ const MenuList = {
     lindaB:   {datatype: 'image', title: '林大B', addr: lindaBSmileList},
     RevPCR:   {datatype: 'image', title: '少歌&PCR', addr: RevPCRmileList},
     LoveLive: {datatype: 'image', title: 'LoveLive', addr: LoveliveSmallSmileList},
-    Bandori:  {datatype: 'image', title: 'BangDream', addr: BandoriSmileList},
+    Bandori:  {datatype: 'image', title: '邦邦', addr: BandoriSmileList},
     FakeCHS:  {datatype: 'image', title: '伪中国语', addr: FakeCHSSmileList},
     Popular:  {datatype: 'image', title: '流行', addr: PopularSmileList},
     Userimg:  {datatype: 'image', title: '自定义', addr: UserSmileList},
