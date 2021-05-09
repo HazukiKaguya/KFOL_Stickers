@@ -25,8 +25,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.2.3 精简表情分组，增加S1麻将脸表情分组
+0.2.4 进一步优化表情贴纸分组
 历史更新记录：
+0.2.3 精简表情分组，增加S1麻将脸表情分组
 0.2.2 change ui;fix bugs;添加导出自定义贴纸功能，方便多设备同步（请自行避免重复贴纸地址，重复贴纸检测还没写）
 0.2.1 add some stickers
 0.2.0 更新使用了喵拉布丁的部分优化代码
@@ -70,13 +71,33 @@ for (let i = 1; i < 49; i++) {
     KfSmileCodeList.push(`[s:${i + 9}]`);
 }
 
-// 小日向雪花
-const YukikaSmileList = [];
+// 常用（我的推荐）
+const MylikeSmileList = [];
+//小日向雪花
 for (let i = 1; i < 7; i++) {
-    YukikaSmileList.push(`https://sticker.inari.site/yukika/${i}.jpg`);
+    MylikeSmileList.push(`https://sticker.inari.site/yukika/${i}.jpg`);
 }
 for (let i = 21; i < 24; i++) {
-    YukikaSmileList.push(`https://sticker.inari.site/yukika/${i}.jpg`);
+    MylikeSmileList.push(`https://sticker.inari.site/yukika/${i}.jpg`);
+}
+//流行2
+for (let i = 48; i < 54; i++) {
+    MylikeSmileList.push(`https://sticker.inari.site/pop/sticker (${i}).png`);
+}
+
+// 其他流行
+const PopularSmileList = [];
+//伪中国语
+for (let i = 49; i < 83; i++) {
+    PopularSmileList.push(`https://sticker.inari.site/fakehan/sticker (${i}).png`);
+}
+//流行1
+for (let i = 1; i < 48; i++) {
+    PopularSmileList.push(`https://sticker.inari.site/pop/sticker (${i}).png`);
+}
+//Touhou（灵梦）
+for (let i = 22; i < 46; i++) {
+    PopularSmileList.push(`https://sticker.inari.site/touhou/reimu/${i}.jpg`);
 }
 
 // AC娘表情
@@ -108,7 +129,7 @@ for (let i = 0; i < 101; i++) {
 for(let i = 1; i < 10; i++) {
     WeiboTbSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/face/i_f0${i}.png`);
 }
-for(let i = 10; i < 56; i++) {
+for(let i = 10; i < 34; i++) {
     WeiboTbSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/face/i_f${i}.png`);
 }
 
@@ -132,7 +153,7 @@ const LoveliveSmallSmileList = [];
 for (let i = 1; i < 42; i++) {
     LoveliveSmallSmileList.push(`https://sticker.inari.site/lovelive/2/ll (${i}).png`);
 }
-for (let i = 0; i < 38; i++) {
+for (let i = 1; i < 21; i++) {
     LoveliveSmallSmileList.push(`https://sticker.inari.site/lovelive/4/ll (${i}).jpg`);
 }
 
@@ -150,25 +171,6 @@ for (let i = 1; i < 41; i++) {
 for (let i = 1; i < 49; i++) {
     RevPCRmileList.push(`https://sticker.inari.site/redive/sticker (${i}).png`);
 }
-
-// 伪中国语
-const FakeCHSSmileList = [];
-for (let i = 49; i < 83; i++) {
-    FakeCHSSmileList.push(`https://sticker.inari.site/fakehan/sticker (${i}).png`);
-}
-
-// 流行
-const PopularSmileList = [];
-for (let i = 1; i < 46; i++) {
-    PopularSmileList.push(`https://sticker.inari.site/touhou/reimu/${i}.jpg`);
-}
-for (let i = 48; i < 54; i++) {
-    PopularSmileList.push(`https://sticker.inari.site/pop/sticker (${i}).png`);
-}
-for (let i = 1; i < 48; i++) {
-    PopularSmileList.push(`https://sticker.inari.site/pop/sticker (${i}).png`);
-}
-
 // 自定义
 let userimgst=localStorage.userimgst;
 userimgst==undefined?userimgst=`["https://sticker.inari.site/null.jpg"]`:userimgst=localStorage.userimgst;
@@ -208,17 +210,16 @@ const MenuList = {
             '|•ω•`)'
         ]
     },
-    Yukika:   {datatype: 'image', title: '小日向雪花', addr: YukikaSmileList},
-    Acfun:    {datatype: 'image', title: 'ACFUN', addr: AcSmileList},
-    S1Maj:    {datatype: 'image', title: 'S1', addr: S1SmileList},
-    WeiboTb:  {datatype: 'image', title: '微博贴吧', addr: WeiboTbSmileList},
+    Mylike:   {datatype: 'image', title: '常用', addr: MylikeSmileList},
+    Acfun:    {datatype: 'image', title: 'AC娘', addr: AcSmileList},
     Akari:    {datatype: 'image', title: 'Akari', addr: AkarinSmileList},
     lindaB:   {datatype: 'image', title: '林大B', addr: lindaBSmileList},
-    RevPCR:   {datatype: 'image', title: '少歌&PCR', addr: RevPCRmileList},
-    LoveLive: {datatype: 'image', title: 'LoveLive', addr: LoveliveSmallSmileList},
+    S1Maj:    {datatype: 'image', title: 'S1', addr: S1SmileList},
+    WeiboTb:  {datatype: 'image', title: '微博贴吧', addr: WeiboTbSmileList},
+    RevPCR:   {datatype: 'image', title: '少歌PCR', addr: RevPCRmileList},
     Bandori:  {datatype: 'image', title: '邦邦', addr: BandoriSmileList},
-    FakeCHS:  {datatype: 'image', title: '伪中国语', addr: FakeCHSSmileList},
-    Popular:  {datatype: 'image', title: '流行', addr: PopularSmileList},
+    LoveLive: {datatype: 'image', title: 'LL', addr: LoveliveSmallSmileList},
+    Popular:  {datatype: 'image', title: '其他', addr: PopularSmileList},
     Userimg:  {datatype: 'image', title: '自定义', addr: UserSmileList},
 };
 
