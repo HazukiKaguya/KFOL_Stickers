@@ -17,7 +17,6 @@
 // @include     https://kfol.moe.edu.rs/*
 // @include     https://*miaola.info/*
 // @copyright   2014-2019, eddie32 ; 2020-2021, Hazukikaguya
-// @require     https://sticker.inari.site/picsup.js
 // @grant       none
 // @license     MIT
 // @run-at      document-end
@@ -26,7 +25,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.2.5 实验性功能，通过引入外部js，增加快捷上传图片/想要添加的本地表情到Pigeon Net Pics Hosting
+0.2.5 实验性功能，灰度更新。通过引入外部js，增加快捷上传图片/想要添加的本地表情到Pigeon Net Pics Hosting，请使用history寻找上一个版本来安装或者在前面的油猴注释部分增加
+// @require     https://sticker.inari.site/picsup.js
+这段。
 历史更新记录：
 0.2.4 进一步优化表情贴纸分组
 0.2.3 精简表情分组，增加S1麻将脸表情分组
