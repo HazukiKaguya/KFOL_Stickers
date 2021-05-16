@@ -174,7 +174,7 @@ for (let i = 1; i < 20; i++) {
     RandomSmileList.push(`https://sticker.inari.site/rgif/${Math.ceil(Math.random()*420)}.gif`);
 }
 for (let i = 1; i < 20; i++) {
-    RandomSmileList.push(`https://sticker.inari.site/rwebp/${Math.ceil(Math.random()*300)}.webp`);
+    RandomSmileList.push(`https://sticker.inari.site/rwebp/${Math.ceil(Math.random()*330)}.webp`);
 }
 
 // 自定义
