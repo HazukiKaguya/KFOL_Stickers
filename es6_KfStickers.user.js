@@ -87,13 +87,13 @@ for (let i = 21; i < 24; i++) {
 for (let i = 48; i < 54; i++) {
     MylikeSmileList.push(`https://sticker.inari.site/pop/sticker (${i}).png`);
 }
-//fakehan
-for (let i = 49; i < 83; i++) {
-    MylikeSmileList.push(`https://sticker.inari.site/fakehan/sticker (${i}).png`);
-}
-//reimu
+//灵梦
 for (let i = 22; i < 34; i++) {
     MylikeSmileList.push(`https://sticker.inari.site/touhou/reimu/${i}.jpg`);
+}
+//伪中国语
+for (let i = 49; i < 83; i++) {
+    MylikeSmileList.push(`https://sticker.inari.site/fakehan/sticker (${i}).png`);
 }
 
 // AC娘表情
