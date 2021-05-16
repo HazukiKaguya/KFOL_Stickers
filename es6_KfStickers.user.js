@@ -171,7 +171,7 @@ for (let i = 1; i < 41; i++) {
 // 随机
 const RandomSmileList = [];
 for (let i = 1; i < 20; i++) {
-    RandomSmileList.push(`https://sticker.inari.site/random/${Math.ceil(Math.random()*420)}.gif`);
+    RandomSmileList.push(`https://sticker.inari.site/rgif/${Math.ceil(Math.random()*420)}.gif`);
 }
 for (let i = 1; i < 20; i++) {
     RandomSmileList.push(`https://sticker.inari.site/rwebp/${Math.ceil(Math.random()*300)}.webp`);
