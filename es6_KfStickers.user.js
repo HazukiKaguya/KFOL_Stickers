@@ -99,7 +99,7 @@ for (let i = 49; i < 83; i++) {
 }
 //LL
 for (let i = 1; i < 42; i++) {
-    MylikeSmallSmileList.push(`https://sticker.inari.site/lovelive/2/ll (${i}).png`);
+    MylikeSmileList.push(`https://sticker.inari.site/lovelive/2/ll (${i}).png`);
 }
 
 // AC娘表情
