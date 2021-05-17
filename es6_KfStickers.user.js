@@ -51,17 +51,19 @@
 const version = '0.2.6';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
-// 表情贴纸旧域名替换为新域名
-let x = document.getElementsByTagName("img");
-for (let i = 0; i < x.length; i++) {
-   x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
+
+let x = document.getElementsByTagName("img");let afdDate = new Date();
+for (let i = 0; i < x.length; i++) {x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
    //实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
    x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");
    x[i].src=x[i].src.replace(/https:\/\/nekohand.moe\/spsmile\/01Sora\/0xx/g, "https://sticker.inari.site/akarin/akarin");
    x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds\/2233/g, "https://sticker.inari.site/bili/2233");
    x[i].src=x[i].src.replace(/http:\/\/smilell2.eclosionstudio.com\/Small\/Lovelive2nd/g, "https://sticker.inari.site/bili/2233");
-   x[i].src=x[i].src.replace(/bbs.kforz.com/g, "kf.miaola.info");
-}
+   x[i].src=x[i].src.replace(/bbs.kforz.com/g, "kf.miaola.info");}
+if (afdDate.getMonth()==3&afdDate.getDate()==1)
+    for (let i = 0; i < x.length; i++) {
+        x[i].src=x[i].src.replace(/https:\/\/(kf.miaola.info|kfmax.com|bbs.kfmax.com|bbs.bakabbs.com|bakabbs.com|bbs.365gal.com|365gal.com|bbs.365galgame.com|365galgame.com|kfol.moe.edu.rs)\/1621208973\/face\/none.gif/g, "https://sticker.inari.site/inari_head.png");
+    }
 
 
 // 灰企鹅
