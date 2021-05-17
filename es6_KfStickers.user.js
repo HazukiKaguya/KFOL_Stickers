@@ -151,6 +151,7 @@ for(let i = 10; i < 34; i++) {
 }
 
 // 暹罗猫小红豆
+const SiameseSmileList = [];
 for (let i = 1; i < 25; i++) {
     SiameseSmileList.push(`https://sticker.inari.site/usr/Kawaii_Siamese/wx1/${i}.png`);
 }
