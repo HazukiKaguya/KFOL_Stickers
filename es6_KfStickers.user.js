@@ -24,8 +24,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.2.6 增加随机表情贴纸分组
+0.2.8 增加暹罗猫小红豆贴纸分组
 历史更新记录：
+0.2.6 增加随机表情贴纸分组
 0.2.5 实验性功能，请自行更新。通过引入外部js，增加快捷上传图片/想要添加的本地表情到Pigeon Net Pics Hosting，请使用history寻找上一个版本来安装
       或者在前面的油猴注释部分增加这段：// @require     https://sticker.inari.site/picsup.js
 0.2.4 进一步优化表情贴纸分组
@@ -47,7 +48,7 @@
 */
 'use strict';
 // 版本号
-const version = '0.2.6';
+const version = '0.2.8';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 
@@ -75,7 +76,7 @@ for (let i = 1; i < 49; i++) {
     KfSmileCodeList.push(`[s:${i + 9}]`);
 }
 
-// 常用（我的推荐）
+// 常用
 const MylikeSmileList = [];
 //小日向雪花
 for (let i = 1; i < 7; i++) {
@@ -95,6 +96,10 @@ for (let i = 22; i < 34; i++) {
 //伪中国语
 for (let i = 49; i < 83; i++) {
     MylikeSmileList.push(`https://sticker.inari.site/fakehan/sticker (${i}).png`);
+}
+//LL
+for (let i = 1; i < 42; i++) {
+    MylikeSmallSmileList.push(`https://sticker.inari.site/lovelive/2/ll (${i}).png`);
 }
 
 // AC娘表情
@@ -145,13 +150,15 @@ for(let i = 10; i < 34; i++) {
     WeiboTbSmileList.push(`http://tb2.bdstatic.com/tb/editor/images/face/i_f${i}.png`);
 }
 
-// lovelive表情
-const LoveliveSmallSmileList = [];
-for (let i = 1; i < 42; i++) {
-    LoveliveSmallSmileList.push(`https://sticker.inari.site/lovelive/2/ll (${i}).png`);
+// 暹罗猫小红豆
+for (let i = 1; i < 25; i++) {
+    SiameseSmileList.push(`https://sticker.inari.site/usr/Kawaii_Siamese/wx1/${i}.png`);
 }
-for (let i = 1; i < 21; i++) {
-    LoveliveSmallSmileList.push(`https://sticker.inari.site/lovelive/4/ll (${i}).jpg`);
+for (let i = 1; i < 25; i++) {
+    SiameseSmileList.push(`https://sticker.inari.site/usr/Kawaii_Siamese/wx2/${i}.png`);
+}
+for (let i = 1; i < 41; i++) {
+    SiameseSmileList.push(`https://sticker.inari.site/usr/Kawaii_Siamese/line/${i}.png`);
 }
 
 // 少女歌剧&公主链接
@@ -218,12 +225,12 @@ const MenuList = {
         ]
     },
     Mylike:   {datatype: 'image', title: '常用', addr: MylikeSmileList},
-    Acfun:    {datatype: 'image', title: 'ACFUN', addr: AcSmileList},
+    Acfun:    {datatype: 'image', title: 'AC娘', addr: AcSmileList},
     S1Maj:    {datatype: 'image', title: 'S1', addr: S1SmileList},
     Akari:    {datatype: 'image', title: 'Akari', addr: AkarinSmileList},
     lindaB:   {datatype: 'image', title: '林大B', addr: lindaBSmileList},
     WeiboTb:  {datatype: 'image', title: '微博贴吧', addr: WeiboTbSmileList},
-    LoveLive: {datatype: 'image', title: 'LL', addr: LoveliveSmallSmileList},
+    Siamese:  {datatype: 'image', title: '小红豆', addr: SiameseSmallSmileList},
     RevPCR:   {datatype: 'image', title: '少歌PCR', addr: RevPCRmileList},
     Bandori:  {datatype: 'image', title: '邦邦', addr: BandoriSmileList},
     Random:   {datatype: 'image', title: '随机', addr: RandomSmileList},
