@@ -180,6 +180,15 @@ for (let i = 1; i < 41; i++) {
     SiameseSmileList.push(`https://sticker.inari.site/usr/Kawaii_Siamese/line/${i}.png`);
 }
 
+// lovelive表情
+const LoveliveSmileList = [];
+for (let i = 1; i < 42; i++) {
+    LoveliveSmileList.push(`https://sticker.inari.site/lovelive/2/ll (${i}).png`);
+}
+for (let i = 1; i < 20; i++) {
+    LoveliveSmileList.push(`https://sticker.inari.site/lovelive/4/ll (${i}).jpg`);
+}
+
 // 少女歌剧&公主链接
 const RevPCRmileList = [];
 for (let i = 1; i < 41; i++) {
@@ -258,7 +267,8 @@ const MenuList = {
     Akari:    {datatype: 'image', title: 'Akari', addr: AkarinSmileList},
     lindaB:   {datatype: 'image', title: '林大B', addr: lindaBSmileList},
     WeiboTb:  {datatype: 'image', title: '微博贴吧', addr: WeiboTbSmileList},
-    Siamese:  {datatype: 'image', title: 'LL', addr: SiameseSmileList},
+    Siamese:  {datatype: 'image', title: '小红豆', addr: SiameseSmileList},
+    LoveLive: {datatype: 'image', title: 'LL', addr: LoveliveSmileList},
     RevPCR:   {datatype: 'image', title: '少歌PCR', addr: RevPCRmileList},
     Bandori:  {datatype: 'image', title: '邦邦', addr: BandoriSmileList},
     Random:   {datatype: 'image', title: '随机', addr: RandomSmileList},
@@ -419,12 +429,12 @@ const appendCss = function () {
 <style>
   .kfe-container { padding: 5px; vertical-align: middle; font: 12px/1.7em "sans-serif"; }
   .kfe-menu { margin-bottom: 5px; }
-  .kfe-sub-menu { margin: 0 7px; text-decoration: none; border-bottom: 2px solid transparent; }
+  .kfe-sub-menu { margin: 0 5px; text-decoration: none; border-bottom: 2px solid transparent; }
   .kfe-sub-menu:hover, .kfe-sub-menu:focus { text-decoration: none; border-color: deeppink; }
   a.kfe-sub-menu-active { color: black }
   .kfe-smile-panel { display: none; height: 136px; padding: 5px 3px; overflow-y: auto; border-top: 1px solid #ddd; }
   .kfe-smile-panel[data-key="Shortcut"] { height: auto; }
-  .kfe-smile { display: inline-block; max-width: 64px; max-height: 64px; cursor: pointer; }
+  .kfe-smile { display: inline-block; max-width: 60px; max-height: 60px; cursor: pointer; }
   .kfe-smile-text { display: inline-block; padding: 3px 5px; }
   .kfe-smile-text:hover { color: #fff !important; background-color: #2b2b2b; text-decoration: none; }
   .kfe-close-panel { cursor: pointer; }
