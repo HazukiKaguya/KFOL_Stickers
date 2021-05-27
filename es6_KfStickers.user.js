@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.3.0
+// @version     0.3.6
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -24,8 +24,10 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.3.0 增加图片配文字分组
+0.3.6 增加图片配文字分组（目前就一个，后续增加贴纸为热更新，计划更新的贴纸使用透明1px图片代替，后续服务端更新即可，无需更新脚本）
 历史更新记录：
+0.3.0 扩充随机表情贴纸池
+0.2.9 恢复LL分组，微调CSS样式
 0.2.8 增加暹罗猫小红豆贴纸分组，移除LL分组，原LL分组内容移到常用栏
 0.2.6 增加随机表情贴纸分组
 0.2.5 实验性功能，请自行更新。通过引入外部js，增加快捷上传图片/想要添加的本地表情到Pigeon Net Pics Hosting，请使用history寻找上一个版本来安装
@@ -49,7 +51,7 @@
 */
 'use strict';
 // 版本号
-const version = '0.3.0';
+const version = '0.3.6';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 
