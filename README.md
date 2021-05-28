@@ -1,4 +1,5 @@
 # KFOL_Stickers
+
 eddie32的KFOL表情插件的魔改分支
 
 [安装脚本](https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/es6_KfStickers.user.js)
