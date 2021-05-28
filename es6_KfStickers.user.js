@@ -79,7 +79,7 @@ for (let i = 1; i < 49; i++) {
     KfSmileCodeList.push(`[s:${i + 9}]`);
 }
 // 备用
-for (let i = 0; i < 97; i++) {
+for (let i = 0; i < 184; i++) {
     KfSmileList.push(`https://sticker.inari.site/pesoguin/${i}.gif`);
     KfSmileCodeList.push(`[img]https://sticker.inari.site/pesoguin/${i}.gif[/img]`);
 }
