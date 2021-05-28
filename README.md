@@ -3,6 +3,7 @@ eddie32的KFOL表情插件的魔改分支
 
 [安装脚本](https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/es6_KfStickers.user.js)
 
+0.3.6 扩充随机表情池，增加图文分组，恢复LL分组，微调CSS
 0.2.6 随机贴纸更新，收藏随机贴纸教程：
 ![avatar](/img/st026.webp)
 
