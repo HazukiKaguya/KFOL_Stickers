@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.3.9
+// @version     0.4.0
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -24,8 +24,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.3.9 增加删除指定自定义贴纸功能
+0.4.0 增加替换指定自定义贴纸功能
 历史更新记录：
+0.3.9 增加删除指定自定义贴纸功能
 0.3.8 自定义贴纸导入功能正则规则优化
 0.3.7 小企鹅追加
 0.3.6 修改颜文字分组为绘文字+颜文字分组（增加绘文字，微调颜文字顺序）；增加图文分组（目前就一个，后续增加贴纸为热更新，计划更新的贴纸使用透明1px图片代替，后续服务端更新即可，无需更新脚本）
@@ -54,7 +55,7 @@
 */
 'use strict';
 // 版本号
-const version = '0.3.9';
+const version = '0.4.0';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 
@@ -357,29 +358,19 @@ const createContainer = function (textArea) {
     <span class="kfe-close-panel" title="版本${version}; 本分支由mistakey维护，是eddie32插件喵拉布丁分支的分支" style="cursor: pointer;"><b>:)</b></span>
     ${getSubMenuHtml()}
     <span class="kfe-close-panel">[-]</span>
-    <input type="button" class="kfe-user-add" value="添">
-    <input type="button" class="kfe-user-del" value="删" onclick="userimgdel()">
-    <input type="button" class="kfe-user-out" value="导">
-    <input type="button" class="kfe-user-clr" value="清">
-    <script>function userimgdel(){
-    let userimgdel=prompt("请输入要删除的贴纸的序号","1");
-        if(/[0-9]$/i.test(userimgdel)) {
-            let userimgst=localStorage.userimgst;
-            let UserSmileList=JSON.parse(userimgst);
-            if (userimgdel>UserSmileList.length){
-                alert('序号超出贴纸数，请检查');
-            }
-            else if (userimgdel==0) {alert('非法输入，请检查！');}
-            else if (userimgdel<=UserSmileList.length){ for(let i=userimgdel;i<=UserSmileList.length;i++){
-                UserSmileList[i-1]=UserSmileList[i];
-            }
-            UserSmileList.pop();
-            alert('已删除指定序号的贴纸，请刷新');
-            userimgst= JSON.stringify(UserSmileList);localStorage.setItem("userimgst", userimgst);}
-        }
-        else if(userimgdel==null){}
-        else {alert('非法输入，请检查！');}
-    }</script>
+    <input type="button" class="kfe-user-add" value="增">
+    <input type="button" class="kfe-user-clr" value="删">
+    <input type="button" class="kfe-user-upd" value="改" onclick="userimgupd()">
+    <input type="button" class="kfe-user-out" value="查">
+    <script>function userimgupd(){
+    let r=confirm('更新自定义贴纸（单个删除/替换）？');if(r == true){let userimgupd=prompt("请输入要替换或删除的贴纸的序号","1");if(/[0-9]$/i.test(userimgupd))
+    {let userimgst=localStorage.userimgst;let USL=JSON.parse(userimgst);if(userimgupd>USL.length){alert('序号超出贴纸数');}else if(userimgupd==0)
+    {alert('非法输入！');}else if(userimgupd<=USL.length){let rd=confirm('替换还是删除？确认删除，取消替换。');if(rd==true){for(let i=userimgupd;i<=USL.length;i++)
+    {USL[i-1]=USL[i];}USL.pop();alert('已删除指定贴纸，请刷新');userimgst=JSON.stringify(USL);localStorage.setItem("userimgst",userimgst);}else{
+    let usreplace=prompt("请输入用于替换的图片url","https://sticker.inari.site/inari.png");let j=userimgupd;
+    if (/(http:|https:).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(usreplace)) {USL[j-1]=usreplace;localStorage.setItem('userimgst', JSON.stringify(USL));
+    alert('已替换指定贴纸，请刷新');}else{alert('非法输入！');}}}}else if(userimgupd==null){}else {alert('非法输入！');}}}</script>
+  </div>
   </div>
 </div>
 `).insertBefore($(textArea));
