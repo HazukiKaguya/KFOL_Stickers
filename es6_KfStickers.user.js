@@ -424,39 +424,39 @@ const createContainer = function (textArea) {
            alert("自定义表情贴纸为空！");
         }
     }).on('click', '.kfe-user-u', function (e) {
-        e.preventDefault();
-        if (confirm('确定要替换指定自定义表情贴纸吗？')) {
-        let userimgu = prompt("请输入要替换的贴纸的序号", "1");
-            if (/[0-9]$/i.test(userimgu)) {
-             let userimgst = localStorage.userimgst;
-             let UserSmileList = JSON.parse(userimgst);
-              if (userimgu > UserSmileList.length) {
+         e.preventDefault();
+         let userimgu = prompt("请输入要替换的贴纸的序号", "1");
+         if (/[0-9]$/i.test(userimgu)) {
+            let userimgst = localStorage.userimgst;
+            let UserSmileList = JSON.parse(userimgst);
+            if (userimgu > UserSmileList.length) {
                 alert('序号超出贴纸数，请检查');
               }
-              else if (userimgu == 0) {
+            else if (userimgu == 0) {
                  alert('非法输入，请检查！');
               }
-              else if (userimgu <= UserSmileList.length) {
+            else if (userimgu <= UserSmileList.length) {
                 let usreplace = prompt("请输入用于替换的图片url", "https://sticker.inari.site/inari.png");
-                    let j = userimgu;
+                let j = userimgu;
                     if (/(http:\/\/|https:\/\/).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(usreplace)) {
                        if (confirm('确定替换序号为'+userimgu+'的贴纸吗？这是最后一次确认！')) {
-                        UserSmileList[j - 1] = usreplace;
-                        localStorage.setItem('userimgst', JSON.stringify(UserSmileList));
-                        alert('已替换指定序号的贴纸，请刷新');
+                          UserSmileList[j - 1] = usreplace;
+                          localStorage.setItem('userimgst', JSON.stringify(UserSmileList));
+                          alert('已替换指定序号的贴纸，请刷新');
                        }
                     }
-                    else if (usreplace == null) { }
-                    else if (usreplace == 0) {alert('非法输入，请检查！');}
-                    else {
-                        alert('非法输入，请检查！');
-                    }
-             }
+            else if (usreplace == null) { }
+            else if (usreplace == 0) {
+                  alert('非法输入，请检查！');
             }
-            else if (userimgu == null) { }
             else {
-                alert('非法输入，请检查！');
+                  alert('非法输入，请检查！');
             }
+         }
+         else if (userimgu == null) { }
+         else {
+              alert('非法输入，请检查！');
+         }
         }
     }).on('click', '.kfe-user-d', function (e) {
         e.preventDefault();
