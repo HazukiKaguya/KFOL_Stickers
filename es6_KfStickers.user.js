@@ -53,7 +53,7 @@
 */
 'use strict';
 // 版本号
-const version = '0.3.7';
+const version = '0.3.8';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 
