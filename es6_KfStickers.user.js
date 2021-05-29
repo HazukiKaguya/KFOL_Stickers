@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.3.6
+// @version     0.3.8
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -24,8 +24,10 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.3.6 增加图片配文字分组（目前就一个，后续增加贴纸为热更新，计划更新的贴纸使用透明1px图片代替，后续服务端更新即可，无需更新脚本）
+0.3.8 自定义贴纸导入功能正则规则优化
 历史更新记录：
+0.3.7 小企鹅追加
+0.3.6 修改颜文字分组为绘文字+颜文字分组（增加绘文字，微调颜文字顺序）；增加图文分组（目前就一个，后续增加贴纸为热更新，计划更新的贴纸使用透明1px图片代替，后续服务端更新即可，无需更新脚本）
 0.3.0 扩充随机表情贴纸池
 0.2.9 恢复LL分组，微调CSS样式
 0.2.8 增加暹罗猫小红豆贴纸分组，移除LL分组，原LL分组内容移到常用栏
@@ -51,7 +53,7 @@
 */
 'use strict';
 // 版本号
-const version = '0.3.6';
+const version = '0.3.7';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 
@@ -79,7 +81,7 @@ for (let i = 1; i < 49; i++) {
     KfSmileCodeList.push(`[s:${i + 9}]`);
 }
 // 备用
-for (let i = 0; i < 98; i++) {
+for (let i = 0; i < 204; i++) {
     KfSmileList.push(`https://sticker.inari.site/pesoguin/${i}.gif`);
     KfSmileCodeList.push(`[img]https://sticker.inari.site/pesoguin/${i}.gif[/img]`);
 }
@@ -114,10 +116,6 @@ for (let i = 22; i < 34; i++) {
 //伪中国语
 for (let i = 49; i < 83; i++) {
     MylikeSmileList.push(`https://sticker.inari.site/fakehan/sticker (${i}).png`);
-}
-//LL
-for (let i = 1; i < 42; i++) {
-    MylikeSmileList.push(`https://sticker.inari.site/lovelive/2/ll (${i}).png`);
 }
 
 // AC娘表情
@@ -223,7 +221,6 @@ const UserSmileList = JSON.parse(userimgst);
  */
 const MenuList = {
     KfSmile: {datatype: 'imageLink', title: 'KF', addr: KfSmileList, ref: KfSmileCodeList},
-    PtSmile: {datatype: 'imageLink', title: '图文', addr: PtSmileList, ref: PtSmileCodeList},
     Shortcut: {
         datatype: 'plain',
         title: '快捷',
@@ -251,16 +248,16 @@ const MenuList = {
             '✋', '👌', '👍', '👎', '✊', '👊', '🤛', '🤜', '🤚', '👋', '🤟', '✍', '👏', '👐', '🙌', '🤲', '🙏', '🤝', '💅', '🎈', '🧧','🎀', '🎁', '🎨', '💎',
             '⚽', '⚾', '🏀', '🏐', '🏈', '🎱', '🎳','🏓', '🏑', '🎾', '🥇', '🥈', '🥉', '🏅', '🏆', '🎮', '🎲','🔒', '🔑', '💊', '💻', '📱', '📞','💣', '🎻',
             '🎧', '📸', '📺','💽', '🚲', '🚓', '🚑', '🚒', '🚔', '🚢', '🚀', '🛸', '⛵', '🏥','🚽','🧻','⛅', '🔥', '💧', '🌞', '🌜', '🌈', '🍔', '🍟', '🍉',
-            '(●・ 8 ・●)', '╰(๑◕ ▽ ◕๑)╯', '(ゝω・)', '〜♪♪', '(ﾟДﾟ≡ﾟДﾟ)', '(＾o＾)ﾉ', '(|||ﾟДﾟ)', '(`ε´ )', '(╬ﾟдﾟ)', '(|||ﾟдﾟ)', '(￣∇￣)','(￣3￣)',
-            '(￣ｰ￣)', '(￣ . ￣)', '(￣︿￣)', '(￣︶￣)', '(*´ω`*)', '(・ω・)', '(⌒▽⌒)', '(￣▽￣）', '(=・ω・=)', '(･∀･)', '(｀・ω・´)','(〜￣△￣)〜',
-            '(°∀°)ﾉ', '(￣3￣)', '╮(￣▽￣)╭', '( ´_ゝ｀)', 'のヮの', '(ﾉ؂< ๑）诶嘿☆～', '(<_<)', '(>_>)', '(;¬_¬)', '(▔□▔)/', '(ﾟДﾟ≡ﾟдﾟ)!?','Σ(ﾟдﾟ;)',
-            'Σ( ￣□￣||)', '(´；ω；`)', '（/TДT)/', '(^・ω・^ )', '(｡･ω･｡)', '(oﾟωﾟo)', '(●￣(ｴ)￣●)', 'ε=ε=(ノ≧∇≦)ノ', '(´･_･`)', '(-_-#)', '（￣へ￣）',
-            '(￣ε(#￣) Σ', 'ヽ(`Д´)ﾉ', '(╯°口°)╯(┴—┴', '（#-_-)┯━┯', '_(:3」∠)_', '(笑)','(汗)', '(泣)', '(苦笑)', '(´・ω・`)', '(╯°□°）╯︵ ┻━┻',
-            '(╯‵□′)╯︵┻━┻', '( ´ρ`)', '( ﾟωﾟ)', '(　^ω^)', '(｡◕∀◕｡)','/( ◕‿‿◕ )\\', 'ε٩( º∀º )۶з', '(￣ε(#￣)☆╰╮(￣▽￣///)', '（●´3｀）~♪',
-            '_(:з」∠)_', 'хорошо!', '＼(^o^)／', '(•̅灬•̅ )', '(ﾟДﾟ)','ε=ε=ε=┏(゜ロ゜;)┛', '(；°ほ°)', '⎝≧⏝⏝≦⎠', 'ヽ(✿ﾟ▽ﾟ)ノ','|•ω•`)',
-            '小学生は最高だぜ！！', '焔に舞い上がるスパークよ、邪悪な異性交際に、天罰を与え！',
+            '(●・ 8 ・●)', '╰(๑◕ ▽ ◕๑)╯', '(ゝω・)', '〜♪♪', '(ﾟДﾟ≡ﾟДﾟ)', '(＾o＾)ﾉ', '(|||ﾟДﾟ)', '(`ε´ )', '(╬ﾟдﾟ)', '(|||ﾟдﾟ)', '(￣∇￣)', '(￣3￣)', '(￣ｰ￣)',
+            '(￣ . ￣)', '(￣︿￣)', '(￣︶￣)', '(*´ω`*)', '(・ω・)', '(⌒▽⌒)', '(￣▽￣）', '(=・ω・=)', '(･∀･)', '(｀・ω・´)', '(〜￣△￣)〜', '(°∀°)ﾉ', '(￣3￣)',
+            '╮(￣▽￣)╭', '( ´_ゝ｀)', 'のヮの', '(ﾉ؂< ๑）诶嘿☆～', '(<_<)', '(>_>)', '(;¬_¬)', '(▔□▔)/', '(ﾟДﾟ≡ﾟдﾟ)!?', 'Σ(ﾟдﾟ;)', 'Σ( ￣□￣||)', '(´；ω；`)',
+            '（/TДT)/', '(^・ω・^ )', '(｡･ω･｡)', '(oﾟωﾟo)', '(●￣(ｴ)￣●)', 'ε=ε=(ノ≧∇≦)ノ', '(´･_･`)', '(-_-#)', '（￣へ￣）', '(￣ε(#￣) Σ', 'ヽ(`Д´)ﾉ', '( ´ρ`)',
+            '(╯°口°)╯(┴—┴', '（#-_-)┯━┯', '_(:3」∠)_', '(笑)','(汗)', '(泣)', '(苦笑)', '(´・ω・`)', '(╯°□°）╯︵ ┻━┻','(╯‵□′)╯︵┻━┻', '( ﾟωﾟ)',
+            '(　^ω^)', '(｡◕∀◕｡)', '/( ◕‿‿◕ )\\', 'ε٩( º∀º )۶з', '(￣ε(#￣)☆╰╮(￣▽￣///)', '（●´3｀）~♪', '_(:з」∠)_', 'хорошо!', '＼(^o^)／','(•̅灬•̅ )',
+            '(ﾟДﾟ)', '(；°ほ°)', 'ε=ε=ε=┏(゜ロ゜;)┛', '⎝≧⏝⏝≦⎠', 'ヽ(✿ﾟ▽ﾟ)ノ', '|•ω•`)', '小学生は最高だぜ！！', '焔に舞い上がるスパークよ、邪悪な異性交際に、天罰を与え！'
         ]
     },
+    PtSmile:  {datatype: 'imageLink', title: '图文', addr: PtSmileList, ref: PtSmileCodeList},
     Mylike:   {datatype: 'image', title: '常用', addr: MylikeSmileList},
     Acfun:    {datatype: 'image', title: 'AC娘', addr: AcSmileList},
     S1Maj:    {datatype: 'image', title: 'S1', addr: S1SmileList},
@@ -394,7 +391,12 @@ const createContainer = function (textArea) {
         let userimgaddr = prompt("请输入要添加的贴纸的URL，添加多个请用半角,隔开贴纸URL（添加后刷新页面生效）", "https://sticker.inari.site/inari.png");
         if (!userimgaddr) return;let userimgaddrmt = userimgaddr.split(',');let addList = [];
         for (let mt = 0; mt < userimgaddrmt.length; mt++) {
-            if (/(http:|https:).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {addList.push(userimgaddrmt[mt]);}}
+            //含http/https协议前缀的完整图片url，请确保未开启防盗链
+            if (/(http:\/\/|https:\/\/).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {addList.push(userimgaddrmt[mt]);}
+            //任意无协议前缀的图片url，默认增加https协议前缀
+            else if (/[a-zA-Z0-9\-\.]+\.+[a-zA-Z]+\/.*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {addList.push('https://'+userimgaddrmt[mt]);}
+            //由sticker.inari.site托管的用户贴纸组
+            else if (/[A-Za-z0-9\_\/]+\/+[0-9\/]+.(png|jpg|jpeg|gif|webp)$/i.test(userimgaddrmt[mt])) {addList.push('https://sticker.inari.site/usr/'+userimgaddrmt[mt]);}}
         if (addList.length > 0) {let userSmileList = [];
             if (localStorage.userimgst) {
                 try {userSmileList = JSON.parse(localStorage.userimgst);}
