@@ -436,6 +436,7 @@ const createContainer = function (textArea) {
                         localStorage.setItem('userimgst', JSON.stringify(UserSmileList));
                         alert('已替换指定序号的贴纸，请刷新');
                     }
+                    else if (usreplace == null) { }
                     else {
                         alert('非法输入，请检查！');
                     }
