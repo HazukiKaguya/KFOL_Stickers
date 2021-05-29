@@ -403,7 +403,7 @@ const createContainer = function (textArea) {
             else if (/[A-Za-z0-9\_\/]+\/+[0-9\/]+.(png|jpg|jpeg|gif|webp)$/i.test(userimgcmt[mt])) {addList.push('https://sticker.inari.site/usr/'+userimgcmt[mt]);}
         }
           
-        if (addList.length < userimgaddrmt.length){
+        if (addList.length < userimgcmt.length){
             alert('含有非法输入，请检查是否由图片url错误');
         }
           
