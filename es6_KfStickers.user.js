@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.3.7
+// @version     0.3.8
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -24,8 +24,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.3.7 小企鹅追加
+0.3.8 自定义贴纸导入功能正则规则优化
 历史更新记录：
+0.3.7 小企鹅追加
 0.3.6 修改颜文字分组为绘文字+颜文字分组（增加绘文字，微调颜文字顺序）；增加图文分组（目前就一个，后续增加贴纸为热更新，计划更新的贴纸使用透明1px图片代替，后续服务端更新即可，无需更新脚本）
 0.3.0 扩充随机表情贴纸池
 0.2.9 恢复LL分组，微调CSS样式
@@ -390,7 +391,12 @@ const createContainer = function (textArea) {
         let userimgaddr = prompt("请输入要添加的贴纸的URL，添加多个请用半角,隔开贴纸URL（添加后刷新页面生效）", "https://sticker.inari.site/inari.png");
         if (!userimgaddr) return;let userimgaddrmt = userimgaddr.split(',');let addList = [];
         for (let mt = 0; mt < userimgaddrmt.length; mt++) {
-            if (/(http:|https:).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {addList.push(userimgaddrmt[mt]);}}
+            //含http/https协议前缀的完整图片url，请确保未开启防盗链
+            if (/(http:\/\/|https:\/\/).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {addList.push(userimgaddrmt[mt]);}
+            //任意无协议前缀的图片url，默认增加https协议前缀
+            else if (/[a-zA-Z0-9\-\.]+\.+[a-zA-Z]+\/.*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgaddrmt[mt])) {addList.push('https://'+userimgaddrmt[mt]);}
+            //由sticker.inari.site托管的用户贴纸组
+            else if (/[A-Za-z0-9\_\/]+\/+[0-9\/]+.(png|jpg|jpeg|gif|webp)$/i.test(userimgaddrmt[mt])) {addList.push('https://sticker.inari.site/usr/'+userimgaddrmt[mt]);}}
         if (addList.length > 0) {let userSmileList = [];
             if (localStorage.userimgst) {
                 try {userSmileList = JSON.parse(localStorage.userimgst);}
