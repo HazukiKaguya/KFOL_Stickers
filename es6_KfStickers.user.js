@@ -404,7 +404,7 @@ const createContainer = function (textArea) {
         }
           
         if (addList.length < userimgcmt.length){
-            alert('含有非法输入，请检查是否由图片url错误');
+            alert('含有非法输入，请检查是否有图片url错误');
         }
           
         if (addList.length > 0) {let userSmileList = [];
