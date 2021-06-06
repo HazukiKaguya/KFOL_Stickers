@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.4.2
+// @version     0.4.3
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -24,8 +24,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.4.2 增加删改指定自定义贴纸功能。相比Dev分支，删改自定义贴纸代码重构，删除指定自定义贴纸功能由[改]按钮移到[删]按钮。
+0.4.3 自定义贴纸现在带【?num=x】后缀了，x为此贴纸在自定义贴纸中的序号,方便删改操作（点击想要删除的贴纸，看x是多少，删除、更改时填写的序号就是多少）。
 历史更新记录：
+0.4.2 增加删改指定自定义贴纸功能。相比Dev分支，删改自定义贴纸代码重构，删除指定自定义贴纸功能由[改]按钮移到[删]按钮。
 0.4.0 增加替换指定自定义贴纸功能，与删除指定自定义贴纸功能同按钮，此按钮名改为[改]（Dev分支）
 0.3.9 增加删除指定自定义贴纸功能，改变按钮名称（Dev分支）
 0.3.8 自定义贴纸导入功能正则规则优化
@@ -56,7 +57,7 @@
 */
 'use strict';
 // 版本号
-const version = '0.4.2';
+const version = '0.4.3';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 
@@ -218,6 +219,10 @@ for (let i = 0; i < 20; i++) {
 let userimgst=localStorage.userimgst;
 userimgst==undefined?userimgst=`["https://sticker.inari.site/null.jpg"]`:userimgst=localStorage.userimgst;
 const UserSmileList = JSON.parse(userimgst);
+const UsersSmileList = [];
+for (let i = 0; i < UserSmileList.length; i++){
+    UsersSmileList.push(`${UserSmileList[i]}?=${i+1}`);
+}
 
 /**
  * 表情菜单
@@ -272,7 +277,7 @@ const MenuList = {
     RevPCR:   {datatype: 'image', title: '少歌PCR', addr: RevPCRmileList},
     Bandori:  {datatype: 'image', title: '邦邦', addr: BandoriSmileList},
     Random:   {datatype: 'image', title: '随机', addr: RandomSmileList},
-    Userimg:  {datatype: 'image', title: '自定义', addr: UserSmileList},
+    Userimg:  {datatype: 'image', title: '自定义', addr: UsersSmileList},
 };
 
 /**
