@@ -221,7 +221,7 @@ userimgst==undefined?userimgst=`["https://sticker.inari.site/null.jpg"]`:userimg
 const UserSmileList = JSON.parse(userimgst);
 const UsersSmileList = [];
 for (let i = 0; i < UserSmileList.length; i++){
-    UsersSmileList.push(`${UserSmileList[i]}?=${i+1}`);
+    UsersSmileList.push(`${UserSmileList[i]}?num=${i+1}`);
 }
 
 /**
