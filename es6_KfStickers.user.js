@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.4.3
+// @version     0.4.4
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -14,7 +14,7 @@
 // @include     https://*365gal.com/*
 // @include     https://*365galgame.com/*
 // @include     https://kfol.moe.edu.rs/*
-// @include     https://*miaola.info/*
+// @include     https://*miaola.*
 // @copyright   2014-2019, eddie32 ; 2020-2021, Hazukikaguya
 // @grant       none
 // @license     MIT
