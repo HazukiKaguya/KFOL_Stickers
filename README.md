@@ -9,8 +9,7 @@ eddie32的KFOL表情插件的魔改分支
 [测试分支](https://github.com/HazukiKaguya/KFOL_Stickers/raw/Dev/es6_KfStickers.user.js)
 
 0.4.5 增加code区域 ASCII画 适配（更新前置）
-默认对PC版直接使用系统自带MS PGothic字体展示AA画，请[在此下载字体](https://sticker.inari.site/home/mspgothic.ttc)，
-
+默认对PC版直接使用系统自带MS PGothic字体展示AA画，请[在此下载字体](https://sticker.inari.site/home/mspgothic.ttc)， 
 或修改插件设置中isAlwaysInari的值为true启用外部字体。
 对移动版使用外部MS PGothic字体，首次加载可能偏慢。
 
