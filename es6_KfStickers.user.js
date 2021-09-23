@@ -62,7 +62,7 @@ const version = '0.4.3';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // PC端是否也总是启用外部字体
-const isAlwaysInari = true; //改为true即可启用
+const isAlwaysInari = false; //改为true即可启用
 let x = document.getElementsByTagName("img");let afdDate = new Date();
 for (let i = 0; i < x.length; i++) {x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
    //实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
