@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.4.5
+// @version     0.4.6
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -24,8 +24,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.4.5 增加code区域AA画适配。对PC版直接使用系统自带MS PGothic字体展示AA画，请自行下载字体。对移动版使用外部MS PGothic字体。
+0.4.6 ASCII画支持从主线版中去除，移至dev分支。
 历史更新记录：
+0.4.5 增加code区域AA画适配。对PC版直接使用系统自带MS PGothic字体展示AA画，请自行下载字体。对移动版使用外部MS PGothic字体。
 0.4.3 自定义贴纸现在带【?num=x】后缀了，x为此贴纸在自定义贴纸中的序号,方便删改操作（点击想要删除的贴纸，看x是多少，删除、更改时填写的序号就是多少）。
 0.4.2 增加删改指定自定义贴纸功能。相比Dev分支，删改自定义贴纸代码重构，删除指定自定义贴纸功能由[改]按钮移到[删]按钮。
 0.4.0 增加替换指定自定义贴纸功能，与删除指定自定义贴纸功能同按钮，此按钮名改为[改]（Dev分支）
@@ -58,11 +59,9 @@
 */
 'use strict';
 // 版本号
-const version = '0.4.3';
+const version = '0.4.6';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
-// PC端是否也总是启用外部字体
-const isAlwaysInari = false; //改为true即可启用
 let x = document.getElementsByTagName("img");let afdDate = new Date();
 for (let i = 0; i < x.length; i++) {x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
    //实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
@@ -523,7 +522,6 @@ const createContainer = function (textArea) {
 const appendCss = function () {
     $('head').append(`
 <style>
-  .pd_code_area{ line-height:14px; }/* 设置code的DIV行距行高14px */
   .kfe-container { padding: 5px; vertical-align: middle; font: 12px/1.7em "sans-serif"; }
   .kfe-menu { margin-bottom: 5px; }
   .kfe-sub-menu { margin: 0 5px; text-decoration: none; border-bottom: 2px solid transparent; }
@@ -541,44 +539,11 @@ const appendCss = function () {
   }
 </style>
 `);
-      
-       if (isAlwaysInari==true) {
-        $('head').append(`
-<style>
-  @font-face{
-    font-family: "MS PGothic";
-    src: url("https://sticker.inari.site/home/MS-PGothic.ttf");
-  }
-  .pre-scrollable{ line-height:14px ;font-family: MS PGothic; }/* 设置code的DIV行距行高14px 字体为MS PGothic */
-  .kfe-container { padding: 5px; vertical-align: middle; font: 12px/1.7em "sans-serif"; }
-  .kfe-menu { margin-bottom: 5px; }
-  .kfe-sub-menu { margin: 0 5px; text-decoration: none; border-bottom: 2px solid transparent; }
-  .kfe-sub-menu:hover, .kfe-sub-menu:focus { text-decoration: none; border-color: deeppink; }
-  a.kfe-sub-menu-active { color: black }
-  .kfe-smile-panel { display: none; height: 136px; padding: 5px 3px; overflow-y: auto; border-top: 1px solid #ddd; }
-  .kfe-smile-panel[data-key="Shortcut"] { height: auto; }
-  .kfe-smile { display: inline-block; max-width: 60px; max-height: 60px; cursor: pointer; }
-  .kfe-smile-text { display: inline-block; padding: 3px 5px; }
-  .kfe-smile-text:hover { color: #fff !important; background-color: #2b2b2b; text-decoration: none; }
-  .kfe-close-panel { cursor: pointer; }
-  .kfe-zoom-in {
-    position: absolute; max-width: 150px; max-height: 150px; background-color: #fcfcfc; border: 3px solid rgba(242, 242, 242, 0.6);
-    border-radius: 2px; box-shadow: 0 0 3px rgb(102, 102, 102);
-  }
-</style>
-`);
-   }
-      
     if (isKfMobile) {
         $('head').append(`
 <style>
   #readPage .kfe-container, #writeMessagePage .kfe-container { margin-top: -10px; }
   .kfe-menu { white-space: nowrap; overflow-x: auto; }
-  @font-face{
-    font-family: "MS PGothic";
-    src: url("https://sticker.inari.site/home/MS-PGothic.ttf");
-  }
-  .pre-scrollable{ line-height:14px ;font-family: MS PGothic; }/* 设置code的DIV行距行高14px 字体为MS PGothic */
 </style>
 `);
     }
