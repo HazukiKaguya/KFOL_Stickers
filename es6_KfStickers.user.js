@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.4.6
+// @version     0.4.7
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
 // @homepage    https://mistakey.top/KFStickers
 // @include     https://*kforz.com/*
 // @include     https://*kfmax.com/*
+// @include     https://*9shenmi.com/*
 // @include     http*://*kfgal.com/*
 // @include     https://*kfmax.com/*
 // @include     https://*bakabbs.com/*
@@ -24,8 +25,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.4.6 ASCII画支持从主线版中去除，移至dev分支。
+0.4.7 增加新域名
 历史更新记录：
+0.4.6 ASCII画支持从主线版中去除，移至dev分支。
 0.4.5 增加code区域AA画适配。对PC版直接使用系统自带MS PGothic字体展示AA画，请自行下载字体。对移动版使用外部MS PGothic字体。
 0.4.3 自定义贴纸现在带【?num=x】后缀了，x为此贴纸在自定义贴纸中的序号,方便删改操作（点击想要删除的贴纸，看x是多少，删除、更改时填写的序号就是多少）。
 0.4.2 增加删改指定自定义贴纸功能。相比Dev分支，删改自定义贴纸代码重构，删除指定自定义贴纸功能由[改]按钮移到[删]按钮。
