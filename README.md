@@ -8,7 +8,7 @@ eddie32的KFOL表情插件的魔改分支
 
 [测试分支](https://github.com/HazukiKaguya/KFOL_Stickers/raw/Dev/es6_KfStickers.user.js)
 
-0.4.6 code区域 ASCII画 适配移到测试分支，主线版本不在包含。
+0.4.6 code区域 ASCII画 适配移到测试分支，主线版本不再包含。
 
 0.4.5 增加code区域 ASCII画 适配（更新前置）<br/>
 &nbsp; &nbsp; 默认对PC版直接使用系统自带MS PGothic字体展示AA画，请[在此下载字体](https://sticker.inari.site/home/mspgothic.ttc)，<br/>
