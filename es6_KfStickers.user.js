@@ -512,11 +512,6 @@ const createContainer = function (textArea) {
 
 };
 
-// codepen
-    let codepenEle = document.getElementsByClassName("pd_code_area")
-     for(let code of codepenEle){
-        code.style.fontFamily= "MS PGothic";
-    }
 
 /**
  * 添加CSS
