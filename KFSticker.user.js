@@ -1,14 +1,13 @@
 // ==UserScript==
-// @name        绯月表情增强插件*改*Dev
+// @name        绯月表情增强插件*改*edd
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/KFSticker.user.js
 // @version     0.0.5
 // @author      eddie32&HazukiKaguya
 // @description KF论坛专用的回复表情, 插图扩展插件, 在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
 // @homepage    https://mistakey.top/KFStickers
-// @include     https://*miaola.info/*
-// @include     https://*ikfol.com/*
-// @include     https://*9moe.com/*
+// @include     https://*miaola*
+// @include     https://*9shenmi.com/*
 // @include     https://*kfgal.com/*
 // @include     https://*kforz.com/*
 // @include     https://*kfmax.com/*
@@ -25,7 +24,7 @@
 // 原作者eddie32, 本分支由HazukiKaguya基于最新5.2.1版本魔改 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新
-0.0.5 .
+0.0.5 增加新域名
 历史更新
 0.0.4 增加一些图片url的替换规则，如感觉加载时间增加可删去【//实验性功能】后的自定义规则
 0.0.3 完全修复其在喵拉移动版的kf原生表情显示（更换为相对路径），update some code to es6
