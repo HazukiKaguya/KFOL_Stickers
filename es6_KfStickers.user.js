@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.4.8
+// @version     0.4.9
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -25,8 +25,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.4.8 优化自定义贴纸域名过滤正则，更新自定义贴纸序列查询。
+0.4.9 修复自定义贴纸序列查询的bug。
 历史更新记录：
+0.4.8 优化自定义贴纸域名过滤正则，更新自定义贴纸序列查询。
 0.4.7 增加新域名
 0.4.6 ASCII画支持从主线版中去除，移至dev分支。
 0.4.5 增加code区域AA画适配。对PC版直接使用系统自带MS PGothic字体展示AA画，请自行下载字体。对移动版使用外部MS PGothic字体。
@@ -63,7 +64,7 @@
 'use strict';
 
 // 版本号
-const version = '0.4.8';
+const version = '0.4.9';
 
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
