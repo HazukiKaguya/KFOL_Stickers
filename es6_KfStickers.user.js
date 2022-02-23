@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.4.7
+// @version     0.4.8
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -16,7 +16,7 @@
 // @include     https://*365galgame.com/*
 // @include     https://kfol.moe.edu.rs/*
 // @include     https://*miaola.*
-// @copyright   2014-2019, eddie32 ; 2020-2021, Hazukikaguya
+// @copyright   2014-2019, eddie32 ; 2020-2022, Hazukikaguya
 // @grant       none
 // @license     MIT
 // @run-at      document-end
@@ -25,8 +25,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.4.7 增加新域名
+0.4.8 优化自定义贴纸域名过滤正则，更新自定义贴纸序列查询。
 历史更新记录：
+0.4.7 增加新域名
 0.4.6 ASCII画支持从主线版中去除，移至dev分支。
 0.4.5 增加code区域AA画适配。对PC版直接使用系统自带MS PGothic字体展示AA画，请自行下载字体。对移动版使用外部MS PGothic字体。
 0.4.3 自定义贴纸现在带【?num=x】后缀了，x为此贴纸在自定义贴纸中的序号,方便删改操作（点击想要删除的贴纸，看x是多少，删除、更改时填写的序号就是多少）。
@@ -60,8 +61,13 @@
 0.0.1 替换失效贴纸，常用替换为小日向雪花，bilibili替换为林大B
 */
 'use strict';
+
 // 版本号
-const version = '0.4.6';
+const version = '0.4.8';
+
+// 使用旧式?num=而不是新式的#num= 改为true启用
+const UseOldNum = false;
+
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 let x = document.getElementsByTagName("img");let afdDate = new Date();
@@ -223,9 +229,13 @@ let userimgst=localStorage.userimgst;
 userimgst==undefined?userimgst=`["https://sticker.inari.site/null.jpg"]`:userimgst=localStorage.userimgst;
 const UserSmileList = JSON.parse(userimgst);
 const UsersSmileList = [];
+if (UseOldNum = true){
 for (let i = 0; i < UserSmileList.length; i++){
     UsersSmileList.push(`${UserSmileList[i]}?num=${i+1}`);
-}
+}}
+else {for (let i = 0; i < UserSmileList.length; i++){
+    UsersSmileList.push(`${UserSmileList[i]}#num=${i+1}`);
+}}
 
 /**
  * 表情菜单
@@ -404,9 +414,9 @@ const createContainer = function (textArea) {
         if (!userimgc) return;let userimgcmt = userimgc.split(',');let addList = [];
         for (let mt = 0; mt < userimgcmt.length; mt++) {
             //含http/https协议前缀的完整图片url，请确保未开启防盗链
-            if (/(http:\/\/|https:\/\/).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgcmt[mt])) {addList.push(userimgcmt[mt]);}
+            if (/(http:\/\/|https:\/\/).*.(png|jpg|jpeg|gif|webp|bmp|tif)+.*$/i.test(userimgcmt[mt])) {addList.push(userimgcmt[mt]);}
             //任意无协议前缀的图片url，默认增加https协议前缀
-            else if (/[a-zA-Z0-9\-\.]+\.+[a-zA-Z]+\/.*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(userimgcmt[mt])) {addList.push('https://'+userimgcmt[mt]);}
+            else if (/[a-zA-Z0-9\-\.]+\.+[a-zA-Z]+\/.*.(png|jpg|jpeg|gif|webp|bmp|tif)+.*$/i.test(userimgcmt[mt])) {addList.push('https://'+userimgcmt[mt]);}
             //由sticker.inari.site托管的用户贴纸组
             else if (/[A-Za-z0-9\_\/]+\/+[0-9\/]+.(png|jpg|jpeg|gif|webp)$/i.test(userimgcmt[mt])) {addList.push('https://sticker.inari.site/usr/'+userimgcmt[mt]);}
         }
@@ -446,7 +456,7 @@ const createContainer = function (textArea) {
             else if (userimgu <= UserSmileList.length) {
                 let usreplace = prompt("请输入用于替换的图片url", "https://sticker.inari.site/inari.png");
                 let j = userimgu;
-                    if (/(http:\/\/|https:\/\/).*.(png|jpg|jpeg|gif|webp|bmp|tif)$/i.test(usreplace)) {
+                    if (/(http:\/\/|https:\/\/).*.(png|jpg|jpeg|gif|webp|bmp|tif)+.*$/i.test(usreplace)) {
                        if (confirm('确定替换序号为'+userimgu+'的贴纸吗？这是最后一次确认！')) {
                           UserSmileList[j - 1] = usreplace;
                           localStorage.setItem('userimgst', JSON.stringify(UserSmileList));
