@@ -229,7 +229,7 @@ let userimgst=localStorage.userimgst;
 userimgst==undefined?userimgst=`["https://sticker.inari.site/null.jpg"]`:userimgst=localStorage.userimgst;
 const UserSmileList = JSON.parse(userimgst);
 const UsersSmileList = [];
-if (UseOldNum = true){
+if (UseOldNum == true){
 for (let i = 0; i < UserSmileList.length; i++){
     UsersSmileList.push(`${UserSmileList[i]}?num=${i+1}`);
 }}
