@@ -8,6 +8,8 @@ eddie32的KFOL表情插件的魔改分支
 
 [测试分支](https://github.com/HazukiKaguya/KFOL_Stickers/raw/Dev/es6_KfStickers.user.js)
 
+0.4.9 修复自定义贴纸序列查询的bug。
+
 0.4.6 code区域 ASCII画 适配移到测试分支，主线版本不再包含。
 
 0.4.5 增加code区域 ASCII画 适配（更新前置）<br/>
