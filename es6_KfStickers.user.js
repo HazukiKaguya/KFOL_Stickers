@@ -9,6 +9,7 @@
 // @include     https://*kforz.com/*
 // @include     https://*kfmax.com/*
 // @include     https://*9shenmi.com/*
+// @include     https://*kfpromax.com/*
 // @include     http*://*kfgal.com/*
 // @include     https://*kfmax.com/*
 // @include     https://*bakabbs.com/*
@@ -25,8 +26,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.4.9 修复自定义贴纸序列查询的bug。
+0.4.10 增加新域名
 历史更新记录：
+0.4.9 修复自定义贴纸序列查询的bug。
 0.4.8 优化自定义贴纸域名过滤正则，更新自定义贴纸序列查询。
 0.4.7 增加新域名
 0.4.6 ASCII画支持从主线版中去除，移至dev分支。
