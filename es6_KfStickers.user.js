@@ -22,11 +22,12 @@
 // @license     MIT
 // @run-at      document-end
 // @updateURL   https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/es6_KfStickers.user.js
+// @require     https://sticker.inari.site/picsup.js
 // ==/UserScript==
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.4.11 在论坛资源区，对于表情贴纸增强插件所属域名的图片，直接显示，而不是显示【请手动点击打开本图片】
+0.4.11 在论坛资源区，对于表情贴纸增强插件所属域名的图片，直接显示，而不是显示【请手动点击打开本图片】,默认启用快捷上传图片到Pigeon Net Pics Hosting的小挂件
 历史更新记录：
 https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
