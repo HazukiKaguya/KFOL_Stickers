@@ -1,6 +1,6 @@
 # KFOL_Stickers
 
-eddie32的KFOL表情插件的魔改分支   [更新记录](https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt）
+eddie32的KFOL表情插件的魔改分支   [更新记录](https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt)
 
 ## 安装脚本
 
