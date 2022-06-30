@@ -47,10 +47,10 @@ for (let i = 0; i < x.length; i++) {x[i].src=x[i].src.replace(/mistake.tech\/emo
    x[i].src=x[i].src.replace(/https:\/\/nekohand.moe\/spsmile\/01Sora\/0xx/g, "https://sticker.inari.site/akarin/akarin");
    x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds\/2233/g, "https://sticker.inari.site/bili/2233");
    x[i].src=x[i].src.replace(/http:\/\/smilell2.eclosionstudio.com\/Small\/Lovelive2nd/g, "https://sticker.inari.site/bili/2233");
-   x[i].src=x[i].src.replace(/bbs.kforz.com/g, "kf.miaola.info");}
+   x[i].src=x[i].src.replace(/bbs.kforz.com/g, "kf.miaola.work");}
 if (afdDate.getMonth()==3&afdDate.getDate()==1)
     for (let i = 0; i < x.length; i++) {
-        x[i].src=x[i].src.replace(/https:\/\/(kf.miaola.info|kfmax.com|bbs.kfmax.com|bbs.bakabbs.com|bakabbs.com|bbs.365gal.com|365gal.com|bbs.365galgame.com|365galgame.com|kfol.moe.edu.rs)\/1621208973\/face\/none.gif/g, "https://sticker.inari.site/inari_head.png");
+        x[i].src=x[i].src.replace(/https:\/\/(kf.miaola.work|kf.miaola.info|kfmax.com|bbs.kfmax.com|bbs.bakabbs.com|bakabbs.com|bbs.365gal.com|365gal.com|bbs.365galgame.com|365galgame.com|kfol.moe.edu.rs)\/1621208973\/face\/none.gif/g, "https://sticker.inari.site/inari_head.png");
     }
 
 document.body.querySelectorAll('.readtext a').forEach(
