@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.4.10
+// @version     0.4.11
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -26,47 +26,14 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.4.10 增加新域名
+0.4.11 在论坛资源区，对于表情贴纸增强插件所属域名的图片，直接显示，而不是显示【请手动点击打开本图片】
 历史更新记录：
-0.4.9 修复自定义贴纸序列查询的bug。
-0.4.8 优化自定义贴纸域名过滤正则，更新自定义贴纸序列查询。
-0.4.7 增加新域名
-0.4.6 ASCII画支持从主线版中去除，移至dev分支。
-0.4.5 增加code区域AA画适配。对PC版直接使用系统自带MS PGothic字体展示AA画，请自行下载字体。对移动版使用外部MS PGothic字体。
-0.4.3 自定义贴纸现在带【?num=x】后缀了，x为此贴纸在自定义贴纸中的序号,方便删改操作（点击想要删除的贴纸，看x是多少，删除、更改时填写的序号就是多少）。
-0.4.2 增加删改指定自定义贴纸功能。相比Dev分支，删改自定义贴纸代码重构，删除指定自定义贴纸功能由[改]按钮移到[删]按钮。
-0.4.0 增加替换指定自定义贴纸功能，与删除指定自定义贴纸功能同按钮，此按钮名改为[改]（Dev分支）
-0.3.9 增加删除指定自定义贴纸功能，改变按钮名称（Dev分支）
-0.3.8 自定义贴纸导入功能正则规则优化
-0.3.7 小企鹅追加
-0.3.6 修改颜文字分组为绘文字+颜文字分组（增加绘文字，微调颜文字顺序）；增加图文分组（目前就一个，后续增加贴纸为热更新，计划更新的贴纸使用透明1px图片代替，后续服务端更新即可，无需更新脚本）
-0.3.0 扩充随机表情贴纸池
-0.2.9 恢复LL分组，微调CSS样式
-0.2.8 增加暹罗猫小红豆贴纸分组，移除LL分组，原LL分组内容移到常用栏
-0.2.6 增加随机表情贴纸分组
-0.2.5 实验性功能，请自行更新。通过引入外部js，增加快捷上传图片/想要添加的本地表情到Pigeon Net Pics Hosting，请使用history寻找上一个版本来安装
-      或者在前面的油猴注释部分增加这段：// @require     https://sticker.inari.site/picsup.js
-0.2.4 进一步优化表情贴纸分组
-0.2.3 精简表情分组，增加S1麻将脸表情分组
-0.2.2 change ui;fix bugs;添加导出自定义贴纸功能，方便多设备同步（请自行避免重复贴纸地址，重复贴纸检测还没写）
-0.2.1 add some stickers
-0.2.0 更新使用了喵拉布丁的部分优化代码
-0.1.2 专门为admin的某贴做了个替换规则（滑稽）
-0.1.1 加入了清理自定义贴纸功能，改变了添加删除按钮的布局。
-0.1.0 重写自定义贴纸功能，使用es6语法。
-0.0.8 部分代码更新优化为ES6语法，增加实验性添加自定义贴纸功能（非es6），这是一个临时的添加自定义方案（经过精简的eddie32佬的5.2.1代码）。
-0.0.7 修复伪中国语表情包的部分问题，更换图源，增加了一些快捷BBcode
-0.0.6 BugFix. 表情贴纸旧域名替换为新域名的功能现在仅对<img>进行操作，避免因为修改innerHTML造成事件绑定失效,导致导致无法买贴等问题。
-0.0.5 更改表情贴纸域名，增加表情贴纸旧域名替换为新域名的功能
-0.0.4 url添加kfmax，优化注释；
-0.0.3 贴纸更新贴吧，微博等；
-0.0.2 贴纸更新eddie32佬的伪中国语和流行（直接使用eddie32源）；
-0.0.1 替换失效贴纸，常用替换为小日向雪花，bilibili替换为林大B
+https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
 
 // 版本号
-const version = '0.4.9';
+const version = '0.4.11';
 
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
@@ -85,6 +52,19 @@ if (afdDate.getMonth()==3&afdDate.getDate()==1)
     for (let i = 0; i < x.length; i++) {
         x[i].src=x[i].src.replace(/https:\/\/(kf.miaola.info|kfmax.com|bbs.kfmax.com|bbs.bakabbs.com|bakabbs.com|bbs.365gal.com|365gal.com|bbs.365galgame.com|365galgame.com|kfol.moe.edu.rs)\/1621208973\/face\/none.gif/g, "https://sticker.inari.site/inari_head.png");
     }
+
+document.body.querySelectorAll('.readtext a').forEach(
+    i=>{
+    if(i.innerHTML==='<span class=\"k_f18\">请手动点击打开本图片</span>'){
+        let p=document.createElement("img")
+        p.src=i.href
+        if(p.src.match(/https:\/\/sticker.inari.site/)){
+        i.parentElement.replaceChild(p,i)
+        }
+        else;
+    }
+    }
+)
 
 
 // 灰企鹅
