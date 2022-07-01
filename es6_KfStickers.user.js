@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.4.11
+// @version     0.4.12
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -27,46 +27,39 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
-0.4.11 在论坛资源区，对于表情贴纸增强插件所属域名的图片，直接显示，而不是显示【请手动点击打开本图片】,默认启用快捷上传图片到Pigeon Net Pics Hosting的小挂件
+0.4.12 去除【图文】区，原【图文】区自定义图文功能移动到【快捷】区，追加贴吧表情url在资源区默认显示
 历史更新记录：
 https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
-
 // 版本号
-const version = '0.4.11';
-
+const version = '0.4.12';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
-
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 let x = document.getElementsByTagName("img");let afdDate = new Date();
-for (let i = 0; i < x.length; i++) {x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
-   //实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
+for (let i = 0; i < x.length; i++) {
+   x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
+// 实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
    x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");
    x[i].src=x[i].src.replace(/https:\/\/nekohand.moe\/spsmile\/01Sora\/0xx/g, "https://sticker.inari.site/akarin/akarin");
    x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds\/2233/g, "https://sticker.inari.site/bili/2233");
    x[i].src=x[i].src.replace(/http:\/\/smilell2.eclosionstudio.com\/Small\/Lovelive2nd/g, "https://sticker.inari.site/bili/2233");
    x[i].src=x[i].src.replace(/bbs.kforz.com/g, "kf.miaola.work");}
-if (afdDate.getMonth()==3&afdDate.getDate()==1)
-    for (let i = 0; i < x.length; i++) {
-        x[i].src=x[i].src.replace(/https:\/\/(kf.miaola.work|kf.miaola.info|kfmax.com|bbs.kfmax.com|bbs.bakabbs.com|bakabbs.com|bbs.365gal.com|365gal.com|bbs.365galgame.com|365galgame.com|kfol.moe.edu.rs)\/1621208973\/face\/none.gif/g, "https://sticker.inari.site/inari_head.png");
-    }
-
-document.body.querySelectorAll('.readtext a').forEach(
-    i=>{
+// 在论坛资源区，直接显示表情贴纸增强插件所属域名的图片，而不是显示【请手动点击打开本图片】
+document.body.querySelectorAll('.readtext a').forEach(i=>{
     if(i.innerHTML==='<span class=\"k_f18\">请手动点击打开本图片</span>'){
-        let p=document.createElement("img")
-        p.src=i.href
+        let p=document.createElement("img");
+        p.src=i.href;
         if(p.src.match(/https:\/\/sticker.inari.site/)){
-        i.parentElement.replaceChild(p,i)
+            i.parentElement.replaceChild(p,i);
         }
-        else;
+        else if(p.src.match(/http:\/\/tb2.bdstatic.com\/tb\/editor\/images\/face/)){
+            i.parentElement.replaceChild(p,i);
+        }
     }
-    }
-)
-
+})
 
 // 灰企鹅
 const KfSmileList = [];
@@ -81,16 +74,6 @@ for (let i = 1; i < 49; i++) {
 for (let i = 0; i < 204; i++) {
     KfSmileList.push(`https://sticker.inari.site/pesoguin/${i}.gif`);
     KfSmileCodeList.push(`[img]https://sticker.inari.site/pesoguin/${i}.gif[/img]`);
-}
-
-// 图片搭配自定义文字
-const PtSmileList = [];
-const PtSmileCodeList = [];
-PtSmileList.push(`https://sticker.inari.site/PicText/Pt.png`);
-PtSmileCodeList.push(`[align=center][img]此处替换为自定义图片url[/img][/align][align=center][backcolor=#FFFFFF][size=3]  [b]在此输入自定义文字[/b]  [/size][/backcolor][/align]`);
-for (let i = 1; i < 38; i++) {
-    PtSmileList.push(`https://sticker.inari.site/PicText/${i}.webp`);
-    PtSmileCodeList.push(`[align=center][img]https://sticker.inari.site/PicText/${i}.webp[/img][/align][align=center][backcolor=#FFFFFF][size=3]  [b]请在此处输入自定义文字[/b]  [/size][/backcolor][/align]`);
 }
 
 // 常用
@@ -230,13 +213,14 @@ const MenuList = {
         datatype: 'plain',
         title: '快捷',
         addr: [
-            '[sell=100][/sell]', '[quote][/quote]', '[hide=100][/hide]', '[code][/code]', '[strike][/strike]', '[fly][/fly]','[color=#00FF00][/color]', 
+            '[align=center][img]此处替换为自定义图片url[/img][/align][align=center][backcolor=#FFFFFF][size=3]  [b]在此输入自定义文字[/b]  [/size][/backcolor][/align]',
+            '[sell=100][/sell]', '[quote][/quote]', '[hide=100][/hide]', '[code][/code]', '[strike][/strike]', '[fly][/fly]','[color=#00FF00][/color]',
             '[b][/b]', '[u][/u]', '[i][/i]', '[hr]', '[backcolor=][/backcolor]', '[url=][/url]','[img][/img]','[table][/table]','[tr][/tr]','[td][/td]',
             '[align=left][/align]','[align=center][/align]','[align=right][/align]','[audio][/audio]','[video][/video]','[email][/email]','[list][/list]',
             '[/align]这里是签名档内容，可以随意修改，支持bbcode，实验性功能，喵拉手机版不显示，编辑帖子后如果有修改说明会导致喵拉手机版重复显示两次内容。',
         ],
         ref: [
-            '出售贴sell=售价', '引用', '隐藏hide=神秘等级', '插入代码', '删除线', '跑马灯', '文字颜色', '粗体', '下划线','斜体', '水平线', '背景色', '插入链接',
+            '自定义表情配文字', '出售贴sell=售价', '引用', '隐藏hide=神秘等级', '插入代码', '删除线', '跑马灯', '文字颜色', '粗体', '下划线','斜体', '水平线', '背景色', '插入链接',
             '插入图片','插入表格','插入表格行','插入表格列','左对齐','居中','右对齐','插入音频','插入视频','Email','插入列表','签名档[实验性功能]'
         ]
     },
@@ -262,7 +246,6 @@ const MenuList = {
             '(ﾟДﾟ)', '(；°ほ°)', 'ε=ε=ε=┏(゜ロ゜;)┛', '⎝≧⏝⏝≦⎠', 'ヽ(✿ﾟ▽ﾟ)ノ', '|•ω•`)', '小学生は最高だぜ！！', '焔に舞い上がるスパークよ、邪悪な異性交際に、天罰を与え！'
         ]
     },
-    PtSmile:  {datatype: 'imageLink', title: '图文', addr: PtSmileList, ref: PtSmileCodeList},
     Mylike:   {datatype: 'image', title: '常用', addr: MylikeSmileList},
     Acfun:    {datatype: 'image', title: 'AC娘', addr: AcSmileList},
     S1Maj:    {datatype: 'image', title: 'S1', addr: S1SmileList},
