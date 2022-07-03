@@ -23,7 +23,6 @@ eddie32的KFOL表情插件的魔改分支
 
 ![avatar](https://p.inari.site/guest/22-07/03/62c15a573e8f1.png)
 ![avatar](https://p.inari.site/guest/22-07/03/62c15a950f765.png)
-![avatar](https://p.inari.site/guest/22-07/03/62c15afd49d9d.png)
 ![avatar](https://p.inari.site/guest/22-07/03/62c15b18e982c.png)
 注册与登录系统。
   
