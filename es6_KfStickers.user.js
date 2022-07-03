@@ -486,7 +486,7 @@ const createContainer = function (textArea) {
         }
     }).on('click', '.kfe-user-y', function (e) {
        e.preventDefault();
-       if (UserSmileList !=null){
+       if (localStorage.logindata!=null){
          let tokendata = localStorage.logindata;
          let tokenList = JSON.parse(tokendata);
          let syncid=tokenList[0];
