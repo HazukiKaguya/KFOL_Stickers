@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     1.0.0
+// @version     1.0.1
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -27,13 +27,14 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/scripts/5124 https://github.com/liu599
 /*
 本次更新日志：
-1.0.0 自定义表情贴纸云同步功能上线，基础功能均已完成。
+1.0.1 优化强提醒文案;从云端同步贴纸到本地时，如果云端数据为空，则取消同步。
+1.0.0 自定义表情贴纸云同步功能上线。
 历史更新记录：
 https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '1.0.0';
+const version = '1.0.1';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
 // 网站是否为KfMobile
@@ -447,10 +448,10 @@ const createContainer = function (textArea) {
     }).on('click', '.kfe-user-d', function (e) {
         e.preventDefault();
         if (confirm('确定删除自定义表情贴纸吗？')) {
-          if (confirm('按确定删除全部贴纸，按取消删除指定贴纸。')) {
-              if (confirm('确定删除全部自定义贴纸吗？这是最后一次确认')) {
+          if (confirm('【确定】清空自定义贴纸，【取消】删除指定贴纸。')) {
+              if (confirm('确定【清空自定义贴纸】吗？这是【最后一次】确认')) {
                     localStorage.removeItem('userimgst');
-                    alert('已删除全部自定义贴纸，请刷新');
+                    alert('已清空自定义贴纸，请刷新');
               }
           }
           else {
@@ -465,7 +466,7 @@ const createContainer = function (textArea) {
                  alert('非法输入，请检查！');
                }
                else if (userimgd <= UserSmileList.length) {
-                 if (confirm('确定删除序号为'+userimgd+'的贴纸吗？这是最后一次确认！')) {
+                 if (confirm('确定删除【序号为'+userimgd+'的贴纸】吗？这是【最后一次】确认！')) {
                    for (let i = userimgd; i <= UserSmileList.length; i++) {
                         UserSmileList[i - 1] = UserSmileList[i];
                     }
@@ -486,12 +487,12 @@ const createContainer = function (textArea) {
         }
     }).on('click', '.kfe-user-y', function (e) {
        e.preventDefault();
-       if (localStorage.logindata!=null){
+         if (localStorage.logindata!=null){
          let tokendata = localStorage.logindata;
          let tokenList = JSON.parse(tokendata);
          let syncid=tokenList[0];
          let synctoken=tokenList[1];
-         if (confirm('[确定]进行云端数据同步到本地，[取消]进行本地数据同步到云端')) {
+         if (confirm('【确定】同步云端数据到本地，【取消】同步本地数据到云端')) {
               //第一步：创建需要的对象
               let dlRequest = new XMLHttpRequest();
               //第二步：打开连接
@@ -508,12 +509,17 @@ const createContainer = function (textArea) {
                   let dljson = dlRequest.responseText;
                   let download=JSON.parse(dljson);
                   if (download.ret==200){
-                    if (confirm('确定进行云端数据同步到本地吗？这是最后一次确认！')) {
+                    if (confirm('确定同步【云端数据到本地】吗？这是最后一次确认！')) {
                       let dldata=download.data;
                       let dlpicsList=dldata.picsdata;
+                      if (dlpicsList !=""){
                       let UserSmileList = dlpicsList.split(',');
                       localStorage.setItem('userimgst',JSON.stringify(UserSmileList));
                       alert("已同步云端数据到本地，请刷新！");
+                      }
+                      else{
+                          alert("云端数据为空！同步到本地操作已取消！");
+                      }
                     }
                     else{
                         alert("云端数据同步到本地操作已取消！");
@@ -526,7 +532,7 @@ const createContainer = function (textArea) {
            };
        }
        else{
-         if (confirm('确定进行本地数据同步到云端吗？这是最后一次确认！')) {
+         if (confirm('确定同步【本地数据到云端】吗？这是最后一次确认！')) {
              let userimgst = localStorage.userimgst;
              let UserSmileList = JSON.parse(userimgst);
              let upRequest = new XMLHttpRequest();
@@ -558,7 +564,7 @@ const createContainer = function (textArea) {
      }
     }).on('click', '.kfe-user-a', function (e) {
        e.preventDefault();
-       if (confirm('[确定]登录已有账号，[取消]进行账号注册')) {
+       if (confirm('【确定】登录已有账号，【取消】进行账号注册')) {
          let username = prompt("用户名",'username');
          if (username.length>=1&&username.length<=50){
            let password = prompt("密码",'password');
