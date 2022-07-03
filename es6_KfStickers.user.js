@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     1.0.2
+// @version     1.0.3
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -27,14 +27,14 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/scripts/5124 https://github.com/liu599
 /*
 本次更新日志：
-1.0.2 更新调用的api地址，优化强提醒文案，优化云同步逻辑，从云端同步贴纸到本地时，如果云端数据为空，则取消同步。 
+1.0.3 更新调用的api地址，优化强提醒文案，优化云同步/账号操作逻辑，从云端同步贴纸到本地时，如果云端数据为空，则取消同步。 
 1.0.0 自定义表情贴纸云同步功能上线。
 历史更新记录：
 https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '1.0.2';
+const version = '1.0.3';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
 // 网站是否为KfMobile
@@ -669,6 +669,9 @@ const createContainer = function (textArea) {
                           else if (reg.ret!=200){
                              alert('Oops！'+reg.msg+'注册失败！');
                           }
+                       }
+                       else{
+                           alert('用户名或密码不合规，只支持英文、数字和有限的特殊符号如@_');
                        }
                     }
                  }
