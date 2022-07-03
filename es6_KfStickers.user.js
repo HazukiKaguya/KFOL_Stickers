@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     0.4.12
+// @version     1.0.0
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -24,29 +24,30 @@
 // @updateURL   https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/es6_KfStickers.user.js
 // @require     https://sticker.inari.site/picsup.js
 // ==/UserScript==
-//eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
+//eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/scripts/5124 https://github.com/liu599
 /*
 本次更新日志：
-0.4.12 去除【图文】区，原【图文】区自定义图文功能移动到【快捷】区，追加贴吧表情url在资源区默认显示
+1.0.0 自定义表情贴纸云同步功能上线，基础功能均已完成。
 历史更新记录：
 https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '0.4.12';
+const version = '1.0.0';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
-let x = document.getElementsByTagName("img");let afdDate = new Date();
-for (let i = 0; i < x.length; i++) {
-   x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
 // 实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
+let x = document.getElementsByTagName("img");let afdDate = new Date();
+ for (let i = 0; i < x.length; i++) {
+   x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
    x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");
-   x[i].src=x[i].src.replace(/https:\/\/nekohand.moe\/spsmile\/01Sora\/0xx/g, "https://sticker.inari.site/akarin/akarin");
    x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds\/2233/g, "https://sticker.inari.site/bili/2233");
-   x[i].src=x[i].src.replace(/http:\/\/smilell2.eclosionstudio.com\/Small\/Lovelive2nd/g, "https://sticker.inari.site/bili/2233");
-   x[i].src=x[i].src.replace(/bbs.kforz.com/g, "kf.miaola.work");}
+   x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/lovelive\/Lovelive2nd/g, "https://sticker.inari.site/lovelive/Lovelive2nd");
+   x[i].src=x[i].src.replace(/http:\/\/smilell2.eclosionstudio.com\/Small\/Lovelive2nd/g, "https://sticker.inari.site/lovelive/Lovelive2nd");
+   x[i].src=x[i].src.replace(/bbs.kforz.com/g, "kf.miaola.work");
+ }
 // 在论坛资源区，直接显示表情贴纸增强插件所属域名的图片，而不是显示【请手动点击打开本图片】
 document.body.querySelectorAll('.readtext a').forEach(i=>{
     if(i.innerHTML==='<span class=\"k_f18\">请手动点击打开本图片</span>'){
@@ -161,7 +162,7 @@ for (let i = 1; i < 41; i++) {
 // lovelive表情
 const LoveliveSmileList = [];
 for (let i = 1; i < 42; i++) {
-    LoveliveSmileList.push(`https://sticker.inari.site/lovelive/2/ll (${i}).png`);
+    LoveliveSmileList.push(`https://sticker.inari.site/lovelive/Lovelive2nd/${i}.png`);
 }
 for (let i = 1; i < 20; i++) {
     LoveliveSmileList.push(`https://sticker.inari.site/lovelive/4/ll (${i}).jpg`);
@@ -348,6 +349,8 @@ const createContainer = function (textArea) {
     <input type="button" class="kfe-user-r" value="查">
     <input type="button" class="kfe-user-u" value="改">
     <input type="button" class="kfe-user-d" value="删">
+    <input type="button" class="kfe-user-y" value="云">
+    <input type="button" class="kfe-user-a" value="令">
   </div>
 </div>
 `).insertBefore($(textArea));
@@ -387,11 +390,9 @@ const createContainer = function (textArea) {
             //由sticker.inari.site托管的用户贴纸组
             else if (/[A-Za-z0-9\_\/]+\/+[0-9\/]+.(png|jpg|jpeg|gif|webp)$/i.test(userimgcmt[mt])) {addList.push('https://sticker.inari.site/usr/'+userimgcmt[mt]);}
         }
-          
         if (addList.length < userimgcmt.length){
             alert('含有非法输入，请检查是否有图片url错误');
         }
-          
         if (addList.length > 0) {let userSmileList = [];
             if (localStorage.userimgst) {
                 try {userSmileList = JSON.parse(localStorage.userimgst);}
@@ -483,12 +484,274 @@ const createContainer = function (textArea) {
              }
           }
         }
+    }).on('click', '.kfe-user-y', function (e) {
+       e.preventDefault();
+       if (UserSmileList !=null){
+         let tokendata = localStorage.logindata;
+         let tokenList = JSON.parse(tokendata);
+         let syncid=tokenList[0];
+         let synctoken=tokenList[1];
+         if (confirm('[确定]进行云端数据同步到本地，[取消]进行本地数据同步到云端')) {
+              //第一步：创建需要的对象
+              let dlRequest = new XMLHttpRequest();
+              //第二步：打开连接
+              dlRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Profile&user_id='+syncid+'&token='+synctoken, true);
+              //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+              dlRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+              //发送请求 将情头体写在send中
+              dlRequest.send('name=teswe&ee=ef');
+              //请求后的回调接口，可将请求成功后要执行的程序写在其中
+              dlRequest.onreadystatechange = function () {
+                //验证请求是否发送成功
+                if (dlRequest.readyState == 4 && dlRequest.status == 200) {
+                  //获取到服务端返回的数据
+                  let dljson = dlRequest.responseText;
+                  let download=JSON.parse(dljson);
+                  if (download.ret==200){
+                    if (confirm('确定进行云端数据同步到本地吗？这是最后一次确认！')) {
+                      let dldata=download.data;
+                      let dlpicsList=dldata.picsdata;
+                      let UserSmileList = dlpicsList.split(',');
+                      localStorage.setItem('userimgst',JSON.stringify(UserSmileList));
+                      alert("已同步云端数据到本地，请刷新！");
+                    }
+                    else{
+                        alert("云端数据同步到本地操作已取消！");
+                    }
+                  }
+                  else{
+                    alert('Token已失效，请重新登录！');
+                  }
+               }
+           };
+       }
+       else{
+         if (confirm('确定进行本地数据同步到云端吗？这是最后一次确认！')) {
+             let userimgst = localStorage.userimgst;
+             let UserSmileList = JSON.parse(userimgst);
+             let upRequest = new XMLHttpRequest();
+             upRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Update&user_id='+syncid+'&token='+synctoken+'&picsdata='+UserSmileList, true);
+             upRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+             upRequest.send('name=teswe&ee=ef');
+             upRequest.onreadystatechange = function () {
+                 if (upRequest.readyState == 4 && upRequest.status == 200) {
+                     let upjson = upRequest.responseText;
+                     console.log(upjson);
+                     let upload=JSON.parse(upjson);
+                     console.log(upload.data);
+                     if (upload.ret==200){
+                         alert("已同步本地数据到云端！");
+                     }
+                     else{
+                         alert('Token已失效，请重新登录！');
+                     }
+                 }
+             }
+         }
+         else{
+           alert("本地数据同步到云端操作已取消！");
+         }
+       }
+     }
+     else{
+         alert('未找到有效Token，请先登录！');
+     }
+    }).on('click', '.kfe-user-a', function (e) {
+       e.preventDefault();
+       if (confirm('[确定]登录已有账号，[取消]进行账号注册')) {
+         let username = prompt("用户名",'username');
+         if (username.length>=1&&username.length<=50){
+           let password = prompt("密码",'password');
+           if (password.length>=6&&password.length<=20){
+              //调用登录api
+              let loginRequest = new XMLHttpRequest();
+              loginRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Login&username='+username+'&password='+password, true);
+              loginRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+              loginRequest.send('name=teswe&ee=ef');
+              loginRequest.onreadystatechange = function () {
+                if (loginRequest.readyState == 4 && loginRequest.status == 200) {
+                  let loginjson = loginRequest.responseText;
+                  console.log(loginjson);
+                  let login=JSON.parse(loginjson);
+                  console.log(login.data);
+                  //200状态码
+                  if (login.ret==200){
+                      let logindata=login.data;
+                      //登入成功
+                      if (logindata.is_login==true){
+                        //账号id与token储存
+                        localStorage.removeItem('logindata');
+                        let logindarray=[logindata.user_id,logindata.token];
+                        localStorage.setItem('logindata',JSON.stringify(logindarray));
+                        alert('登入成功，现在你可以进行同步操作了！');
+                      }
+                      //登入失败
+                      else if(logindata.is_login==false){
+                        alert('Oops！用户名或密码错误！');
+                      }
+                  }
+                  //400状态码
+                  else if (login.ret==400) {
+                    if (confirm('用户名'+username+'未注册或输入错误，【确定】注册（默认填充当前用户名与密码）,【取消】返回。')) {
+                      let regname = prompt("用户名，须1-50位",username);
+                      if (regname.length>=1&&regname.length<=20){
+                        let regpswd1 = prompt("输入6-20位密码",password);
+                        let regpswd2 = prompt("确认密码",password);
+                        if (regpswd1.length>=6&&regpswd1.length<=20){
+                          if (regpswd1==regpswd2){
+                            //调用注册api
+                            let regRequest = new XMLHttpRequest();
+                            regRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Register&username='+regname+'&password='+regpswd2, true);
+                            regRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                            regRequest.send('name=teswe&ee=ef');
+                            regRequest.onreadystatechange = function () {
+                              if (regRequest.readyState == 4 && regRequest.status == 200) {
+                                let regjson = regRequest.responseText;
+                                let reg=JSON.parse(regjson);
+                                  //注册成功
+                                  if (reg.ret==200){
+                                      let rgd=reg.data;
+                                      alert('注册成功！UID'+rgd.user_id+',现在为您登录！');
+                                      //调用登录api
+                                      let loginRequest = new XMLHttpRequest();
+                                      loginRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Login&username='+regname+'&password='+regpswd2, true);
+                                      loginRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                                      loginRequest.send('name=teswe&ee=ef');
+                                      loginRequest.onreadystatechange = function () {
+                                          let loginjson = loginRequest.responseText;
+                                          let login=JSON.parse(loginjson);
+                                          let logindata=login.data;
+                                          //200状态码
+                                          if (login.ret==200){
+                                              //登入成功
+                                              if (logindata.is_login==true){
+                                                  //账号id与token储存
+                                                  localStorage.removeItem('logindata');
+                                                  let logindarray=[logindata.user_id,logindata.token];
+                                                  localStorage.setItem('logindata',JSON.stringify(logindarray));
+                                                  alert('自动登入成功，现在你可以进行同步操作了！')
+                                              }
+                                              //登入失败
+                                              else if(logindata.is_login==false){
+                                                  alert('Oops！自动登入失败，它不应该发生！');
+                                              }
+                                          }
+                                          else{
+                                              alert('Oops！出现了一个重定向错误或服务器内部错误，它不应该发生！');
+                                          }
+                                      }
+                                  }
+                                  //注册失败
+                                  else if (reg.ret!=200){
+                                      alert('Oops！'+reg.msg);
+                                  }
+                              }
+                            }
+                          }
+                          else{
+                            alert("两次密码不一致，注册操作已取消！");
+                          }
+                        }
+                        else{
+                          alert("密码长度不合规，须在6-20位范围内，注册操作已取消！")
+                        }
+                      }
+                      else{
+                        alert("用户名长度不合规，须在1-50位范围内，注册操作已取消！");
+                      }
+                    }
+                    else{
+                      alert('执行返回操作，下次登录时请检查输入的用户名密码是否正确！');
+                    }
+                  }
+                  else{
+                    alert('Oops！这是一个重定向错误或服务器内部错误，它不应该发生！');
+                  }
+                 }
+               };
+             }
+             else{
+               alert('密码长度不合规，密码位数应在6-20位范围');
+             }
+           }
+           else {
+             alert('用户名长度不合规，用户名位数应在1-50位范围');
+           }
+       }
+       else{
+           let regname = prompt("用户名，须1-50位",'username');
+           if (regname.length>=1&&regname.length<=20){
+              let regpswd1 = prompt("输入6-20位密码",'password');
+              let regpswd2 = prompt("确认密码",'password');
+              if (regpswd1.length>=6&&regpswd1.length<=20){
+                 if (regpswd1==regpswd2){
+                    //调用注册api
+                    let regRequest = new XMLHttpRequest();
+                    regRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Register&username='+regname+'&password='+regpswd2, true);
+                    regRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    regRequest.send('name=teswe&ee=ef');
+                    regRequest.onreadystatechange = function () {
+                       if (regRequest.readyState == 4 && regRequest.status == 200) {
+                          let regjson = regRequest.responseText;
+                          console.log(regjson);
+                          let reg=JSON.parse(regjson);
+                          //注册成功
+                          if (reg.ret==200){
+                             let rgd=reg.data;
+                             alert('注册成功！UID'+rgd.user_id+',现在为您登录！');
+                             //调用登录api
+                             let loginRequest = new XMLHttpRequest();
+                             loginRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Login&username='+regname+'&password='+regpswd2, true);
+                             loginRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                             loginRequest.send('name=teswe&ee=ef');
+                             loginRequest.onreadystatechange = function () {
+                                let loginjson = loginRequest.responseText;
+                                let login=JSON.parse(loginjson);
+                                let logindata=login.data;
+                                console.log(login.data);
+                                //200状态码
+                                if (login.ret==200){
+                                   //登入成功
+                                   if (logindata.is_login==true){
+                                      //账号id与token储存
+                                      localStorage.removeItem('logindata');
+                                      let logindarray=[logindata.user_id,logindata.token];
+                                      localStorage.setItem('logindata',JSON.stringify(logindarray));
+                                      alert('自动登入成功，现在你可以进行同步操作了！')
+                                   }
+                                   //登入失败
+                                   else if(logindata.is_login==false){
+                                      alert('Oops！自动登入失败，它不应该发生！');
+                                   }
+                                }
+                                else{
+                                   alert('Oops！出现了一个重定向错误或服务器内部错误，它不应该发生！');
+                                }
+                             }
+                          }
+                          //注册失败
+                          else if (reg.ret!=200){
+                             alert('Oops！'+reg.msg+'注册失败！');
+                          }
+                       }
+                    }
+                 }
+               else{
+                  alert("两次密码不一致，注册操作已取消！");
+               }
+            }
+            else{
+               alert("密码长度不合规，须在6-20位范围内，注册操作已取消！")
+            }
+         }
+         else{
+            alert("用户名长度不合规，须在1-50位范围内，注册操作已取消！");
+         }
+      }
     }).find('.kfe-close-panel').click(function () {
         $container.find('.kfe-smile-panel').hide();
     });
-
 };
-
 
 /**
  * 添加CSS
@@ -534,5 +797,4 @@ const init = function () {
         createContainer(this);
     });
 };
-
 init();
