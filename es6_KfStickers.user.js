@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     1.0.1
+// @version     1.0.2
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -27,14 +27,14 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/scripts/5124 https://github.com/liu599
 /*
 本次更新日志：
-1.0.1 优化强提醒文案;从云端同步贴纸到本地时，如果云端数据为空，则取消同步。
+1.0.2 更新调用的api地址，优化强提醒文案，优化云同步逻辑，从云端同步贴纸到本地时，如果云端数据为空，则取消同步。 
 1.0.0 自定义表情贴纸云同步功能上线。
 历史更新记录：
 https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '1.0.1';
+const version = '1.0.2';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
 // 网站是否为KfMobile
@@ -215,15 +215,15 @@ const MenuList = {
         datatype: 'plain',
         title: '快捷',
         addr: [
-            '[align=center][img]此处替换为自定义图片url[/img][/align][align=center][backcolor=#FFFFFF][size=3]  [b]在此输入自定义文字[/b]  [/size][/backcolor][/align]',
             '[sell=100][/sell]', '[quote][/quote]', '[hide=100][/hide]', '[code][/code]', '[strike][/strike]', '[fly][/fly]','[color=#00FF00][/color]',
             '[b][/b]', '[u][/u]', '[i][/i]', '[hr]', '[backcolor=][/backcolor]', '[url=][/url]','[img][/img]','[table][/table]','[tr][/tr]','[td][/td]',
             '[align=left][/align]','[align=center][/align]','[align=right][/align]','[audio][/audio]','[video][/video]','[email][/email]','[list][/list]',
             '[/align]这里是签名档内容，可以随意修改，支持bbcode，实验性功能，喵拉手机版不显示，编辑帖子后如果有修改说明会导致喵拉手机版重复显示两次内容。',
+            '[align=center][img]此处替换为自定义图片url[/img][/align][align=center][backcolor=#FFFFFF][size=3]  [b]在此输入自定义文字[/b]  [/size][/backcolor][/align]'
         ],
         ref: [
-            '自定义表情配文字', '出售贴sell=售价', '引用', '隐藏hide=神秘等级', '插入代码', '删除线', '跑马灯', '文字颜色', '粗体', '下划线','斜体', '水平线', '背景色', '插入链接',
-            '插入图片','插入表格','插入表格行','插入表格列','左对齐','居中','右对齐','插入音频','插入视频','Email','插入列表','签名档[实验性功能]'
+            '出售贴sell=售价', '引用', '隐藏hide=神秘等级', '插入代码', '删除线', '跑马灯', '文字颜色', '粗体', '下划线','斜体', '水平线', '背景色', '插入链接',
+            '插入图片','插入表格','插入表格行','插入表格列','左对齐','居中','右对齐','插入音频','插入视频','Email','插入列表','签名档[实验性功能]','自定义表情配文字'
         ]
     },
     Emoji: {
@@ -496,7 +496,7 @@ const createContainer = function (textArea) {
               //第一步：创建需要的对象
               let dlRequest = new XMLHttpRequest();
               //第二步：打开连接
-              dlRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Profile&user_id='+syncid+'&token='+synctoken, true);
+              dlRequest.open('POST', 'https://api.inari.site/?s=App.User_User.picsdata&user_id='+syncid+'&token='+synctoken, true);
               //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
               dlRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
               //发送请求 将情头体写在send中
@@ -536,7 +536,7 @@ const createContainer = function (textArea) {
              let userimgst = localStorage.userimgst;
              let UserSmileList = JSON.parse(userimgst);
              let upRequest = new XMLHttpRequest();
-             upRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Update&user_id='+syncid+'&token='+synctoken+'&picsdata='+UserSmileList, true);
+             upRequest.open('POST', 'https://api.inari.site/?s=App.User_User.picsupdate&user_id='+syncid+'&token='+synctoken+'&picsdata='+UserSmileList, true);
              upRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
              upRequest.send('name=teswe&ee=ef');
              upRequest.onreadystatechange = function () {
@@ -593,88 +593,18 @@ const createContainer = function (textArea) {
                       }
                       //登入失败
                       else if(logindata.is_login==false){
-                        alert('Oops！用户名或密码错误！');
+                        alert('Oops！用户名或密码错误！请检查！');
                       }
                   }
                   //400状态码
                   else if (login.ret==400) {
-                    if (confirm('用户名'+username+'未注册或输入错误，【确定】注册（默认填充当前用户名与密码）,【取消】返回。')) {
-                      let regname = prompt("用户名，须1-50位",username);
-                      if (regname.length>=1&&regname.length<=20){
-                        let regpswd1 = prompt("输入6-20位密码",password);
-                        let regpswd2 = prompt("确认密码",password);
-                        if (regpswd1.length>=6&&regpswd1.length<=20){
-                          if (regpswd1==regpswd2){
-                            //调用注册api
-                            let regRequest = new XMLHttpRequest();
-                            regRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Register&username='+regname+'&password='+regpswd2, true);
-                            regRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                            regRequest.send('name=teswe&ee=ef');
-                            regRequest.onreadystatechange = function () {
-                              if (regRequest.readyState == 4 && regRequest.status == 200) {
-                                let regjson = regRequest.responseText;
-                                let reg=JSON.parse(regjson);
-                                  //注册成功
-                                  if (reg.ret==200){
-                                      let rgd=reg.data;
-                                      alert('注册成功！UID'+rgd.user_id+',现在为您登录！');
-                                      //调用登录api
-                                      let loginRequest = new XMLHttpRequest();
-                                      loginRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Login&username='+regname+'&password='+regpswd2, true);
-                                      loginRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                                      loginRequest.send('name=teswe&ee=ef');
-                                      loginRequest.onreadystatechange = function () {
-                                          let loginjson = loginRequest.responseText;
-                                          let login=JSON.parse(loginjson);
-                                          let logindata=login.data;
-                                          //200状态码
-                                          if (login.ret==200){
-                                              //登入成功
-                                              if (logindata.is_login==true){
-                                                  //账号id与token储存
-                                                  localStorage.removeItem('logindata');
-                                                  let logindarray=[logindata.user_id,logindata.token];
-                                                  localStorage.setItem('logindata',JSON.stringify(logindarray));
-                                                  alert('自动登入成功，现在你可以进行同步操作了！')
-                                              }
-                                              //登入失败
-                                              else if(logindata.is_login==false){
-                                                  alert('Oops！自动登入失败，它不应该发生！');
-                                              }
-                                          }
-                                          else{
-                                              alert('Oops！出现了一个重定向错误或服务器内部错误，它不应该发生！');
-                                          }
-                                      }
-                                  }
-                                  //注册失败
-                                  else if (reg.ret!=200){
-                                      alert('Oops！'+reg.msg);
-                                  }
-                              }
-                            }
-                          }
-                          else{
-                            alert("两次密码不一致，注册操作已取消！");
-                          }
-                        }
-                        else{
-                          alert("密码长度不合规，须在6-20位范围内，注册操作已取消！")
-                        }
-                      }
-                      else{
-                        alert("用户名长度不合规，须在1-50位范围内，注册操作已取消！");
-                      }
-                    }
-                    else{
-                      alert('执行返回操作，下次登录时请检查输入的用户名密码是否正确！');
-                    }
+                    alert('Oops！该账号还没有注册，请注册！');
                   }
                   else{
                     alert('Oops！这是一个重定向错误或服务器内部错误，它不应该发生！');
                   }
                  }
-               };
+               }
              }
              else{
                alert('密码长度不合规，密码位数应在6-20位范围');
