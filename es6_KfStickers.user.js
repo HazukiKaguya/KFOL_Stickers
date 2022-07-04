@@ -906,8 +906,6 @@ const createContainer = function (textArea) {
     }).on('change', '.kfe-user-p', function (e) {
         e.preventDefault();
         let formData = new FormData();
-        // var fileData = this.files[0];
-        // var file = event.files;
         let file = this.files[0];
         formData = new FormData();
         formData.append('file', file);
