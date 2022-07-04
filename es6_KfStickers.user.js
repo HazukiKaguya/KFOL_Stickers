@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     1.0.4
+// @version     1.0.5
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -27,14 +27,14 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/scripts/5124 https://github.com/liu599
 /*
 本次更新日志：
-1.0.4 更新调用的api地址，优化强提醒文案，优化云同步/账号操作逻辑，从云端同步贴纸到本地时，如果云端数据为空，则取消同步。 
+1.0.5 更新调用的api地址，优化强提醒文案，优化云同步/账号操作逻辑，同步贴纸时，如果数据为空，则取消同步。
 1.0.0 自定义表情贴纸云同步功能上线。
 历史更新记录：
 https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '1.0.4';
+const version = '1.0.5';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
 // 网站是否为KfMobile
@@ -533,13 +533,14 @@ const createContainer = function (textArea) {
        }
        else{
          if (confirm('确定同步【本地数据到云端】吗？这是最后一次确认！')) {
-             let userimgst = localStorage.userimgst;
-             let UserSmileList = JSON.parse(userimgst);
-             let upRequest = new XMLHttpRequest();
-             upRequest.open('POST', 'https://api.inari.site/?s=App.User_User.picsupdate&user_id='+syncid+'&token='+synctoken+'&picsdata='+UserSmileList, true);
-             upRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-             upRequest.send('name=teswe&ee=ef');
-             upRequest.onreadystatechange = function () {
+             if (localStorage.userimgst!=null) {
+               let userimgst = localStorage.userimgst;
+               let UserSmileList = JSON.parse(userimgst);
+               let upRequest = new XMLHttpRequest();
+               upRequest.open('POST', 'https://api.inari.site/?s=App.User_User.picsupdate&user_id='+syncid+'&token='+synctoken+'&picsdata='+UserSmileList, true);
+               upRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+               upRequest.send('name=teswe&ee=ef');
+               upRequest.onreadystatechange = function () {
                  if (upRequest.readyState == 4 && upRequest.status == 200) {
                      let upjson = upRequest.responseText;
                      console.log(upjson);
@@ -551,8 +552,12 @@ const createContainer = function (textArea) {
                      else{
                          alert('Token已失效，请重新登录！');
                      }
-                 }
-             }
+                  }
+               }
+            }
+            else{
+              alert("本地数据为空！同步到云端操作已取消！");
+            }
          }
          else{
            alert("本地数据同步到云端操作已取消！");
@@ -670,7 +675,7 @@ const createContainer = function (textArea) {
                              alert('Oops！'+reg.msg+'注册失败！');
                           }
                        }
-                       else{
+                       else if(regRequest.readyState == 4 && regRequest.status != 200){
                            alert('用户名或密码不合规，只支持英文、数字和有限的特殊符号如@_');
                        }
                     }
