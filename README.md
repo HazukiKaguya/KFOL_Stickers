@@ -17,14 +17,14 @@ eddie32的KFOL表情插件的魔改分支
 ![avatar](https://p.inari.site/guest/22-07/03/62c15908556ee.png)
 【云】按钮显然是云同步功能，【令】按钮是登录功能，因为云同步实现并使用了自己的一套用户系统。  
 ![avatar](https://p.inari.site/guest/22-07/03/62c15a22a0652.png)
-![avatar](https://p.inari.site/guest/22-07/03/62c15cbda81ec.png)
+![avatar](https://p.inari.site/guest/22-07/03/62c15cbda81ec.png)   
 未登录状态云同步提醒【未找到有效Token，请先登录！】  
 登录态过期云同步提醒【Token已失效，请重新登录！】  
 
 ![avatar](https://p.inari.site/guest/22-07/03/62c15a573e8f1.png)
 ![avatar](https://p.inari.site/guest/22-07/03/62c15a950f765.png)
-![avatar](https://p.inari.site/guest/22-07/03/62c15b18e982c.png)
-注册与登录系统。
+![avatar](https://p.inari.site/guest/22-07/03/62c15b18e982c.png)   
+注册与登录系统。   
   
 云同步功能浅显易懂就不多加介绍了。  
 
