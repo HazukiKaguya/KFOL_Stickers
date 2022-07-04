@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     1.0.5
+// @version     1.1.0
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -22,19 +22,18 @@
 // @license     MIT
 // @run-at      document-end
 // @updateURL   https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/es6_KfStickers.user.js
-// @require     https://sticker.inari.site/picsup.js
 // ==/UserScript==
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/scripts/5124 https://github.com/liu599
 /*
 本次更新日志：
-1.0.5 更新调用的api地址，优化强提醒文案，优化云同步/账号操作逻辑，同步贴纸时，如果数据为空，则取消同步。
+1.1.0 图片文本区域粘贴上传/选择上传功能实装
 1.0.0 自定义表情贴纸云同步功能上线。
 历史更新记录：
 https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '1.0.5';
+const version = '1.1.0';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
 // 网站是否为KfMobile
@@ -62,6 +61,13 @@ document.body.querySelectorAll('.readtext a').forEach(i=>{
         }
     }
 })
+// 文本区域粘贴图片预览区
+function imgurl() {
+    let imgpreview = document.createElement("div");
+    imgpreview.innerHTML = '<div id = "imgpreview" style = "position:fixed;right:1em;bottom:1em;z-index:88;cursor:pointer;" ><img class="imgpreview" src = "https://up.inari.site/favicon.ico" width = "42%" height = "42%" /></div>';
+    document.body.appendChild(imgpreview);
+}
+imgurl();
 
 // 灰企鹅
 const KfSmileList = [];
@@ -352,9 +358,110 @@ const createContainer = function (textArea) {
     <input type="button" class="kfe-user-d" value="删">
     <input type="button" class="kfe-user-y" value="云">
     <input type="button" class="kfe-user-a" value="令">
+    <input type= "file"  class="kfe-user-p" accept="image/*" >
   </div>
 </div>
 `).insertBefore($(textArea));
+    // 文本区域直接上传图片并预览
+    document.querySelector('textarea').addEventListener('paste', (event) => {
+        event.preventDefault();
+        // 修复粘贴文字功能
+        addCode(textArea,event.clipboardData.getData('text'));
+        const pd = event.clipboardData.items[0]
+        if (!(/^image\/[jpeg|png|gif|jpg]/.test(pd.type))) {
+            return;
+        }
+        const file = event.clipboardData.items[0].getAsFile()
+        // 让文件名使用时间戳
+        let name = JSON.stringify(new Date().getTime());
+        const files = new File([file], name + "." + file.name.substr(file.name.lastIndexOf('.') + 1), {
+            type: file.type,
+            lastModified: file.lastModified,
+        });
+        let formData = new FormData();
+        formData.append('file', files);
+        let reader = new FileReader();
+        reader.onload = function({target}) {
+            setTimeout(() => {
+                $(".imgpreview").attr('src', target.result)
+            }, 400)
+            setTimeout(() => {
+                $(".imgpreview").attr('src', 'https://up.inari.site/favicon.ico')
+            }, 5000)
+        }
+        reader.readAsDataURL(files);
+        //验证登录，使用token或游客上传
+        let authdata = localStorage.logindata;
+        if(authdata==null){
+            setTimeout(() => {
+                alert('抱歉！粘贴上传图片功能仅限已登录表情贴纸云同步账号的用户！');
+            }, 1000)
+        }
+        else{
+            let authList = JSON.parse(authdata);
+            if(authList.length==2){
+                $.ajax({
+                    url: 'https://up.inari.site/api/v1/upload',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: formData,
+                    // 告诉jQuery不要去设置Content-Type请求头
+                    contentType: false,
+                    // 告诉jQuery不要去处理发送的数据
+                    processData: false,
+                })
+                    .done(data => {
+                    if(data.status==true){
+                        let inaridata=data.data;
+                        let inarilinks=inaridata.links;
+                        alert('游客上传成功！建议绑定up.inari.site图床账号到云同步账号！');
+                        addCode(textArea, inarilinks.bbcode);
+                    }
+                    else if(data.status==false){
+                        alert(data.message);
+                    }
+                    else{
+                        alert('未知错误，'+data);
+                    }
+                })
+                    .fail(data => {
+                    alert('图片上传失败');
+                });
+            }
+            else if(authList.length==3){
+                $.ajax({
+                    url: 'https://up.inari.site/api/v1/upload',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: formData,
+                    // 告诉jQuery不要去设置Content-Type请求头
+                    contentType: false,
+                    // 告诉jQuery不要去处理发送的数据
+                    processData: false,
+                    //设置Header的token
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer "+authList[2]);
+                    }
+                })
+                    .done(data => {
+                    if(data.status==true){
+                        let inaridata=data.data;
+                        let inarilinks=inaridata.links;
+                        addCode(textArea, inarilinks.bbcode);
+                    }
+                    else if(data.status==false){
+                        alert(data.message);
+                    }
+                    else{
+                        alert('未知错误，'+data);
+                    }
+                })
+                    .fail(data => {
+                    alert('图片上传失败');
+                });
+            }
+        }
+    });
     $container.on('click', '.kfe-sub-menu', function (e) {
         e.preventDefault();
         let $this = $(this);
@@ -486,212 +593,420 @@ const createContainer = function (textArea) {
           }
         }
     }).on('click', '.kfe-user-y', function (e) {
-       e.preventDefault();
-         if (localStorage.logindata!=null){
-         let tokendata = localStorage.logindata;
-         let tokenList = JSON.parse(tokendata);
-         let syncid=tokenList[0];
-         let synctoken=tokenList[1];
-         if (confirm('【确定】同步云端数据到本地，【取消】同步本地数据到云端')) {
-              //第一步：创建需要的对象
-              let dlRequest = new XMLHttpRequest();
-              //第二步：打开连接
-              dlRequest.open('POST', 'https://api.inari.site/?s=App.User_User.picsdata&user_id='+syncid+'&token='+synctoken, true);
-              //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
-              dlRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-              //发送请求 将情头体写在send中
-              dlRequest.send('name=teswe&ee=ef');
-              //请求后的回调接口，可将请求成功后要执行的程序写在其中
-              dlRequest.onreadystatechange = function () {
-                //验证请求是否发送成功
-                if (dlRequest.readyState == 4 && dlRequest.status == 200) {
-                  //获取到服务端返回的数据
-                  let dljson = dlRequest.responseText;
-                  let download=JSON.parse(dljson);
-                  if (download.ret==200){
-                    if (confirm('确定同步【云端数据到本地】吗？这是最后一次确认！')) {
-                      let dldata=download.data;
-                      let dlpicsList=dldata.picsdata;
-                      if (dlpicsList !=""){
-                      let UserSmileList = dlpicsList.split(',');
-                      localStorage.setItem('userimgst',JSON.stringify(UserSmileList));
-                      alert("已同步云端数据到本地，请刷新！");
-                      }
-                      else{
-                          alert("云端数据为空！同步到本地操作已取消！");
-                      }
-                    }
-                    else{
-                        alert("云端数据同步到本地操作已取消！");
-                    }
-                  }
-                  else{
-                    alert('Token已失效，请重新登录！');
-                  }
-               }
-           };
-       }
-       else{
-         if (confirm('确定同步【本地数据到云端】吗？这是最后一次确认！')) {
-             if (localStorage.userimgst!=null) {
-               let userimgst = localStorage.userimgst;
-               let UserSmileList = JSON.parse(userimgst);
-               let upRequest = new XMLHttpRequest();
-               upRequest.open('POST', 'https://api.inari.site/?s=App.User_User.picsupdate&user_id='+syncid+'&token='+synctoken+'&picsdata='+UserSmileList, true);
-               upRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-               upRequest.send('name=teswe&ee=ef');
-               upRequest.onreadystatechange = function () {
-                 if (upRequest.readyState == 4 && upRequest.status == 200) {
-                     let upjson = upRequest.responseText;
-                     console.log(upjson);
-                     let upload=JSON.parse(upjson);
-                     console.log(upload.data);
-                     if (upload.ret==200){
-                         alert("已同步本地数据到云端！");
-                     }
-                     else{
-                         alert('Token已失效，请重新登录！');
-                     }
-                  }
-               }
-            }
-            else{
-              alert("本地数据为空！同步到云端操作已取消！");
-            }
-         }
-         else{
-           alert("本地数据同步到云端操作已取消！");
-         }
-       }
-     }
-     else{
-         alert('未找到有效Token，请先登录！');
-     }
-    }).on('click', '.kfe-user-a', function (e) {
-       e.preventDefault();
-       if (confirm('【确定】登录已有账号，【取消】进行账号注册')) {
-         let username = prompt("用户名",'username');
-         if (username.length>=1&&username.length<=50){
-           let password = prompt("密码",'password');
-           if (password.length>=6&&password.length<=20){
-              //调用登录api
-              let loginRequest = new XMLHttpRequest();
-              loginRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Login&username='+username+'&password='+password, true);
-              loginRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-              loginRequest.send('name=teswe&ee=ef');
-              loginRequest.onreadystatechange = function () {
-                if (loginRequest.readyState == 4 && loginRequest.status == 200) {
-                  let loginjson = loginRequest.responseText;
-                  console.log(loginjson);
-                  let login=JSON.parse(loginjson);
-                  console.log(login.data);
-                  //200状态码
-                  if (login.ret==200){
-                      let logindata=login.data;
-                      //登入成功
-                      if (logindata.is_login==true){
-                        //账号id与token储存
-                        localStorage.removeItem('logindata');
-                        let logindarray=[logindata.user_id,logindata.token];
-                        localStorage.setItem('logindata',JSON.stringify(logindarray));
-                        alert('登入成功，现在你可以进行同步操作了！');
-                      }
-                      //登入失败
-                      else if(logindata.is_login==false){
-                        alert('Oops！用户名或密码错误！请检查！');
-                      }
-                  }
-                  //400状态码
-                  else if (login.ret==400) {
-                    alert('Oops！该账号还没有注册，请注册！');
-                  }
-                  else{
-                    alert('Oops！这是一个重定向错误或服务器内部错误，它不应该发生！');
-                  }
-                 }
-               }
-             }
-             else{
-               alert('密码长度不合规，密码位数应在6-20位范围');
-             }
-           }
-           else {
-             alert('用户名长度不合规，用户名位数应在1-50位范围');
-           }
-       }
-       else{
-           let regname = prompt("用户名，1-50位，只支持英文、数字和有限的特殊符号如@_",'username');
-           if (regname.length>=1&&regname.length<=20){
-              let regpswd1 = prompt("输入6-20位密码，只支持英文、数字和有限的特殊符号如@_",'password');
-              let regpswd2 = prompt("确认密码",'password');
-              if (regpswd1.length>=6&&regpswd1.length<=20){
-                 if (regpswd1==regpswd2){
-                    //调用注册api
-                    let regRequest = new XMLHttpRequest();
-                    regRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Register&username='+regname+'&password='+regpswd2, true);
-                    regRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                    regRequest.send('name=teswe&ee=ef');
-                    regRequest.onreadystatechange = function () {
-                       if (regRequest.readyState == 4 && regRequest.status == 200) {
-                          let regjson = regRequest.responseText;
-                          console.log(regjson);
-                          let reg=JSON.parse(regjson);
-                          //注册成功
-                          if (reg.ret==200){
-                             let rgd=reg.data;
-                             alert('注册成功！UID'+rgd.user_id+',现在为您登录！');
-                             //调用登录api
-                             let loginRequest = new XMLHttpRequest();
-                             loginRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Login&username='+regname+'&password='+regpswd2, true);
-                             loginRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                             loginRequest.send('name=teswe&ee=ef');
-                             loginRequest.onreadystatechange = function () {
-                                let loginjson = loginRequest.responseText;
-                                let login=JSON.parse(loginjson);
-                                let logindata=login.data;
-                                console.log(login.data);
-                                //200状态码
-                                if (login.ret==200){
-                                   //登入成功
-                                   if (logindata.is_login==true){
-                                      //账号id与token储存
-                                      localStorage.removeItem('logindata');
-                                      let logindarray=[logindata.user_id,logindata.token];
-                                      localStorage.setItem('logindata',JSON.stringify(logindarray));
-                                      alert('自动登入成功，现在你可以进行同步操作了！')
-                                   }
-                                   //登入失败
-                                   else if(logindata.is_login==false){
-                                      alert('Oops！自动登入失败，它不应该发生！');
-                                   }
+        e.preventDefault();
+        if (localStorage.logindata!=null){
+            let tokendata = localStorage.logindata;
+            let tokenList = JSON.parse(tokendata);
+            let syncid=tokenList[0];
+            let synctoken=tokenList[1];
+            if (confirm('【确定】同步云端数据到本地，【取消】同步本地数据到云端')) {
+                //第一步：创建需要的对象
+                let dlRequest = new XMLHttpRequest();
+                //第二步：打开连接
+                dlRequest.open('POST', 'https://api.inari.site/?s=App.User_User.picsdata&user_id='+syncid+'&token='+synctoken, true);
+                //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+                dlRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                //发送请求 将情头体写在send中
+                dlRequest.send('name=teswe&ee=ef');
+                //请求后的回调接口，可将请求成功后要执行的程序写在其中
+                dlRequest.onreadystatechange = function () {
+                    //验证请求是否发送成功
+                    if (dlRequest.readyState == 4 && dlRequest.status == 200) {
+                        //获取到服务端返回的数据
+                        let dljson = dlRequest.responseText;
+                        let download=JSON.parse(dljson);
+                        if (download.ret==200){
+                            if (confirm('确定同步【云端数据到本地】吗？这是最后一次确认！')) {
+                                let dldata=download.data;
+                                let dlpicsList=dldata.picsdata;
+                                if (dlpicsList !=""){
+                                    let UserSmileList = dlpicsList.split(',');
+                                    localStorage.setItem('userimgst',JSON.stringify(UserSmileList));
+                                    alert("已同步云端数据到本地，请刷新！");
                                 }
                                 else{
-                                   alert('Oops！出现了一个重定向错误或服务器内部错误，它不应该发生！');
+                                    alert("云端数据为空！同步到本地操作已取消！");
                                 }
-                             }
-                          }
-                          //注册失败
-                          else if (reg.ret!=200){
-                             alert('Oops！'+reg.msg+'注册失败！');
-                          }
-                       }
-                       else if(regRequest.readyState == 4 && regRequest.status != 200){
-                           alert('用户名或密码不合规，只支持英文、数字和有限的特殊符号如@_');
-                       }
+                            }
+                        }
+                        else{
+                            alert('Token已失效，请重新登录！');
+                        }
                     }
-                 }
-               else{
-                  alert("两次密码不一致，注册操作已取消！");
-               }
+                };
             }
             else{
-               alert("密码长度不合规，须在6-20位范围内，注册操作已取消！")
+                if (confirm('确定同步【本地数据到云端】吗？这是最后一次确认！')) {
+                    let userimgst = localStorage.userimgst;
+                    let UserSmileList = JSON.parse(userimgst);
+                    let upRequest = new XMLHttpRequest();
+                    upRequest.open('POST', 'https://api.inari.site/?s=App.User_User.picsupdate&user_id='+syncid+'&token='+synctoken+'&picsdata='+UserSmileList, true);
+                    upRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    upRequest.send('name=teswe&ee=ef');
+                    upRequest.onreadystatechange = function () {
+                        if (upRequest.readyState == 4 && upRequest.status == 200) {
+                            let upjson = upRequest.responseText;
+                            let upload=JSON.parse(upjson);
+                            if (upload.ret==200){
+                                alert("已同步本地数据到云端！");
+                            }
+                            else{
+                                alert('Token已失效，请重新登录！');
+                            }
+                        }
+                    }
+                }
             }
-         }
-         else{
-            alert("用户名长度不合规，须在1-50位范围内，注册操作已取消！");
-         }
-      }
+        }
+        else{
+            alert('未找到有效Token，请先登录！');
+        }
+    }).on('click', '.kfe-user-a', function (e) {
+        e.preventDefault();
+        if (confirm('【确定】登录已有账号，【取消】进行账号注册')){
+            let username = prompt("用户名",'username');
+            if (username.length>=1&&username.length<=50){
+                let password = prompt("密码",'password');
+                if (password.length>=6&&password.length<=20){
+                    //调用登录api
+                    let loginRequest = new XMLHttpRequest();
+                    loginRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Login&username='+username+'&password='+password, true);
+                    loginRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    loginRequest.send('name=teswe&ee=ef');
+                    loginRequest.onreadystatechange = function () {
+                        if (loginRequest.readyState == 4 && loginRequest.status == 200) {
+                            let loginjson = loginRequest.responseText;
+                            let login=JSON.parse(loginjson);
+                            //200状态码
+                            if (login.ret==200){
+                                let logindata=login.data;
+                                //登入成功
+                                if (logindata.is_login==true){
+                                    //账号id与token储存
+                                    localStorage.removeItem('logindata');
+                                    let logindarray=[logindata.user_id,logindata.token];
+                                    localStorage.setItem('logindata',JSON.stringify(logindarray));
+                                    // 检测绑定图床Token信息的方法
+                                    let getokenRequest = new XMLHttpRequest();
+                                    getokenRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Tutoken&user_id='+logindata.user_id+'&token='+logindata.token, true);
+                                    getokenRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                                    getokenRequest.send('name=teswe&ee=ef');
+                                    getokenRequest.onreadystatechange = function () {
+                                        if (getokenRequest.readyState == 4 && getokenRequest.status == 200) {
+                                            let getokentext = getokenRequest.responseText;
+                                            let getokenjson=JSON.parse(getokentext);
+                                            if (getokenjson.ret==200){
+                                                let tkdata=getokenjson.data;
+                                                let gtoken=tkdata.tutoken;
+                                                if (gtoken !=null){
+                                                    localStorage.removeItem('logindata');
+                                                    let gtokenarray=[logindata.user_id,logindata.token,gtoken];
+                                                    localStorage.setItem('logindata',JSON.stringify(gtokenarray));
+                                                    alert('你可以进行同步操作了！');
+                                                }
+                                                else{
+                                                    if (confirm('检测到没有绑定up.inari.site图床的Token，是否绑定？【确定】绑定Token 【取消】则不绑定，上传图片将使用游客上传')) {
+                                                        let inariuser = prompt("inari图床账号邮箱",'example@example.mail');
+                                                        let inaripass = prompt("inari图床账号密码",'password');
+                                                        let formData = '{ "email":"'+inariuser+'" , "password":"'+inaripass+'" }';
+                                                        $.ajax({
+                                                            url: 'https://up.inari.site/api/v1/tokens',
+                                                            type: 'POST',
+                                                            dataType: 'json',
+                                                            data:formData,
+                                                            // 告诉jQuery不要去设置Content-Type请求头
+                                                            contentType:"application/json",
+                                                            // 告诉jQuery不要去处理发送的数据
+                                                            processData: false,
+                                                        })
+                                                            .done(data => {
+                                                            if(data.status==true){
+                                                                let tokendata= data.data;
+                                                                let token=tokendata.token;
+                                                                localStorage.removeItem('logindata');
+                                                                let tokenarray=[logindata.user_id,logindata.token,token];
+                                                                localStorage.setItem('logindata',JSON.stringify(tokenarray));
+                                                                let tokenRequest = new XMLHttpRequest();
+                                                                tokenRequest.open('POST', 'https://api.inari.site/?s=App.User_User.tupdate&user_id='+logindata.user_id+'&token='+logindata.token+'&tupdate='+token, true);
+                                                                tokenRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                                                                tokenRequest.send('name=teswe&ee=ef');
+                                                                tokenRequest.onreadystatechange = function () {
+                                                                    if (tokenRequest.readyState == 4 && tokenRequest.status == 200) {
+                                                                        let tokentext = tokenRequest.responseText;
+                                                                        let tokenjson=JSON.parse(tokentext);
+                                                                        if (tokenjson.ret==200){
+                                                                            alert("已绑定图床Token，现在你可以进行同步操作了！");
+                                                                            return;
+                                                                        }
+                                                                        else{
+                                                                            alert('你依然可以进行同步操作。图床账号绑定失败！异常请求返回码：'+tokenjson.ret);
+                                                                        }
+                                                                    }
+                                                                    else if(tokenRequest.readyState == 4 && tokenRequest.status != 200){
+                                                                        alert('你依然可以进行同步操作。图床账号绑定失败！异常请求状态码：'+tokenRequest.status);
+                                                                    }
+                                                                }
+                                                            }
+                                                            else if(data.status==false){
+                                                                alert(data.message);
+                                                            }
+                                                        })
+                                                            .fail(data => {
+                                                            alert('你依然可以进行同步操作。Oops！图床账号绑定失败！可能是服务器错误或网络问题！');
+                                                        });
+                                                    }
+                                                    else{
+                                                        alert('图床账号未绑定，你可以进行同步操作了！');
+                                                    }
+                                                }
+                                            }
+                                            else{
+                                                alert('你依然可以进行同步操作。检测是否绑定了图床账号失败！返回码：'+getokenjson.ret);
+                                            }
+                                        }
+                                        else if(getokenRequest.readyState == 4 && getokenRequest.status != 200){
+                                            alert('你依然可以进行同步操作。异常的请求！状态码：'+getokenRequest.status);
+                                        }
+                                    }
+                                }
+                                //登入失败
+                                else if(logindata.is_login==false){
+                                    alert('Oops！用户名或密码错误！请检查！');
+                                }
+                            }
+                            //400状态码
+                            else if (login.ret==400) {
+                                alert('Oops！该账号还没有注册，请注册！');
+                            }
+                            else{
+                                alert('Oops！异常的错误！返回码：'+login.ret);
+                            }
+                        }
+                    }
+                }
+                else{
+                    alert('密码长度不合规，密码位数应在6-20位范围');
+                }
+            }
+            else {
+                alert('用户名长度不合规，用户名位数应在1-50位范围');
+            }
+        }
+        else {
+            let regname = prompt("用户名，1-50位，只支持英文、数字和有限的特殊符号如@_",'username');
+            if (regname.length>=1&&regname.length<=20){
+                let regpswd1 = prompt("输入6-20位密码，只支持英文、数字和有限的特殊符号如@_",'password');
+                let regpswd2 = prompt("确认密码",'password');
+                if (regpswd1.length>=6&&regpswd1.length<=20){
+                    if (regpswd1==regpswd2){
+                        //调用注册api
+                        let regRequest = new XMLHttpRequest();
+                        regRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Register&username='+regname+'&password='+regpswd2, true);
+                        regRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                        regRequest.send('name=teswe&ee=ef');
+                        regRequest.onreadystatechange = function () {
+                            if (regRequest.readyState == 4 && regRequest.status == 200) {
+                                let regjson = regRequest.responseText;
+                                let reg=JSON.parse(regjson);
+                                //注册成功
+                                if (reg.ret==200){
+                                    //调用登录api
+                                    let loginRequest = new XMLHttpRequest();
+                                    loginRequest.open('POST', 'https://api.inari.site/?s=App.User_User.Login&username='+regname+'&password='+regpswd2, true);
+                                    loginRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                                    loginRequest.send('name=teswe&ee=ef');
+                                    loginRequest.onreadystatechange = function () {
+                                        if (loginRequest.status === 200 && loginRequest.readyState === 4) {
+                                            let loginjson = loginRequest.responseText;
+                                            let login=JSON.parse(loginjson);
+                                            let logindata=login.data;
+                                            //账号id与token储存
+                                            localStorage.removeItem('logindata');
+                                            let logindarray=[logindata.user_id,logindata.token];
+                                            localStorage.setItem('logindata',JSON.stringify(logindarray));
+                                            if(confirm('是否绑定up.inari.site图床账号？【确定】绑定【取消】则不绑定，上传图片将使用游客上传')){
+                                                // 写获取token的方法
+                                                let inariuser = prompt("inari图床账号邮箱",'example@example.com');
+                                                let inaripass = prompt("inari图床账号密码",'password');
+                                                let formData = '{ "email":"'+inariuser+'" , "password":"'+inaripass+'" }';
+                                                $.ajax({
+                                                    url: 'https://up.inari.site/api/v1/tokens',
+                                                    type: 'POST',
+                                                    dataType: 'json',
+                                                    data:formData,
+                                                    contentType:"application/json",
+                                                    processData: false,
+                                                })
+                                                    .done(data => {
+                                                    if(data.status==true){
+                                                        let tokendata= data.data;
+                                                        let token=tokendata.token;
+                                                        localStorage.removeItem('logindata');
+                                                        let tokenarray=[logindata.user_id,logindata.token,token];
+                                                        localStorage.setItem('logindata',JSON.stringify(tokenarray));
+                                                        let tokenRequest = new XMLHttpRequest();
+                                                        tokenRequest.open('POST', 'https://api.inari.site/?s=App.User_User.tupdate&user_id='+logindata.user_id+'&token='+logindata.token+'&tupdate='+token, true);
+                                                        tokenRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                                                        tokenRequest.send('name=teswe&ee=ef');
+                                                        tokenRequest.onreadystatechange = function () {
+                                                            if (tokenRequest.readyState == 4 && tokenRequest.status == 200) {
+                                                                let tokentext = tokenRequest.responseText;
+                                                                let tokenjson=JSON.parse(tokentext);
+                                                                if (tokenjson.ret==200){
+                                                                    alert("已绑定图床Token，现在你可以进行同步操作了！");
+                                                                }
+                                                                else{
+                                                                    alert('你依然可以进行同步操作。图床账号绑定失败！异常请求返回码：'+tokenjson.ret);
+                                                                }
+                                                            }
+                                                            else if(tokenRequest.readyState == 4 && tokenRequest.status != 200){
+                                                                alert('你依然可以进行同步操作。图床账号绑定失败！异常请求状态码：'+tokenRequest.status);
+                                                            };
+                                                        }
+                                                    }
+                                                    else if(data.status==false){
+                                                        alert(data.message);
+                                                    }
+                                                    return;
+                                                })
+                                                    .fail(data => {
+                                                    alert('你依然可以进行同步操作。Oops！图床账号绑定失败！可能是服务器错误或网络问题！');
+                                                });
+                                                event.preventDefault();
+                                            }
+                                            else{
+                                                alert("已自动登录，现在你可以进行同步操作了！");
+                                            }
+                                        }
+                                    }
+                                }
+                                //注册失败
+                                else if (reg.ret!=200){
+                                    alert('Oops！'+reg.msg+'注册失败！返回码：'+reg.ret);
+                                }
+                            }
+                            else if(regRequest.readyState == 4 && regRequest.status != 200){
+                                alert('用户名或密码不合规，只支持英文、数字和有限的特殊符号如@_');
+                            }
+                        }
+                    }
+                    else{
+                        alert("两次密码不一致，注册操作已取消！");
+                    }
+                }
+                else{
+                    alert("密码长度不合规，须在6-20位范围内，注册操作已取消！")
+                }
+            }
+            else{
+                alert("用户名长度不合规，须在1-50位范围内，注册操作已取消！");
+            }
+        }
+        return;
+    }).on('change', '.kfe-user-p', function (e) {
+        e.preventDefault();
+        let formData = new FormData();
+        // var fileData = this.files[0];
+        // var file = event.files;
+        let file = this.files[0];
+        formData = new FormData();
+        formData.append('file', file);
+        //验证登录，使用token或游客上传
+        let authdata = localStorage.logindata;
+        if(authdata==null){
+            $.ajax({
+                url: 'https://up.inari.site/api/v1/upload',
+                type: 'POST',
+                dataType: 'json',
+                data: formData,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                // 告诉jQuery不要去处理发送的数据
+                processData: false,
+            })
+                .done(data => {
+                if(data.status==true){
+                    let inaridata=data.data;
+                    let inarilinks=inaridata.links;
+                    alert('游客上传成功！建议登录云同步账号并绑定up.inari.site图床账号！');
+                    addCode(textArea, inarilinks.bbcode);
+                }
+                else if(data.status==false){
+                    alert(data.message);
+                }
+                else{
+                    alert('未知错误，'+data);
+                }
+            })
+                .fail(data => {
+                alert('图片上传失败');
+            });
+        }
+        else{
+            let authList = JSON.parse(authdata);
+            if(authList.length==2){
+                $.ajax({
+                    url: 'https://up.inari.site/api/v1/upload',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: formData,
+                    // 告诉jQuery不要去设置Content-Type请求头
+                    contentType: false,
+                    // 告诉jQuery不要去处理发送的数据
+                    processData: false,
+                })
+                    .done(data => {
+                    if(data.status==true){
+                        let inaridata=data.data;
+                        let inarilinks=inaridata.links;
+                        alert('游客上传成功！建议绑定up.inari.site图床账号到云同步账号！');
+                        addCode(textArea, inarilinks.bbcode);
+                    }
+                    else if(data.status==false){
+                        alert(data.message);
+                    }
+                    else{
+                        alert('未知错误，'+data);
+                    }
+                })
+                    .fail(data => {
+                    alert('图片上传失败');
+                });
+            }
+            else if(authList.length==3){
+                $.ajax({
+                    url: 'https://up.inari.site/api/v1/upload',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: formData,
+                    // 告诉jQuery不要去设置Content-Type请求头
+                    contentType: false,
+                    // 告诉jQuery不要去处理发送的数据
+                    processData: false,
+                    //设置Header的token
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer "+authList[2]);
+                    }
+                })
+                    .done(data => {
+                    if(data.status==true){
+                        let inaridata=data.data;
+                        let inarilinks=inaridata.links;
+                        addCode(textArea, inarilinks.bbcode);
+                        alert('上传成功！');
+                    }
+                    else if(data.status==false){
+                        alert(data.message);
+                    }
+                    else{
+                        alert('未知错误，'+data);
+                    }
+                })
+                    .fail(data => {
+                    alert('图片上传失败');
+                });
+            }
+        }
     }).find('.kfe-close-panel').click(function () {
         $container.find('.kfe-smile-panel').hide();
     });
@@ -741,4 +1056,5 @@ const init = function () {
         createContainer(this);
     });
 };
+
 init();
