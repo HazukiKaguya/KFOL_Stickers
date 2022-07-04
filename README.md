@@ -14,7 +14,7 @@ eddie32的KFOL表情插件的魔改分支
 ## 一些教程：
 
 ### 云同步功能逻辑图解：
-![avatar](https://p.inari.site/guest/22-07/03/62c15908556ee.png)
+![avatar](https://p.inari.site/guest/22-07/03/62c15908556ee.png)   
 【云】按钮显然是云同步功能，【令】按钮是登录功能，因为云同步实现并使用了自己的一套用户系统。  
 ![avatar](https://p.inari.site/guest/22-07/03/62c15a22a0652.png)
 ![avatar](https://p.inari.site/guest/22-07/03/62c15cbda81ec.png)   
