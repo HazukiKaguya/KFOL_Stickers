@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     1.1.5
+// @version     1.2.0
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -32,7 +32,7 @@ https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '1.1.5';
+const version = '1.2.0';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
 // 右下角看板娘自定义
@@ -747,7 +747,7 @@ const createContainer = function (textArea) {
                                             if (getokenjson.ret==200){
                                                 let tkdata=getokenjson.data;
                                                 let gtoken=tkdata.tutoken;
-                                                if (gtoken !=null){
+                                                if (gtoken !=""){
                                                     localStorage.removeItem('logindata');
                                                     let gtokenarray=[logindata.user_id,logindata.token,gtoken];
                                                     localStorage.setItem('logindata',JSON.stringify(gtokenarray));
