@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改*Dev
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers/tree/Dev
-// @version     1.1.2
+// @version     1.2.0
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -26,6 +26,7 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
+1.2.0 更新点击看板娘上传图片，更新看板娘可拖拽（含触摸）
 1.1.2 优化文本区域粘贴，减少提示次数
 1.1.0 图片文本区域粘贴上传/选择上传功能实装
 1.0.0 自定义表情贴纸云同步功能上线。
@@ -34,11 +35,15 @@ https://github.com/HazukiKaguya/KFOL_Stickers/blob/Dev/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '1.1.2';
+const version = '1.2.0';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
+// 看板娘图片自定义
+const kanbanmsume = "/ys/in/read_75675456.gif";
+// 看板娘大小/粘贴预览图大小自定义,支持%或px/em
+const previewsizepc = "42%";const previewsizemb = "64%";
 // PC端是否也总是启用外部字体
 const isAlwaysInari = true; //改为true即可启用
 let x = document.getElementsByTagName("img");let afdDate = new Date();
@@ -74,6 +79,63 @@ function imgurl() {
     document.body.appendChild(imgpreview);
 }
 imgurl();
+// 文本区域粘贴图片预览区
+function imgurl() {
+   let imgpreview = document.createElement("div");
+   if(isKfMobile==true){
+     if(localStorage.imgpvmb!=null){
+      let imgpvmb=localStorage.imgpvmb;let imgpvmbpush = JSON.parse(imgpvmb);
+      imgpreview.innerHTML = '<div id = "imgpreview" style = "position:fixed;left:'+imgpvmbpush[0]+';top:'+imgpvmbpush[1]+';z-index:88;cursor:pointer;" ><img class="imgpreview" src = '+kanbanmsume+' width = '+previewsizemb+' height = '+previewsizemb+' ></div>';
+     }else{
+      imgpreview.innerHTML = '<div id = "imgpreview" style = "position:fixed;left:5px;top:40px;z-index:88;cursor:pointer;" ><img class="imgpreview" src = '+kanbanmsume+' width = '+previewsizemb+' height = '+previewsizemb+' ></div>';
+     }
+   }
+   else{
+     if(localStorage.imgpvpc!=null){let imgpvpc=localStorage.imgpvpc;let imgpvpcpush = JSON.parse(imgpvpc);
+      imgpreview.innerHTML = '<div id = "imgpreview" style = "position:fixed;left:'+imgpvpcpush[0]+';top:'+imgpvpcpush[1]+';z-index:88;cursor:pointer;" ><img class="imgpreview" src = '+kanbanmsume+' width = '+previewsizepc+' height = '+previewsizepc+' ></div>';
+   }
+     else{
+      imgpreview.innerHTML = '<div id = "imgpreview" style = "position:fixed;left:5px;top:40px;z-index:88;cursor:pointer;" ><img class="imgpreview" src = '+kanbanmsume+' width = '+previewsizepc+' height = '+previewsizepc+' ></div>';
+     }
+   }
+   document.body.appendChild(imgpreview);
+}imgurl();
+// 可拖拽看板娘,会记录拖拽位置
+let imgpv = document.getElementById("imgpreview");
+window.onload = function(){ drag(imgpv);};
+imgpv.addEventListener('touchmove', function(event){
+  event.preventDefault();
+  if (event.targetTouches.length == 1) {
+    let touch = event.targetTouches[0];
+    imgpv.style.left = touch.pageX + 'px';
+    imgpv.style.top = touch.pageY + 'px';
+    let imgpvmbpull =[imgpv.style.left,imgpv.style.top];
+    localStorage.setItem('imgpvmb',JSON.stringify(imgpvmbpull));
+}}, false);function drag(obj){
+obj.onmousedown = function(event){
+  obj.setCapture && obj.setCapture();
+  event = event ||window.event
+  let cleft=obj.style.left;
+  let ctop=obj.style.top;
+  let ol = event.clientX - obj.offsetLeft;
+  let ot = event.clientY - obj.offsetTop;
+  document.onmousemove = function(event){
+    event = event ||window.event
+    let left = event.clientX-ol;
+    let top = event.clientY-ot;
+    obj.style.left = left+"px";
+    obj.style.top = top+"px";};
+  document.onmouseup = function(){
+    document.onmousemove = null;
+    document.onmouseup = null;
+    obj.releaseCapture && obj.releaseCapture();
+    let vleft=obj.style.left;
+    let vtop=obj.style.top;
+    if(cleft==vleft&&vtop==ctop){
+      $('.kfe-user-p').click();}
+    else{let imgpvpcpull =[vleft,vtop];
+     localStorage.setItem('imgpvpc',JSON.stringify(imgpvpcpull));
+};};return false;};};
 
 // 灰企鹅
 const KfSmileList = [];
@@ -403,7 +465,7 @@ ${getSubMenuHtml()}
                 $(".imgpreview").attr('src', target.result)
             }, 400)
             setTimeout(() => {
-                $(".imgpreview").attr('src', 'https://up.inari.site/favicon.ico')
+                $(".imgpreview").attr('src', kanbanmsume)
             }, 5000)
         }
         reader.readAsDataURL(file);
