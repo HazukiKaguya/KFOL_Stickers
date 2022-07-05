@@ -702,6 +702,9 @@ const createContainer = function (textArea) {
                         alert('本地数据为空！同步到云端操作已取消！');
                     }
                 }
+                else{
+                    alert("本地数据同步到云端操作已取消！");
+                }
             }
         }
         else{
