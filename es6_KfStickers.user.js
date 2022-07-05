@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     1.1.1
+// @version     1.1.2
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -26,7 +26,7 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/scripts/5124 https://github.com/liu599
 /*
 本次更新日志：
-1.1.1 fix some bugs
+1.1.2 优化文本区域粘贴，减少提示次数
 1.1.0 图片文本区域粘贴上传/选择上传功能实装
 1.0.0 自定义表情贴纸云同步功能上线。
 历史更新记录：
@@ -34,7 +34,7 @@ https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '1.1.1';
+const version = '1.1.2';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
 // 网站是否为KfMobile
@@ -388,15 +388,42 @@ const createContainer = function (textArea) {
             }, 400)
             setTimeout(() => {
                 $(".imgpreview").attr('src', 'https://up.inari.site/favicon.ico')
-            }, 5000)
+            }, 4000)
         }
         reader.readAsDataURL(files);
         //验证登录，使用token或游客上传
         let authdata = localStorage.logindata;
+        let oncealert =localStorage.alertdata;
         if(authdata==null){
-            setTimeout(() => {
-                alert('抱歉！粘贴上传图片功能仅限已登录表情贴纸云同步账号的用户！');
-            }, 1000)
+            $.ajax({
+                    url: 'https://up.inari.site/api/v1/upload',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: formData,
+                    // 告诉jQuery不要去设置Content-Type请求头
+                    contentType: false,
+                    // 告诉jQuery不要去处理发送的数据
+                    processData: false,
+                })
+                    .done(data => {
+                    if(data.status==true){
+                        let inaridata=data.data;
+                        let inarilinks=inaridata.links;
+                        setTimeout(() => {
+                          alert('游客上传成功！建议注册登录云同步账号并绑定图床账号！');
+                        }, 1000)
+                        addCode(textArea, inarilinks.bbcode);
+                    }
+                    else if(data.status==false){
+                        alert(data.message);
+                    }
+                    else{
+                        alert('发生未知错误，'+data);
+                    }
+                })
+                    .fail(data => {
+                    alert('图片上传失败，可能是网络原因。');
+                });
         }
         else{
             let authList = JSON.parse(authdata);
@@ -415,18 +442,26 @@ const createContainer = function (textArea) {
                     if(data.status==true){
                         let inaridata=data.data;
                         let inarilinks=inaridata.links;
-                        alert('游客上传成功！建议绑定up.inari.site图床账号到云同步账号！');
-                        addCode(textArea, inarilinks.bbcode);
+                        if(oncealert==null){
+                          alert('游客上传成功！建议绑定up.inari.site图床账号到云同步账号！');
+                          localStorage.removeItem('alertdata');
+                          let alertarray=["don't alert"];
+                          localStorage.setItem('alertdata',JSON.stringify(alertarray));
+                          addCode(textArea, inarilinks.bbcode);
+                       }
+                       else {
+                         addCode(textArea, inarilinks.bbcode);
+                       }
                     }
                     else if(data.status==false){
                         alert(data.message);
                     }
                     else{
-                        alert('未知错误，'+data);
+                        alert('发生未知错误，'+data);
                     }
                 })
                     .fail(data => {
-                    alert('图片上传失败');
+                    alert('图片上传失败，可能是网络原因。');
                 });
             }
             else if(authList.length==3){
@@ -454,11 +489,11 @@ const createContainer = function (textArea) {
                         alert(data.message);
                     }
                     else{
-                        alert('未知错误，'+data);
+                        alert('发生未知错误，'+data);
                     }
                 })
                     .fail(data => {
-                    alert('图片上传失败');
+                    alert('图片上传失败,可能是网络原因。');
                 });
             }
         }
