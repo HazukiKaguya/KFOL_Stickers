@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改*Dev
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers/tree/Dev
-// @version     1.1.1
+// @version     1.1.2
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -34,7 +34,7 @@ https://github.com/HazukiKaguya/KFOL_Stickers/blob/Dev/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '1.1.1';
+const version = '1.1.2';
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // 使用旧式?num=而不是新式的#num= 改为true启用
