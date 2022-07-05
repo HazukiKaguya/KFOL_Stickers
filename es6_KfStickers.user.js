@@ -26,9 +26,7 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/scripts/5124 https://github.com/liu599
 /*
 本次更新日志：
-1.1.2 优化文本区域粘贴，减少提示次数
-1.1.0 图片文本区域粘贴上传/选择上传功能实装
-1.0.0 自定义表情贴纸云同步功能上线。
+1.1.4 右下角看板娘与预览图大小自定义
 历史更新记录：
 https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
