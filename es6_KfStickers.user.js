@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     1.2.0
+// @version     1.3.0
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -26,51 +26,85 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/scripts/5124 https://github.com/liu599
 /*
 本次更新日志：
-1.1.4 右下角看板娘与预览图大小自定义
+1.3.0 更新点击看板娘上次图片，更新看板娘可拖拽
 历史更新记录：
 https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '1.2.0';
+const version = '1.3.0';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
-// 右下角看板娘自定义
+// 看板娘图片自定义
 const kanbanmsume = "https://sticker.inari.site/favicon.ico";
-// 右下角看板娘大小/粘贴预览图大小自定义,支持%或px
-const previewsize = "42%";
+// 看板娘大小/粘贴预览图大小自定义,支持%或px/em
+const previewsizepc = "42%";const previewsizemb = "64%";
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // 实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
 let x = document.getElementsByTagName("img");let afdDate = new Date();
- for (let i = 0; i < x.length; i++) {
-   x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
-   x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");
-   x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds\/2233/g, "https://sticker.inari.site/bili/2233");
-   x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/lovelive\/Lovelive2nd/g, "https://sticker.inari.site/lovelive/Lovelive2nd");
-   x[i].src=x[i].src.replace(/http:\/\/smilell2.eclosionstudio.com\/Small\/Lovelive2nd/g, "https://sticker.inari.site/lovelive/Lovelive2nd");
-   x[i].src=x[i].src.replace(/bbs.kforz.com/g, "kf.miaola.work");
- }
+for (let i = 0; i < x.length; i++) {
+ x[i].src=x[i].src.replace(/mistake.tech\/emote/g, "sticker.inari.site");
+ x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds3\/akari/g, "https://sticker.inari.site/akarin/akarin");
+ x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/xds\/2233/g, "https://sticker.inari.site/bili/2233");
+ x[i].src=x[i].src.replace(/http:\/\/o6smnd6uw.bkt.clouddn.com\/lovelive\/Lovelive2nd/g, "https://sticker.inari.site/lovelive/Lovelive2nd");
+ x[i].src=x[i].src.replace(/http:\/\/smilell2.eclosionstudio.com\/Small\/Lovelive2nd/g, "https://sticker.inari.site/lovelive/Lovelive2nd");
+ x[i].src=x[i].src.replace(/bbs.kforz.com/g, "kf.miaola.work");}
 // 在论坛资源区，直接显示表情贴纸增强插件所属域名的图片，而不是显示【请手动点击打开本图片】
 document.body.querySelectorAll('.readtext a').forEach(i=>{
-    if(i.innerHTML==='<span class=\"k_f18\">请手动点击打开本图片</span>'){
-        let p=document.createElement("img");
-        p.src=i.href;
-        if(p.src.match(/https:\/\/sticker.inari.site/)){
-            i.parentElement.replaceChild(p,i);
-        }
-        else if(p.src.match(/http:\/\/tb2.bdstatic.com\/tb\/editor\/images\/face/)){
-            i.parentElement.replaceChild(p,i);
-        }
-    }
-})
+if(i.innerHTML==='<span class=\"k_f18\">请手动点击打开本图片</span>'){
+ let p=document.createElement("img");p.src=i.href;
+ if(p.src.match(/https:\/\/sticker.inari.site/)){
+  i.parentElement.replaceChild(p,i);}
+ else if(p.src.match(/http:\/\/tb2.bdstatic.com\/tb\/editor\/images\/face/)){
+  i.parentElement.replaceChild(p,i);}}})
 // 文本区域粘贴图片预览区
-function imgurl() {
-    let imgpreview = document.createElement("div");
-    imgpreview.innerHTML = '<div id = "imgpreview" style = "position:fixed;right:1em;bottom:1em;z-index:88;cursor:pointer;" ><img class="imgpreview" src = '+kanbanmsume+' width = '+previewsize+' height = '+previewsize+' /></div>';
-    document.body.appendChild(imgpreview);
-}
-imgurl();
+function imgurl() { let imgpreview = document.createElement("div");
+      if(localStorage.imgpvpc!=null){let imgpvpc=localStorage.imgpvpc;let imgpvpcpush = JSON.parse(imgpvpc);
+      imgpreview.innerHTML = '<div id = "imgpreview" style = "position:fixed;left:'+imgpvpcpush[0]+';top:'+imgpvpcpush[1]+';z-index:88;cursor:pointer;" ><img class="imgpreview" src = '+kanbanmsume+' width = '+previewsizepc+' height = '+previewsizepc+' ></div>';
+}else if(localStorage.imgpvmb!=null){let imgpvmb=localStorage.imgpvmb;let imgpvmbpush = JSON.parse(imgpvmb);
+      imgpreview.innerHTML = '<div id = "imgpreview" style = "position:fixed;left:'+imgpvmbpush[0]+';top:'+imgpvmbpush[1]+';z-index:88;cursor:pointer;" ><img class="imgpreview" src = '+kanbanmsume+' width = '+previewsizemb+' height = '+previewsizemb+' ></div>';
+}else{if(isKfMobile==true){
+      imgpreview.innerHTML = '<div id = "imgpreview" style = "position:fixed;left:5px;top:40px;z-index:88;cursor:pointer;" ><img class="imgpreview" src = '+kanbanmsume+' width = '+previewsizemb+' height = '+previewsizemb+' ></div>';
+}else{imgpreview.innerHTML = '<div id = "imgpreview" style = "position:fixed;left:5px;top:40px;z-index:88;cursor:pointer;" ><img class="imgpreview" src = '+kanbanmsume+' width = '+previewsizepc+' height = '+previewsizepc+' ></div>';
+}}document.body.appendChild(imgpreview);}imgurl();
+// 可拖拽看板娘,会记录拖拽位置
+let imgpv = document.getElementById("imgpreview");
+window.onload = function(){ drag(imgpv);};
+imgpv.addEventListener('touchmove', function(event){
+  event.preventDefault();
+  if (event.targetTouches.length == 1) {
+    let touch = event.targetTouches[0];
+    imgpv.style.left = touch.pageX + 'px';
+    imgpv.style.top = touch.pageY + 'px';
+    let imgpvmbpull =[imgpv.style.left,imgpv.style.top];
+    localStorage.setItem('imgpvmb',JSON.stringify(imgpvmbpull));
+}}, false);function drag(obj){
+obj.onmousedown = function(event){
+  obj.setCapture && obj.setCapture();
+  event = event ||window.event
+  let cleft=obj.style.left;
+  let ctop=obj.style.top;
+  let ol = event.clientX - obj.offsetLeft;
+  let ot = event.clientY - obj.offsetTop;
+  document.onmousemove = function(event){
+    event = event ||window.event
+    let left = event.clientX-ol;
+    let top = event.clientY-ot;
+    obj.style.left = left+"px";
+    obj.style.top = top+"px";};
+  document.onmouseup = function(){
+    document.onmousemove = null;
+    document.onmouseup = null;
+    obj.releaseCapture && obj.releaseCapture();
+    let vleft=obj.style.left;
+    let vtop=obj.style.top;
+    if(cleft==vleft&&vtop==ctop){
+      $('.kfe-user-p').click();}
+    else{let imgpvpcpull =[vleft,vtop];
+     localStorage.setItem('imgpvpc',JSON.stringify(imgpvpcpull));
+};};return false;};};
+
 
 // 灰企鹅
 const KfSmileList = [];
@@ -354,14 +388,15 @@ const createContainer = function (textArea) {
   <div class="kfe-menu">
     <span class="kfe-close-panel" title="版本${version}; 本分支由mistakey维护，是eddie32插件喵拉布丁分支的分支" style="cursor: pointer;"><b>:)</b></span>
     ${getSubMenuHtml()}
-    <span class="kfe-close-panel">[-]</span>
+    <span class="kfe-close-panel">[-]</span>&nbsp;
     <input type="button" class="kfe-user-c" value="增">
     <input type="button" class="kfe-user-r" value="查">
     <input type="button" class="kfe-user-u" value="改">
-    <input type="button" class="kfe-user-d" value="删">
-    <input type="button" class="kfe-user-y" value="云">
-    <input type="button" class="kfe-user-a" value="令">
-    <input type= "file"  class="kfe-user-p" accept="image/*" >
+    <input type="button" class="kfe-user-d" value="删">&nbsp;&nbsp;
+    <input type="button" class="kfe-user-a" value="账号">
+    <input type="button" class="kfe-user-y" value="云同步">
+    <input type="button" class="kfe-user-s" value="上传图片">
+    <input type= "file"  class="kfe-user-p" accept="image/*" style="display:none" >
   </div>
 </div>
 `).insertBefore($(textArea));
@@ -952,6 +987,8 @@ const createContainer = function (textArea) {
             }
         }
         return;
+    }).on('click', '.kfe-user-s', function (e) {
+        $('.kfe-user-p').click();
     }).on('change', '.kfe-user-p', function (e) {
         e.preventDefault();
         let formData = new FormData();
