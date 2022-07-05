@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     1.1.2
+// @version     1.1.4
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -34,9 +34,13 @@ https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '1.1.2';
+const version = '1.1.4';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
+// 右下角看板娘自定义
+const kanbanmsume = "https://sticker.inari.site/favicon.ico";
+// 右下角看板娘大小/粘贴预览图大小自定义,支持%或px
+const previewsize = "42%";
 // 网站是否为KfMobile
 const isKfMobile = typeof Info !== 'undefined' && typeof Info.imgPath !== 'undefined';
 // 实验性功能，此储存桶地址的表情贴纸很可能和修复后的表情贴纸并不能一一对应。
@@ -65,7 +69,7 @@ document.body.querySelectorAll('.readtext a').forEach(i=>{
 // 文本区域粘贴图片预览区
 function imgurl() {
     let imgpreview = document.createElement("div");
-    imgpreview.innerHTML = '<div id = "imgpreview" style = "position:fixed;right:1em;bottom:1em;z-index:88;cursor:pointer;" ><img class="imgpreview" src = "https://up.inari.site/favicon.ico" width = "42%" height = "42%" /></div>';
+    imgpreview.innerHTML = '<div id = "imgpreview" style = "position:fixed;right:1em;bottom:1em;z-index:88;cursor:pointer;" ><img class="imgpreview" src = '+kanbanmsume+' width = '+previewsize+' height = '+previewsize+' /></div>';
     document.body.appendChild(imgpreview);
 }
 imgurl();
@@ -387,7 +391,7 @@ const createContainer = function (textArea) {
                 $(".imgpreview").attr('src', target.result)
             }, 400)
             setTimeout(() => {
-                $(".imgpreview").attr('src', 'https://up.inari.site/favicon.ico')
+                $(".imgpreview").attr('src', kanbanmsume)
             }, 4000)
         }
         reader.readAsDataURL(files);
