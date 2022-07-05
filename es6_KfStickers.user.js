@@ -26,7 +26,9 @@
 //eddie32大佬的KFOL助手的表情插件的分支，目前基于5.1.3版本的喵拉分支 @copyright   2014-2019, eddie32 https://greasyfork.org/users/5415 https://github.com/liu599/KF-Emotion-UserScript
 /*
 本次更新日志：
+1.1.2 优化文本区域粘贴，减少提示次数
 1.1.0 图片文本区域粘贴上传/选择上传功能实装
+1.0.0 自定义表情贴纸云同步功能上线。
 历史更新记录：
 https://github.com/HazukiKaguya/KFOL_Stickers/blob/Dev/changelog.txt
 */
@@ -407,10 +409,37 @@ ${getSubMenuHtml()}
         reader.readAsDataURL(file);
         //验证登录，使用token或游客上传
         let authdata = localStorage.logindata;
+        let oncealert =localStorage.alertdata;
         if(authdata==null){
-            setTimeout(() => {
-                alert('抱歉！粘贴上传图片功能仅限已登录表情贴纸云同步账号的用户！');
-            }, 1000)
+            $.ajax({
+                    url: 'https://up.inari.site/api/v1/upload',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: formData,
+                    // 告诉jQuery不要去设置Content-Type请求头
+                    contentType: false,
+                    // 告诉jQuery不要去处理发送的数据
+                    processData: false,
+                })
+                    .done(data => {
+                    if(data.status==true){
+                        let inaridata=data.data;
+                        let inarilinks=inaridata.links;
+                        setTimeout(() => {
+                          alert('游客上传成功！建议注册登录云同步账号并绑定图床账号！');
+                        }, 1000)
+                        addCode(textArea, inarilinks.bbcode);
+                    }
+                    else if(data.status==false){
+                        alert(data.message);
+                    }
+                    else{
+                        alert('发生未知错误，'+data);
+                    }
+                })
+                    .fail(data => {
+                    alert('图片上传失败，可能是网络原因。');
+                });
         }
         else{
             let authList = JSON.parse(authdata);
@@ -429,18 +458,26 @@ ${getSubMenuHtml()}
                     if(data.status==true){
                         let inaridata=data.data;
                         let inarilinks=inaridata.links;
-                        alert('游客上传成功！建议绑定up.inari.site图床账号到云同步账号！');
-                        addCode(textArea, inarilinks.bbcode);
+                        if(oncealert==null){
+                          alert('游客上传成功！建议绑定up.inari.site图床账号到云同步账号！');
+                          localStorage.removeItem('alertdata');
+                          let alertarray=["don't alert"];
+                          localStorage.setItem('alertdata',JSON.stringify(alertarray));
+                          addCode(textArea, inarilinks.bbcode);
+                       }
+                       else {
+                         addCode(textArea, inarilinks.bbcode);
+                       }
                     }
                     else if(data.status==false){
                         alert(data.message);
                     }
                     else{
-                        alert('未知错误，'+data);
+                        alert('发生未知错误，'+data);
                     }
                 })
                     .fail(data => {
-                    alert('图片上传失败');
+                    alert('图片上传失败，可能是网络原因。');
                 });
             }
             else if(authList.length==3){
