@@ -8,7 +8,7 @@ eddie32的KFOL表情插件的魔改分支
 
 [默认分支](https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/es6_KfStickers.user.js)
 
-[测试分支](https://github.com/HazukiKaguya/KFOL_Stickers/raw/Dev/es6_KfStickers.user.js)
+[测试分支](https://github.com/HazukiKaguya/KFOL_Stickers/raw/Dev/es6_KfStickers.user.js)  （测试分支的一切Bug都不会修，不接受对测试分支的维护请求，除非自带PR。请谨慎使用）
 
 
 ## 一些教程：
