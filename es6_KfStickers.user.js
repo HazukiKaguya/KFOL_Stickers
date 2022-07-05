@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        绯月表情增强插件*改
 // @namespace   https://github.com/HazukiKaguya/KFOL_Stickers
-// @version     1.1.4
+// @version     1.1.5
 // @author      eddie32&喵拉布丁&HazukiKaguya
 // @description KF论坛专用的回复表情，插图扩展插件，在发帖时快速输入自定义表情和论坛BBCODE
 // @icon        https://sticker.inari.site/favicon.ico
@@ -32,7 +32,7 @@ https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt
 */
 'use strict';
 // 版本号
-const version = '1.1.4';
+const version = '1.1.5';
 // 使用旧式?num=而不是新式的#num= 改为true启用
 const UseOldNum = false;
 // 右下角看板娘自定义
@@ -676,6 +676,7 @@ const createContainer = function (textArea) {
             else{
                 if (confirm('确定同步【本地数据到云端】吗？这是最后一次确认！')) {
                     let userimgst = localStorage.userimgst;
+                    if (userimgst !=null){
                     let UserSmileList = JSON.parse(userimgst);
                     let upRequest = new XMLHttpRequest();
                     upRequest.open('POST', 'https://api.inari.site/?s=App.User_User.picsupdate&user_id='+syncid+'&token='+synctoken+'&picsdata='+UserSmileList, true);
@@ -692,6 +693,13 @@ const createContainer = function (textArea) {
                                 alert('Token已失效，请重新登录！');
                             }
                         }
+                        else if(upRequest.readyState == 4 && upRequest.status != 200){
+                            alert('发生错误！错误状态码：'+upRequest.status);
+                        }
+                    }
+                  }
+                    else{
+                        alert('本地数据为空！同步到云端操作已取消！');
                     }
                 }
             }
