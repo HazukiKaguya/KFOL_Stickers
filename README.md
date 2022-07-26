@@ -1,15 +1,11 @@
-# KFOL_Stickers
+# Stickers_PlusPlus
 
-eddie32的KFOL表情插件的魔改分支   
-
-[更新记录](https://github.com/HazukiKaguya/KFOL_Stickers/blob/master/changelog.txt)
+表情贴纸增强插件，理论上应该适用于绝大部分使用bbcode的编辑/回复为纯文本模式的论坛  
 
 ## 安装脚本
 
-[默认分支](https://github.com/HazukiKaguya/KFOL_Stickers/raw/master/es6_KfStickers.user.js)
-
-[测试分支](https://github.com/HazukiKaguya/KFOL_Stickers/raw/Dev/es6_KfStickers.user.js)  （测试分支的一切Bug都不会修，不接受对测试分支的维护请求，除非自带PR。请谨慎使用）
-
+[Github](https://github.com/HazukiKaguya/Stickers_PlusPlus/raw/master/Stickerspp.user.js)  
+[GreasyFork](https://greasyfork.org/zh-CN/scripts/448465)
 
 ## 一些教程：
 
@@ -43,6 +39,7 @@ eddie32的KFOL表情插件的魔改分支
 pc版喵拉同理，除了gui布局外交互逻辑完全一样
 
 ## 更新记录
+1.4.0 增加在线表情商店，重写个性化设置逻辑，修复bugs  
 1.3.9   表情贴纸组数据源分离，大量操作逻辑重写。请注意，这是一个1.4.0版本的前置更新   
 1.3.0   更新点击看板娘上次图片，更新看板娘可拖拽   
 1.2.0   fix some bugs   
